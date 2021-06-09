@@ -1,20 +1,17 @@
 import {PROXY} from './Constants'
 
 export function isTokenValid(): boolean {
-    if (!localStorage.getItem("token")) {
-        return false
-    } else {
+    const jwt = getJWT();
         fetch(PROXY + "authenticate", {
             method: 'GET',
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Auth-Token': localStorage.getItem("sessionId") || ''
+            'Authenticate': jwt
             }
         }).then(res => res.json()).then(res => {
             return res.valid
         })
-    }
     return false;
 }
 

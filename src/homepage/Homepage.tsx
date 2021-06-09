@@ -27,7 +27,6 @@ const theme = createMuiTheme({
 
 function Homepage() {
   const classes = useStyles();
-
     return (
       <ThemeProvider theme={theme}>
       <Container className={classes.homepage}>
