@@ -10,12 +10,12 @@ const useStyles = makeStyles({
     }
 })
 
-interface ITeam {
+export interface ITeam {
     name: string,
     emoji: string
 }
 
-interface IMatchDetails {
+export interface IMatchDetails {
     match_date: string,
     kick_off_time: string,
     is_knockout: boolean,
@@ -30,7 +30,23 @@ interface IMatch {
 
 export default function Prediction() {
     const classes = useStyles()
-    const [matches, setMatches] = useState<IMatch[] | undefined>()
+    const [matches, setMatches] = useState<IMatch[]>([{
+        'team_one': {
+            'name': 'team',
+            'emoji': ''
+        },
+        'team_two': {
+            'name': 'team',
+            'emoji': ''
+        },
+        'match': {
+            'match_date': '',
+            'kick_off_time': '',
+            'is_knockout': false,
+            'matchid': -1
+        }
+    }])
+
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
 
     useEffect(() => {
@@ -46,7 +62,7 @@ export default function Prediction() {
                 setInvalidResponse(true)
             }
         })
-    })
+    }, [])
 
     if (invalidResponse) {
         return(
@@ -56,9 +72,9 @@ export default function Prediction() {
         return(
             <div>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography> 
-                <Game team1={"Netherlands"} team2={"Spain"} team1emoji={"🇳🇱"} team2emoji={"🇪🇸"} date={'1/4/5 15:00'} />
-                <Game team1={"Netherlands"} team2={"Spain"} team1emoji={"🇳🇱"} team2emoji={"🇪🇸"} date={'1/4/5 15:00'} />
-                <Game team1={"Netherlands"} team2={"Spain"} team1emoji={"🇳🇱"} team2emoji={"🇪🇸"} date={'1/4/5 15:00'} />
+                {matches.forEach(element => {
+                    <Game team1={element.team_one} team2={element.team_two} match={element.match}/>
+                })}
             </div>
         )
     }

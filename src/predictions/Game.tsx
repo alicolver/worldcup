@@ -1,13 +1,12 @@
 import { Box, Card, makeStyles, OutlinedInput } from "@material-ui/core";
 import React from "react";
+import { IMatchDetails, ITeam } from "./Predictions";
 import Team from "./Team";
 
 interface IGameProps {
-    team1: string,
-    team2: string,
-    team1emoji: string,
-    team2emoji: string,
-    date: string
+    team1: ITeam,
+    team2: ITeam,
+    match: IMatchDetails
 }
 
 const useStyles = makeStyles({
@@ -50,13 +49,13 @@ export default function Game(props: IGameProps) {
     return(
            <Card className={classes.match}>
                 <Box>
-                    <Team name={props.team1} emoji={props.team1emoji}/>
+                    <Team name={props.team1.name} emoji={props.team1.emoji}/>
                 </Box>
                 <OutlinedInput className={classes.teaminput} id="outlined-basic" label=""/>
                 <span className={classes.dash}>-</span>
                 <OutlinedInput className={classes.teaminput} id="outlined-basic" label=""/>
                 <Box>
-                    <Team name={props.team2} emoji={props.team2emoji}/>
+                    <Team name={props.team2.name} emoji={props.team2.emoji}/>
                 </Box>
             
             </Card>
