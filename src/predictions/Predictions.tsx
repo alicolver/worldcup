@@ -62,7 +62,7 @@ export default function Prediction() {
                 setInvalidResponse(true)
             }
         })
-    }, [])
+    }, [setMatches])
 
     if (invalidResponse) {
         return(
