@@ -3,11 +3,11 @@ import React from "react";
 import Team from "./Team";
 
 interface IGameProps {
-    team1: String,
-    team2: String,
-    team1emoji: String,
-    team2emoji: String,
-    date: number
+    team1: string,
+    team2: string,
+    team1emoji: string,
+    team2emoji: string,
+    date: string
 }
 
 const useStyles = makeStyles({

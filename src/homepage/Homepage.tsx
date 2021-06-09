@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     position: 'absolute',
     top: 0,
     left: 0,
-    backgroundImage: 'linear-gradient(#1caac9, #0da1a3)',
     width: '100%',
     height: '100%'
   }
