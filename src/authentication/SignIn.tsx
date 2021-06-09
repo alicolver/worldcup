@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,7 +17,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-        Ali Colver
+        Ali Colver & Luke Ely
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -68,6 +72,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(input) => setEmail(input.target.value)}
           />
           <TextField
             variant="outlined"
@@ -79,6 +84,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(input) => setPassword(input.target.value)}
           />
           <Button
             type="submit"
@@ -90,15 +96,12 @@ export default function SignIn() {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Route render={({history}: {history: any}) => (
+                <Link onClick={() =>  {history.push('/signup')}} variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+                )}/>
             </Grid>
           </Grid>
         </form>

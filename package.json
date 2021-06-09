@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.7",
     "gh-pages": "^3.2.0"
   },
   "homepage": "http://alicolver.github.io/euro2020-front-end"

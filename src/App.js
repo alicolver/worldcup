@@ -19,7 +19,7 @@ function App() {
 
 function getthere() {
     return (
-        <Redirect to="/predict"/>
+        <Redirect to="/login"/>
     )
 }
 
