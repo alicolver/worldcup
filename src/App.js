@@ -4,6 +4,7 @@ import SignUp from './authentication/SignUp'
 import SignIn from './authentication/SignIn'
 import LeaderboardPage from './leaderboard/LeaderboardPage'
 import Prediction from './predictions/Predictions'
+import HomePage from './homepage/Homepage'
 
 function App() {
     return (
@@ -12,7 +13,7 @@ function App() {
             <Route path="/signup" component={SignUp}/>
             <Route path="/standings" component={LeaderboardPage}/>
             <Route path="/predict" component={Prediction}/>
-            <Route path="/" exact component={getthere}/>
+            <Route path="/home" exact component={HomePage}/>
         </Router>
     )
 }
