@@ -1,7 +1,11 @@
 import Game from "./Game";
 import { Typography } from "@material-ui/core";
+import { useEffect } from "react";
 
 export default function Prediction() {
+
+    useEffect(() => {})
+
     return(
         <div>
             <Typography>Upcoming Games</Typography> 
