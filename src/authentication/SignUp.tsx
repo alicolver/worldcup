@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { validateEmail } from '../utils/Utils';
+import { goTo, validateEmail } from '../utils/Utils';
 
 function Copyright() {
   return (
@@ -60,6 +60,26 @@ export default function SignUp() {
       setIsEmailValid(false)
       return
     }
+
+    fetch(goTo('signup'), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        name: firstName + ' ' + lastName
+      })
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result["success"] === false) {
+          alert('error whilst signing up :(')
+        } else {
+          setSuccessfulSignup(true)
+        }
+      });
   }
 
   if (successfulSingUp) {
@@ -159,7 +179,7 @@ export default function SignUp() {
             <Grid container justify="flex-end">
               <Grid item>
               <Route render={({history}: {history: any}) => (
-                  <Link onClick={() => {history.push('/login')}} variant="body2">
+                  <Link onClick={() => {history.push('/')}} variant="body2">
                     Already have an account? Sign in
                   </Link>
                   )}/>
@@ -167,6 +187,7 @@ export default function SignUp() {
             </Grid>
           </form>
         </div>
+        <Copyright/>
       </Container>
     );
   }

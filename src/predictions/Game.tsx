@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         margin: '0 auto',
         display: 'flex',
         justifyContent: 'space-between',
+        marginBottom: '3vh'
     },
     game: {
         width: '80vw',
@@ -57,6 +58,7 @@ export default function Game(props: IGameProps) {
                 <Box>
                     <Team name={props.team2} emoji={props.team2emoji}/>
                 </Box>
+            
             </Card>
     )
 }

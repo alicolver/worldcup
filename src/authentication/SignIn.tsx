@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { isTokenValid } from '../utils/Utils';
+import { goTo, isTokenValid, setJWT } from '../utils/Utils';
 
 function Copyright() {
   return (
@@ -48,15 +48,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState({ value: '', error: false });
+  const [password, setPassword] = useState({ value: '', error: false });
   const [validToken, setValidToken] = useState(false);
 
   useEffect(() => {
     if (isTokenValid()) {
         setValidToken(true);
     }
-  })
+  }, [])
+
+  const handleLogin = () => {
+    fetch(goTo('login'), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result["error-message"] === "") {
+          setJWT(result["token"]);
+          setValidToken(true)
+        } else {
+          setPassword({ ...password, error: true });
+          setEmail({ ...email, error: true });
+        }
+      });
+  };
 
   if (validToken) {
     return(
@@ -84,7 +107,8 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(input) => setEmail(input.target.value)}
+              onChange={(input) => setEmail({ ...email, value: input.target.value})}
+              error={email.error}
             />
             <TextField
               variant="outlined"
@@ -96,7 +120,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={(input) => setPassword(input.target.value)}
+              onChange={(input) => setPassword({ ...password, value: input.target.value})}
+              error={password.error}
             />
             <Button
               type="submit"
@@ -104,6 +129,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={() => handleLogin()}
             >
               Sign In
             </Button>
