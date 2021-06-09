@@ -1,0 +1,12 @@
+.liveIcon {
+    color: white;
+    background-color: green;
+    border-radius: 3px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    margin: auto;
+    max-width: fit-content;
+    padding-left: 3px;
+    padding-right: 3px;
+    align-self: start;
+}

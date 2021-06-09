@@ -1,0 +1,1 @@
+export const proxy = 'https://euro2020-back-end.herokuapp.com/'
