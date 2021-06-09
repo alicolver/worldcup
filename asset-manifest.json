@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/euro2020-front-end/static/css/main.9df10f1b.chunk.css",
-    "main.js": "/euro2020-front-end/static/js/main.02283afe.chunk.js",
-    "main.js.map": "/euro2020-front-end/static/js/main.02283afe.chunk.js.map",
+    "main.js": "/euro2020-front-end/static/js/main.1cad22d6.chunk.js",
+    "main.js.map": "/euro2020-front-end/static/js/main.1cad22d6.chunk.js.map",
     "runtime-main.js": "/euro2020-front-end/static/js/runtime-main.52e91126.js",
     "runtime-main.js.map": "/euro2020-front-end/static/js/runtime-main.52e91126.js.map",
-    "static/js/2.55041365.chunk.js": "/euro2020-front-end/static/js/2.55041365.chunk.js",
-    "static/js/2.55041365.chunk.js.map": "/euro2020-front-end/static/js/2.55041365.chunk.js.map",
+    "static/js/2.20b01650.chunk.js": "/euro2020-front-end/static/js/2.20b01650.chunk.js",
+    "static/js/2.20b01650.chunk.js.map": "/euro2020-front-end/static/js/2.20b01650.chunk.js.map",
     "static/js/3.4e135cda.chunk.js": "/euro2020-front-end/static/js/3.4e135cda.chunk.js",
     "static/js/3.4e135cda.chunk.js.map": "/euro2020-front-end/static/js/3.4e135cda.chunk.js.map",
     "index.html": "/euro2020-front-end/index.html",
     "static/css/main.9df10f1b.chunk.css.map": "/euro2020-front-end/static/css/main.9df10f1b.chunk.css.map",
-    "static/js/2.55041365.chunk.js.LICENSE.txt": "/euro2020-front-end/static/js/2.55041365.chunk.js.LICENSE.txt",
+    "static/js/2.20b01650.chunk.js.LICENSE.txt": "/euro2020-front-end/static/js/2.20b01650.chunk.js.LICENSE.txt",
     "static/media/logo.b61bf1d9.svg": "/euro2020-front-end/static/media/logo.b61bf1d9.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.52e91126.js",
-    "static/js/2.55041365.chunk.js",
+    "static/js/2.20b01650.chunk.js",
     "static/css/main.9df10f1b.chunk.css",
-    "static/js/main.02283afe.chunk.js"
+    "static/js/main.1cad22d6.chunk.js"
   ]
 }
