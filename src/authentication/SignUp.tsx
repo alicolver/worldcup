@@ -84,7 +84,7 @@ export default function SignUp() {
 
   if (successfulSingUp) {
     return (
-      <Redirect to={'/login'}/>
+      <Redirect to={'/'}/>
     )
   } else {
 

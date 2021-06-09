@@ -57,6 +57,7 @@ export default function Prediction() {
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
+                console.log(res)
                 setMatches(res.matches)
             } else {
                 setInvalidResponse(true)
@@ -72,8 +73,8 @@ export default function Prediction() {
         return(
             <div>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography> 
-                {matches.forEach(element => {
-                    <Game team1={element.team_one} team2={element.team_two} match={element.match}/>
+                {matches.map(element => {
+                    return <Game team1={element.team_one} team2={element.team_two} match={element.match}/>
                 })}
             </div>
         )
