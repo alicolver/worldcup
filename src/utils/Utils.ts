@@ -28,9 +28,14 @@ export function setJWT(jwt: string) {
     document.cookie = "jwt="+jwt;
 }
 
-export function getJWT() {
-    const cookies = document.cookie.split('=')
-    return cookies.length === 1 ? cookies[1] : ''
+export function getJWT(): string {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${'jwt'}=`);
+    if (parts.length === 2) {
+        const jwt = parts.pop()!.split(';').shift()
+        return (typeof jwt === 'undefined') ? '' : jwt;
+    } 
+    return '';
 }
 
 export function deleteJWT() {
