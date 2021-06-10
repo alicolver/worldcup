@@ -103,8 +103,8 @@ export default function LiveGame(props: IMatch & IGameProps) {
                 'Authenticate': getJWT()
             },
             body: JSON.stringify({
-                team_one_goals: team1score.score,
-                team_two_goals: teamTwoScore.score,
+                team_one_goals: scoreOne,
+                team_two_goals: scoreTwo,
                 matchid: props.match.matchid
             })
         })
@@ -128,15 +128,15 @@ export default function LiveGame(props: IMatch & IGameProps) {
                     'Authenticate': getJWT()
                 },
                 body: JSON.stringify({
-                matchid: props.match.matchid
+                    matchid: props.match.matchid
                 })
             })
-            .then(res => res.json())
-            .then(result => {
-                if (!result[SUCCESS]) {
-                    alert('Error whilst updating scores, please try again')
-                }
-            });
+                .then(res => res.json())
+                .then(result => {
+                    if (!result[SUCCESS]) {
+                        alert('Error whilst updating scores, please try again')
+                    }
+                });
         }
     }
 
@@ -177,18 +177,19 @@ export default function LiveGame(props: IMatch & IGameProps) {
     }
 
     function getButton() {
-        return props.isFixed ? 
-        <></> : (
-        <Box className={classes.buttonBox}>
-            <Button
-                variant='contained'
-                className={classes.button}
-                onClick={() => handleClick()}
-            >
-                {getSetOrEditText()}
-            </Button>
-        </Box>  
-    )}
+        return props.isFixed ?
+            <></> : (
+                <Box className={classes.buttonBox}>
+                    <Button
+                        variant='contained'
+                        className={classes.button}
+                        onClick={() => handleClick()}
+                    >
+                        {getSetOrEditText()}
+                    </Button>
+                </Box>
+            )
+    }
 
     return (
         <Card className={classes.matchCard}>
@@ -209,7 +210,7 @@ export default function LiveGame(props: IMatch & IGameProps) {
                 variant='contained'
                 className={classes.endButton}
                 onClick={() => endGame()}>
-                    End Game
+                End Game
             </Button>
         </Card>
     )
