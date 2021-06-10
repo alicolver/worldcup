@@ -52,7 +52,6 @@ const useStyles = makeStyles({
 interface IGameProps {
     callback: () => void,
     hasPrediction: boolean,
-    isFixed: boolean,
     team_one_pred?: string,
     team_two_pred?: string
 }
@@ -64,7 +63,7 @@ export default function Game(props: IMatch & IGameProps) {
     const [isEditing, setIsEditing] = useState(true);
 
     useEffect(() => {
-        setIsEditing(!props.hasPrediction || !props.isFixed)
+        setIsEditing(!props.hasPrediction)
         if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
             setTeam1Score({
                 error: false,
@@ -75,7 +74,7 @@ export default function Game(props: IMatch & IGameProps) {
                 score: props.team_two_pred
             })
         }
-    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred, props.isFixed])
+    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
 
     function handleClick() {
         if (!isEditing) {
@@ -154,8 +153,7 @@ export default function Game(props: IMatch & IGameProps) {
     }
 
     function getButton() {
-        return props.isFixed ? 
-        <></> : (
+        return (
         <Box className={classes.buttonBox}>
             <Button
                 variant='contained'

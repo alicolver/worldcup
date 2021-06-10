@@ -55,9 +55,9 @@ export default function Prediction() {
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
                 {matches.map(element => {
                     if (element.hasPrediction && element.prediction) {
-                        return <Game {...element} isFixed={false} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
+                        return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
                     } else {
-                        return <Game {...element} isFixed={false} callback={getMatches} />
+                        return <Game {...element} callback={getMatches} />
                     }
                 })}
             </Container>

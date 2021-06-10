@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import { goTo, getJWT } from "../utils/Utils";
+import FixedGame from "./FixedGame";
 import Game from "./Game";
 import { IMatch } from "./Predictions";
 
@@ -34,7 +35,7 @@ export default function History() {
             <Container>
                 <Typography className={classes.upcomingGames}>Your History</Typography>
                 {matches.map(element => {
-                        return <Game {...element} isFixed={true} callback={getMatches} />
+                        return <FixedGame {...element}/>
                 })}
             </Container>
             <BottomNav value={'/history'}/>

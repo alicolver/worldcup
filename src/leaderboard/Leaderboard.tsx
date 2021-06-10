@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import LiveIcon from './Live';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles({
   table: {
@@ -25,7 +25,7 @@ interface leaderBoardRecord {
 
 export default function LeaderBoard() {
   const classes = useStyles();
-  const isLive = useState(false);
+  const [isLive, setIsLive] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
 
   useEffect(() => {
@@ -42,9 +42,9 @@ export default function LeaderBoard() {
 
   function renderLive() {
     if (isLive) {
-      return <LiveIcon />
+      return <FiberManualRecordIcon style={{ color: 'green', paddingRight: '3vw' }} />
     } else {
-      return null
+      return <></>
     }
   }
 
@@ -63,7 +63,7 @@ export default function LeaderBoard() {
           {leaderboardData.map((row, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row">
-                {renderLive()} {(index + 1) + '. ' + row.name}
+                 {renderLive()}{(index + 1) + '. ' + row.name}
               </TableCell>
               <TableCell align="right">{row.correct_results}</TableCell>
               <TableCell align="right">{row.correct_scores}</TableCell>
