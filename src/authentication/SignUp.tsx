@@ -59,7 +59,7 @@ export default function SignUp() {
 
   useEffect(() => {
     if (isTokenValid()) {
-        setValidToken(true);
+      setValidToken(true);
     }
   }, [setValidToken])
 
@@ -92,12 +92,12 @@ export default function SignUp() {
 
   if (validToken) {
     return (
-      <Redirect to={'/home'}/>
+      <Redirect to={'/home'} />
     )
   }
   else if (successfulSingUp) {
     return (
-      <Redirect to={'/'}/>
+      <Redirect to={'/'} />
     )
   } else {
     return (
@@ -142,6 +142,7 @@ export default function SignUp() {
                   variant="outlined"
                   required
                   fullWidth
+                  type="email"
                   id="email"
                   label="Email Address"
                   name="email"
@@ -159,7 +160,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"  
+                  autoComplete="current-password"
                   onChange={(input) => setPassword(input.target.value)}
                 />
               </Grid>
@@ -172,7 +173,7 @@ export default function SignUp() {
                   label="Confirm Password"
                   type="password"
                   id="password"
-                  autoComplete="current-password"  
+                  autoComplete="current-password"
                   onChange={(input) => setConfirmPassword(input.target.value)}
                   error={password !== confirmPassword}
                 />
@@ -190,16 +191,16 @@ export default function SignUp() {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-              <Route render={({history}: {history: any}) => (
-                  <Link onClick={() => {history.push('/')}} variant="body2">
+                <Route render={({ history }: { history: any }) => (
+                  <Link onClick={() => { history.push('/') }} variant="body2">
                     Already have an account? Sign in
                   </Link>
-                  )}/>
+                )} />
               </Grid>
             </Grid>
           </div>
         </div>
-        <Copyright/>
+        <Copyright />
       </Container>
     );
   }

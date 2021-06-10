@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { goTo } from "../utils/Utils";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,30 +17,37 @@ const useStyles = makeStyles({
 });
 
 interface leaderBoardRecord {
-    name: String, correctResults: number, correctScores: number, points: number
+  name: String,
+  correct_results: number,
+  correct_scores: number,
+  score: number
 }
-
-function createData(name: String, correctResults: number, correctScores: number, points: number): leaderBoardRecord {
-  return { name, correctResults, correctScores, points };
-}
-
-const rows: leaderBoardRecord[] = [
-  createData('Ali', 1, 3, 10),
-  createData('Luke', 4, 5, 19)
-];
 
 export default function LeaderBoard() {
   const classes = useStyles();
   const isLive = useState(false);
+  const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
+
+  useEffect(() => {
+    fetch(goTo('leaderboard'), {
+      method: 'GET'
+    }).then(res => res.json()).then(res => {
+      if (res.success) {
+        console.log(res)
+        setLeaderboardData(res.leaderboard)
+      }
+    })
+  }, [setLeaderboardData])
+
 
   function renderLive() {
-      if (isLive) {
-          return <LiveIcon/>
-      } else {
-          return null
-      }
+    if (isLive) {
+      return <LiveIcon />
+    } else {
+      return null
+    }
   }
-  
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
@@ -52,14 +60,14 @@ export default function LeaderBoard() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
+          {leaderboardData.map((row, index) => (
             <TableRow key={index}>
               <TableCell component="th" scope="row">
                 {renderLive()} {(index + 1) + '. ' + row.name}
               </TableCell>
-              <TableCell align="right">{row.correctResults}</TableCell>
-              <TableCell align="right">{row.correctScores}</TableCell>
-              <TableCell align="right">{row.points}</TableCell>
+              <TableCell align="right">{row.correct_results}</TableCell>
+              <TableCell align="right">{row.correct_scores}</TableCell>
+              <TableCell align="right">{row.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>

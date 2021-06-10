@@ -1,18 +1,17 @@
-import {PROXY} from './Constants'
+import { PROXY } from './Constants'
 
-export function isTokenValid(): boolean {
+export function isTokenValid(): Promise<boolean> {
     const jwt = getJWT();
-        fetch(PROXY + "authenticate", {
-            method: 'GET',
-            headers: {
+    return fetch(PROXY + "validateToken", {
+        method: 'GET',
+        headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authenticate': jwt
-            }
-        }).then(res => res.json()).then(res => {
-            return res.valid
-        })
-    return false;
+        }
+    }).then(res => res.json()).then(res => {
+        return res.success
+    })
 }
 
 export function validateEmail(email: String): boolean {
@@ -25,7 +24,7 @@ export function goTo(endpoint: string): string {
 }
 
 export function setJWT(jwt: string) {
-    document.cookie = "jwt="+jwt;
+    document.cookie = "jwt=" + jwt;
 }
 
 export function getJWT(): string {
@@ -34,7 +33,7 @@ export function getJWT(): string {
     if (parts.length === 2) {
         const jwt = parts.pop()!.split(';').shift()
         return (typeof jwt === 'undefined') ? '' : jwt;
-    } 
+    }
     return '';
 }
 

@@ -53,9 +53,11 @@ export default function SignIn() {
   const [validToken, setValidToken] = useState(false);
 
   useEffect(() => {
-    if (isTokenValid()) {
-        setValidToken(true);
-    }
+    isTokenValid().then(valid => {
+      if (valid) {
+        setValidToken(true)
+      }
+    })
   }, [setValidToken])
 
   const handleLogin = () => {
@@ -82,11 +84,11 @@ export default function SignIn() {
   };
 
   if (validToken) {
-    return(
-      <Redirect to={'/home'}/>
+    return (
+      <Redirect to={'/home'} />
     )
   } else {
-  return (
+    return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -104,10 +106,11 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Email Address"
+              type="email"
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(input) => setEmail({ ...email, value: input.target.value})}
+              onChange={(input) => setEmail({ ...email, value: input.target.value })}
               error={email.error}
             />
             <TextField
@@ -120,7 +123,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={(input) => setPassword({ ...password, value: input.target.value})}
+              onChange={(input) => setPassword({ ...password, value: input.target.value })}
               error={password.error}
             />
             <Button
@@ -135,11 +138,11 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Route render={({history}: {history: any}) => (
-                  <Link onClick={() =>  {history.push('/signup')}} variant="body2">
+                <Route render={({ history }: { history: any }) => (
+                  <Link onClick={() => { history.push('/signup') }} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
-                  )}/>
+                )} />
               </Grid>
             </Grid>
           </div>
