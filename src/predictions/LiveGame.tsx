@@ -46,6 +46,9 @@ const useStyles = makeStyles({
     },
     button: {
         backgroundColor: '#1caac9'
+    },
+    endButton: {
+        backgroundColor: '#1c4c87'
     }
 })
 
@@ -116,6 +119,27 @@ export default function LiveGame(props: IMatch & IGameProps) {
             });
     }
 
+    function endGame() {
+        if (window.confirm('Are you sure the match is finished?')) {
+            fetch(goTo('match/end'), {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authenticate': getJWT()
+                },
+                body: JSON.stringify({
+                matchid: props.match.matchid
+                })
+            })
+            .then(res => res.json())
+            .then(result => {
+                if (!result[SUCCESS]) {
+                    alert('Error whilst updating scores, please try again')
+                }
+            });
+        }
+    }
+
     function renderCurrentScore() {
         return (
             <span className={classes.dash}>{props.prediction?.team_one_pred + '-' + props.prediction?.team_two_pred}</span>
@@ -181,6 +205,12 @@ export default function LiveGame(props: IMatch & IGameProps) {
                 {props.match.match_date + ' ' + props.match.kick_off_time}
             </Box>
             {getButton()}
+            <Button
+                variant='contained'
+                className={classes.endButton}
+                onClick={() => endGame()}>
+                    End Game
+            </Button>
         </Card>
     )
 }
