@@ -1,13 +1,19 @@
 import { Container, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import BottomNav from "../misc/BottomNav";
+import Header from "../misc/Header";
 import { getJWT, goTo } from "../utils/Utils";
 import LiveGame from "./LiveGame";
 import { IMatch } from "./Predictions";
 
 const useStyles = makeStyles({
     liveGames: {
-        fontSize: '8vw'
+        fontSize: '8vw',
+        position: 'absolute',
+        top: '19vw',
+        width: '90%',
+        left: '5%'
     }
 })
 
@@ -26,12 +32,16 @@ export default function AdminPage() {
         )
     } else {
         return (
+            <>
+            <Header/>
                 <Container>
                 <Typography className={classes.liveGames}>Live Games</Typography>
                 {matches.map(element => {
                         return <LiveGame {...element} isFixed={false} callback={getMatches} />
                 })} 
                 </Container>
+            <BottomNav value={'/admin'}/>
+            </>
         )
     }
 

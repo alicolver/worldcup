@@ -9,7 +9,8 @@ import { IMatch } from "./Predictions";
 
 const useStyles = makeStyles({
     upcomingGames: {
-        'fontSize': '8vw'
+        fontSize: '8vw',
+        marginTop: '19vw'
     }
 })
 
