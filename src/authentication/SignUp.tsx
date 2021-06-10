@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { goTo, validateEmail } from '../utils/Utils';
+import { goTo, isTokenValid, validateEmail } from '../utils/Utils';
 
 function Copyright() {
   return (
@@ -54,6 +54,13 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [successfulSingUp, setSuccessfulSignup] = useState(false);
+  const [validToken, setValidToken] = useState(false);
+
+  useEffect(() => {
+    if (isTokenValid()) {
+        setValidToken(true);
+    }
+  }, [setValidToken])
 
   function submitForm() {
     if (!validateEmail(email)) {
@@ -82,12 +89,16 @@ export default function SignUp() {
       });
   }
 
-  if (successfulSingUp) {
+  if (validToken) {
+    return (
+      <Redirect to={'/home'}/>
+    )
+  }
+  else if (successfulSingUp) {
     return (
       <Redirect to={'/'}/>
     )
   } else {
-
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
