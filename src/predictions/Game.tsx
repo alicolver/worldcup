@@ -99,8 +99,8 @@ export default function Game(props: IMatch & IGameProps) {
                 'Authenticate': getJWT()
             },
             body: JSON.stringify({
-                team_one_pred: team1score.score,
-                team_two_pred: teamTwoScore.score,
+                team_one_pred: scoreOne,
+                team_two_pred: scoreTwo,
                 matchid: props.match.matchid,
                 penalty_winners: null
             })
