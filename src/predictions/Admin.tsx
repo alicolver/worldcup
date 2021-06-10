@@ -46,7 +46,6 @@ export default function AdminPage() {
     }
 
     function getMatches() {
-        console.log('attempting fetch')
         fetch(goTo('match/in-progress'), {
             method: 'GET',
             headers: {

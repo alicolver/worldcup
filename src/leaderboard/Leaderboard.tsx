@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { goTo } from "../utils/Utils";
+import { getJWT, goTo } from "../utils/Utils";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,6 +37,17 @@ export default function LeaderBoard() {
         setLeaderboardData(res.leaderboard)
       }
     })
+
+    fetch(goTo('match/in-progress'), {
+      method: 'GET',
+      headers: {
+          'Authenticate': getJWT()
+      }
+  }).then(res => res.json()).then(res => {
+      if (res.success) {
+          setIsLive(res.matches.length > 0);
+      }
+  });
   }, [setLeaderboardData])
 
 
