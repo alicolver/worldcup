@@ -31,7 +31,7 @@ export default function History() {
             <>
             <Header/>
             <Container>
-                <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
+                <Typography className={classes.upcomingGames}>Your History</Typography>
                 {matches.map(element => {
                         return <Game {...element} isFixed={true} callback={getMatches} />
                 })}
