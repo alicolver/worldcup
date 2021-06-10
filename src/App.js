@@ -4,6 +4,7 @@ import SignIn from './authentication/SignIn'
 import LeaderboardPage from './leaderboard/LeaderboardPage'
 import Prediction from './predictions/Predictions'
 import Homepage from './homepage/Homepage'
+import History from './predictions/History'
 
 export default function App() {
     return (

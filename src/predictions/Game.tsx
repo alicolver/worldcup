@@ -85,7 +85,7 @@ export default function Game(props: IGameProps) {
         })
         .then(res => res.json())
         .then(result => {
-              if (result["succes"] === true) {
+              if (result["success"] === true) {
                 alert('successfully stored prediction')
               } else {
                 alert('Error whilst sending prediction, please try again')
