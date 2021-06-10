@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/euro2020-front-end/static/css/main.9df10f1b.chunk.css",
-    "main.js": "/euro2020-front-end/static/js/main.b484a1ef.chunk.js",
-    "main.js.map": "/euro2020-front-end/static/js/main.b484a1ef.chunk.js.map",
-    "runtime-main.js": "/euro2020-front-end/static/js/runtime-main.aa6f96c8.js",
-    "runtime-main.js.map": "/euro2020-front-end/static/js/runtime-main.aa6f96c8.js.map",
-    "static/js/2.3daa1b01.chunk.js": "/euro2020-front-end/static/js/2.3daa1b01.chunk.js",
-    "static/js/2.3daa1b01.chunk.js.map": "/euro2020-front-end/static/js/2.3daa1b01.chunk.js.map",
-    "static/js/3.2cad379c.chunk.js": "/euro2020-front-end/static/js/3.2cad379c.chunk.js",
-    "static/js/3.2cad379c.chunk.js.map": "/euro2020-front-end/static/js/3.2cad379c.chunk.js.map",
-    "index.html": "/euro2020-front-end/index.html",
-    "static/css/main.9df10f1b.chunk.css.map": "/euro2020-front-end/static/css/main.9df10f1b.chunk.css.map",
-    "static/js/2.3daa1b01.chunk.js.LICENSE.txt": "/euro2020-front-end/static/js/2.3daa1b01.chunk.js.LICENSE.txt",
-    "static/media/logo.b61bf1d9.svg": "/euro2020-front-end/static/media/logo.b61bf1d9.svg"
+    "main.css": "/euro2020/static/css/main.9df10f1b.chunk.css",
+    "main.js": "/euro2020/static/js/main.23d3f920.chunk.js",
+    "main.js.map": "/euro2020/static/js/main.23d3f920.chunk.js.map",
+    "runtime-main.js": "/euro2020/static/js/runtime-main.723950c7.js",
+    "runtime-main.js.map": "/euro2020/static/js/runtime-main.723950c7.js.map",
+    "static/js/2.3daa1b01.chunk.js": "/euro2020/static/js/2.3daa1b01.chunk.js",
+    "static/js/2.3daa1b01.chunk.js.map": "/euro2020/static/js/2.3daa1b01.chunk.js.map",
+    "static/js/3.2cad379c.chunk.js": "/euro2020/static/js/3.2cad379c.chunk.js",
+    "static/js/3.2cad379c.chunk.js.map": "/euro2020/static/js/3.2cad379c.chunk.js.map",
+    "index.html": "/euro2020/index.html",
+    "static/css/main.9df10f1b.chunk.css.map": "/euro2020/static/css/main.9df10f1b.chunk.css.map",
+    "static/js/2.3daa1b01.chunk.js.LICENSE.txt": "/euro2020/static/js/2.3daa1b01.chunk.js.LICENSE.txt",
+    "static/media/logo.b61bf1d9.svg": "/euro2020/static/media/logo.b61bf1d9.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.aa6f96c8.js",
+    "static/js/runtime-main.723950c7.js",
     "static/js/2.3daa1b01.chunk.js",
     "static/css/main.9df10f1b.chunk.css",
-    "static/js/main.b484a1ef.chunk.js"
+    "static/js/main.23d3f920.chunk.js"
   ]
 }
