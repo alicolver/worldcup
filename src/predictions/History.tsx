@@ -5,7 +5,6 @@ import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import { goTo, getJWT } from "../utils/Utils";
 import FixedGame from "./FixedGame";
-import Game from "./Game";
 import { IMatch } from "./Predictions";
 
 const useStyles = makeStyles({
