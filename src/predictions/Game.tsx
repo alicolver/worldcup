@@ -50,7 +50,10 @@ const useStyles = makeStyles({
 })
 
 interface IGameProps {
-    callback: () => void
+    callback: () => void,
+    hasPrediction: boolean,
+    team_one_pred?: string,
+    team_two_pred?: string
 }
 
 export default function Game(props: IMatch & IGameProps) {
@@ -61,7 +64,17 @@ export default function Game(props: IMatch & IGameProps) {
 
     useEffect(() => {
         setIsEditing(!props.hasPrediction)
-    }, [props.hasPrediction])
+        if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
+            setTeam1Score({
+                error: false,
+                score: props.team_one_pred
+            })
+            setTeamTwoScore({
+                error: false,
+                score: props.team_two_pred
+            })
+        }
+    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
 
     function handleClick() {
         if (!isEditing) {
@@ -116,6 +129,7 @@ export default function Game(props: IMatch & IGameProps) {
                     className={classes.teaminput}
                     id="outlined-basic"
                     type="number"
+                    value={team1score.score}
                     onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value })}
                     error={team1score.error} />
                 <span className={classes.dash}>-</span>
@@ -123,6 +137,7 @@ export default function Game(props: IMatch & IGameProps) {
                     className={classes.teaminput}
                     id="outlined-basic"
                     type="number"
+                    value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     error={teamTwoScore.error} />
             </>
