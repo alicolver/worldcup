@@ -79,7 +79,6 @@ export default function Game(props: IGameProps) {
               team_one_pred: team1score.score,
               team_two_pred: teamTwoScore.score,
               matchid: props.match.matchid,
-              team_to_progress: null,
               penalty_winners: null
             })
         })
