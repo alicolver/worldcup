@@ -34,8 +34,8 @@ export default function AdminPage() {
         return (
             <>
             <Header/>
-                <Container>
-                <Typography className={classes.liveGames}>Live Games</Typography>
+                <Container className={classes.liveGames}>
+                <Typography>Live Games</Typography>
                 {matches.map(element => {
                         return <LiveGame {...element} isFixed={false} callback={getMatches} />
                 })} 
