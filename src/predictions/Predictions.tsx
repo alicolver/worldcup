@@ -54,7 +54,11 @@ export default function Prediction() {
             <Container>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
                 {matches.map(element => {
-                    return <Game {...element} callback={getMatches} />
+                    if (element.hasPrediction && element.prediction) {
+                        return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
+                    } else {
+                        return <Game {...element} callback={getMatches} />
+                    }
                 })}
             </Container>
         )
