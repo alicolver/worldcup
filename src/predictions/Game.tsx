@@ -42,7 +42,7 @@ const useStyles = makeStyles({
         textAlign: 'center'
     },
     buttonBox: {
-        marginBottom: '1.5vh'   
+        marginBottom: '1.5vh'
     },
     button: {
         backgroundColor: '#1caac9'
@@ -51,8 +51,8 @@ const useStyles = makeStyles({
 
 export default function Game(props: IMatch) {
     const classes = useStyles()
-    const [team1score, setTeam1Score] = useState({ score: '', error: false});
-    const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false});
+    const [team1score, setTeam1Score] = useState({ score: '', error: false });
+    const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
     const [isEditing, setIsEditing] = useState(true);
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function Game(props: IMatch) {
             setIsEditing(true)
             return
         }
-    
+
         const scoreOne = parseInt(team1score.score)
         const scoreTwo = parseInt(teamTwoScore.score)
         if (isNaN(scoreOne) || isNaN(scoreTwo)) {
@@ -78,24 +78,24 @@ export default function Game(props: IMatch) {
         fetch(goTo('prediction'), {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
-              'Authenticate': getJWT()
+                "Content-Type": "application/json",
+                'Authenticate': getJWT()
             },
             body: JSON.stringify({
-              team_one_pred: team1score.score,
-              team_two_pred: teamTwoScore.score,
-              matchid: props.match.matchid,
-              penalty_winners: null
+                team_one_pred: team1score.score,
+                team_two_pred: teamTwoScore.score,
+                matchid: props.match.matchid,
+                penalty_winners: null
             })
         })
-        .then(res => res.json())
-        .then(result => {
-              if (result[SUCCESS] === true) {
-                alert('successfully stored prediction')
-              } else {
-                alert('Error whilst sending prediction, please try again')
-              }
-        });
+            .then(res => res.json())
+            .then(result => {
+                if (result[SUCCESS] === true) {
+                    alert('successfully stored prediction')
+                } else {
+                    alert('Error whilst sending prediction, please try again')
+                }
+            });
     }
 
     function renderPredictedScore() {
@@ -107,19 +107,17 @@ export default function Game(props: IMatch) {
     function renderUnpredictedScore() {
         return (
             <>
-                <OutlinedInput 
-                className={classes.teaminput} 
-                id="outlined-basic" 
-                label=""
-                onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value})}
-                error={team1score.error}/>
+                <OutlinedInput
+                    className={classes.teaminput}
+                    id="outlined-basic"
+                    onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value })}
+                    error={team1score.error} />
                 <span className={classes.dash}>-</span>
-                <OutlinedInput 
-                className={classes.teaminput} 
-                id="outlined-basic" 
-                label=""
-                onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value})}
-                error={teamTwoScore.error}/>
+                <OutlinedInput
+                    className={classes.teaminput}
+                    id="outlined-basic"
+                    onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
+                    error={teamTwoScore.error} />
             </>
         )
     }
@@ -132,29 +130,29 @@ export default function Game(props: IMatch) {
         return isEditing ? 'Submit Prediction' : 'Edit Prediction'
     }
 
-    return(
+    return (
         <Card className={classes.matchCard}>
-           <Box className={classes.match}>
+            <Box className={classes.match}>
                 <Box>
-                    <Team name={props.team_one.name} emoji={props.team_one.emoji}/>
+                    <Team name={props.team_one.name} emoji={props.team_one.emoji} />
                 </Box>
                 {getPredictionRender()}
                 <Box>
-                    <Team name={props.team_two.name} emoji={props.team_two.emoji}/>
+                    <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
             </Box>
             <Box className={classes.date}>
-                {props.match.match_date + ' ' + props.match.kick_off_time} 
+                {props.match.match_date + ' ' + props.match.kick_off_time}
             </Box>
             <Box className={classes.buttonBox}>
-            <Button
-                variant='contained'
-                className={classes.button}
-                onClick={() => handleClick()}
-            >
+                <Button
+                    variant='contained'
+                    className={classes.button}
+                    onClick={() => handleClick()}
+                >
                     {getSetOrEditText()}
                 </Button>
             </Box>
-            </Card>
+        </Card>
     )
 }
