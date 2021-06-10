@@ -49,7 +49,11 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Game(props: IMatch) {
+interface IGameProps {
+    callback: () => void
+}
+
+export default function Game(props: IMatch & IGameProps) {
     const classes = useStyles()
     const [team1score, setTeam1Score] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
@@ -57,7 +61,7 @@ export default function Game(props: IMatch) {
 
     useEffect(() => {
         setIsEditing(!props.hasPrediction)
-    }, [setIsEditing, props.hasPrediction])
+    }, [props.hasPrediction])
 
     function handleClick() {
         if (!isEditing) {
@@ -90,9 +94,11 @@ export default function Game(props: IMatch) {
         })
             .then(res => res.json())
             .then(result => {
-                if (result[SUCCESS] === false) {
+                if (!result[SUCCESS]) {
                     alert('Error whilst sending prediction, please try again')
-                }
+                } else {
+                    props.callback()
+                } 
             });
     }
 

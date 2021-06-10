@@ -38,40 +38,11 @@ export interface IMatch {
 
 export default function Prediction() {
     const classes = useStyles()
-    const [matches, setMatches] = useState<IMatch[]>([{
-        'team_one': {
-            'name': 'team',
-            'emoji': ''
-        },
-        'team_two': {
-            'name': 'team',
-            'emoji': ''
-        },
-        'match': {
-            'match_date': '',
-            'kick_off_time': '',
-            'is_knockout': false,
-            'matchid': -1
-        },
-        'hasPrediction': false
-    }])
-
+    const [matches, setMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
 
     useEffect(() => {
-        fetch(goTo('prediction-required'), {
-            method: 'GET',
-            headers: {
-            'Authenticate': getJWT()
-            }
-        }).then(res => res.json()).then(res => {
-            if (res.success) {
-                console.log(res)
-                setMatches(res.matches)
-            } else {
-                setInvalidResponse(true)
-            }
-        })
+        getMatches();
     }, [setMatches])
 
     if (invalidResponse) {
@@ -83,9 +54,26 @@ export default function Prediction() {
             <Container>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography> 
                 {matches.map(element => {
-                    return <Game {...element}/>
+                    return <Game {...element} callback={getMatches}/>
                 })}
             </Container>
         )
+    }
+
+    function getMatches() {
+        console.log('attempting fetch')
+        fetch(goTo('prediction-required'), {
+            method: 'GET',
+            headers: {
+                'Authenticate': getJWT()
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.success) {
+                console.log('updating matches')
+                setMatches(res.matches);
+            } else {
+                setInvalidResponse(true);
+            }
+        });
     }
 }
