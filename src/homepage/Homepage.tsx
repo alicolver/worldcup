@@ -1,5 +1,6 @@
 import { Container, createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 import logo from '../img/logo.svg';
+import BottomNav from '../misc/BottomNav';
 import Prediction from '../predictions/Predictions';
 
 const useStyles = makeStyles({
@@ -30,9 +31,9 @@ function Homepage() {
       <ThemeProvider theme={theme}>
       <Container className={classes.homepage}>
         <img className={classes.logo} src={logo} alt={'euro logo'}/>
-
         <Prediction />
       </Container>
+      <BottomNav value={'/home'}/>
       </ThemeProvider>
     )
 }

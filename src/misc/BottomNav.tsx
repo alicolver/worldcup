@@ -7,7 +7,10 @@ import { Route } from "react-router-dom";
 const useStyles = makeStyles({
     root: {
       width: '100vw',
-      backgroundColor: '#1caac9'
+      backgroundColor: '#1caac9',
+      position: 'fixed',
+      bottom: 0,
+      left: 0
     },
   });
   
@@ -29,7 +32,7 @@ export default function BottomNav(props: IBottomNavProps) {
             className={classes.root}
             >
             <BottomNavigationAction label="Standings" value="/standings" icon={<BarChartIcon />} />
-            <BottomNavigationAction label="Predict" value="/predict" icon={<SportsSoccerIcon />} />
+            <BottomNavigationAction label="Predict" value="/home" icon={<SportsSoccerIcon />} />
             <BottomNavigationAction label="History" value="/history" icon={<HistoryIcon />} />
             </BottomNavigation>
         )}/>
