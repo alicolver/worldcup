@@ -56,7 +56,7 @@ export default function SignIn() {
     if (isTokenValid()) {
         setValidToken(true);
     }
-  }, [])
+  }, [setValidToken])
 
   const handleLogin = () => {
     fetch(goTo('login'), {
