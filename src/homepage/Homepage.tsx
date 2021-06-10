@@ -5,7 +5,7 @@ import Prediction from '../predictions/Predictions';
 
 const useStyles = makeStyles({
   logo: {
-    maxHeight: '15vh'
+    maxHeight: '15vw'
   },
   homepage: {
     position: 'absolute',
