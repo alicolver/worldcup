@@ -1,6 +1,6 @@
 import { Box, Button, Card, makeStyles, OutlinedInput } from "@material-ui/core";
 import React, { useState } from "react";
-import { goTo } from "../utils/Utils";
+import { getJWT, goTo } from "../utils/Utils";
 import { IMatchDetails, ITeam } from "./Predictions";
 import Team from "./Team";
 
@@ -70,10 +70,11 @@ export default function Game(props: IGameProps) {
         setTeam1Score({ ...team1score, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        fetch(goTo('predict'), {
+        fetch(goTo('prediction'), {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
+              'Authenticate': getJWT()
             },
             body: JSON.stringify({
               team_one_pred: team1score.score,
