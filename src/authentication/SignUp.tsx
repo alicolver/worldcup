@@ -58,9 +58,11 @@ export default function SignUp() {
   const [validToken, setValidToken] = useState(false);
 
   useEffect(() => {
-    if (isTokenValid()) {
-      setValidToken(true);
-    }
+    isTokenValid().then(valid => {
+      if (valid) {
+        setValidToken(true)
+      }
+    })
   }, [setValidToken])
 
   function submitForm() {
