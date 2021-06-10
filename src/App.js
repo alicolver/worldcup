@@ -13,6 +13,7 @@ export default function App() {
             <Route path="/standings" exact component={LeaderboardPage}/>
             <Route path="/predict" exact component={Prediction}/>
             <Route path="/home" exact component={Homepage}/>
+            <Route path="/history" exact component={History}/>
         </Router>
     )
 }
