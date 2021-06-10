@@ -1,5 +1,4 @@
-import classes from "*.module.css";
-import { Container, Typography } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import BottomNav from "../misc/BottomNav";
@@ -8,7 +7,14 @@ import { goTo, getJWT } from "../utils/Utils";
 import Game from "./Game";
 import { IMatch } from "./Predictions";
 
+const useStyles = makeStyles({
+    upcomingGames: {
+        'fontSize': '8vw'
+    }
+})
+
 export default function History() {
+    const classes = useStyles()
     const [matches, setMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
 
