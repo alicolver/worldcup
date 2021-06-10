@@ -98,7 +98,8 @@ export default function Game(props: IMatch & IGameProps) {
                     alert('Error whilst sending prediction, please try again')
                 } else {
                     props.callback()
-                } 
+                    setIsEditing(false)
+                }
             });
     }
 

@@ -46,15 +46,15 @@ export default function Prediction() {
     }, [setMatches])
 
     if (invalidResponse) {
-        return(
-            <Redirect to={'/'}/>
+        return (
+            <Redirect to={'/'} />
         )
     } else {
-        return(
+        return (
             <Container>
-                <Typography className={classes.upcomingGames}>Upcoming Games</Typography> 
+                <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
                 {matches.map(element => {
-                    return <Game {...element} callback={getMatches}/>
+                    return <Game {...element} callback={getMatches} />
                 })}
             </Container>
         )
@@ -69,7 +69,6 @@ export default function Prediction() {
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
-                console.log('updating matches')
                 setMatches(res.matches);
             } else {
                 setInvalidResponse(true);
