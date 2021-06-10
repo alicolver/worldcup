@@ -96,6 +96,8 @@ export default function Game(props: IMatch) {
                 alert('Error whilst sending prediction, please try again')
               }
         });
+
+        setIsEditing(false)
     }
 
     function renderPredictedScore() {
