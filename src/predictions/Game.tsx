@@ -90,9 +90,7 @@ export default function Game(props: IMatch) {
         })
             .then(res => res.json())
             .then(result => {
-                if (result[SUCCESS] === true) {
-                    alert('successfully stored prediction')
-                } else {
+                if (result[SUCCESS] === false) {
                     alert('Error whilst sending prediction, please try again')
                 }
             });
@@ -110,12 +108,14 @@ export default function Game(props: IMatch) {
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
+                    type="number"
                     onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value })}
                     error={team1score.error} />
                 <span className={classes.dash}>-</span>
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
+                    type="number"
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     error={teamTwoScore.error} />
             </>
