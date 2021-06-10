@@ -100,8 +100,8 @@ export default function Game(props: IMatch & IGameProps) {
                 'Authenticate': getJWT()
             },
             body: JSON.stringify({
-                team_one_pred: team1score.score,
-                team_two_pred: teamTwoScore.score,
+                team_one_pred: scoreOne,
+                team_two_pred: scoreTwo,
                 matchid: props.match.matchid,
                 penalty_winners: null
             })
@@ -179,7 +179,7 @@ export default function Game(props: IMatch & IGameProps) {
                 </Box>
             </Box>
             <Box className={classes.date}>
-                {props.match.match_date + ' ' + props.match.kick_off_time}
+                {props.match.match_date + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
             </Box>
             {getButton()}
         </Card>
