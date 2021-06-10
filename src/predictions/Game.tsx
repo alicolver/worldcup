@@ -164,7 +164,7 @@ export default function Game(props: IMatch & IGameProps) {
                 </Box>
             </Box>
             <Box className={classes.date}>
-                {props.match.match_date + ' ' + props.match.kick_off_time}
+                {props.match.match_date + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
             </Box>
             <Box className={classes.buttonBox}>
                 <Button
