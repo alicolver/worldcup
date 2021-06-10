@@ -5,6 +5,7 @@ import LeaderboardPage from './leaderboard/LeaderboardPage'
 import Prediction from './predictions/Predictions'
 import Homepage from './homepage/Homepage'
 import History from './predictions/History'
+import AdminPage from './predictions/Admin'
 
 export default function App() {
     return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="/predict" exact component={Prediction}/>
             <Route path="/home" exact component={Homepage}/>
             <Route path="/history" exact component={History}/>
+            <Route path="/admin" exact component={AdminPage}/>
         </Router>
     )
 }

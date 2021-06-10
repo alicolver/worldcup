@@ -2,7 +2,10 @@ import { BottomNavigation, BottomNavigationAction, makeStyles } from "@material-
 import BarChartIcon from '@material-ui/icons/BarChart';
 import HistoryIcon from '@material-ui/icons/History';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
+import { getJWT, goTo } from "../utils/Utils";
 
 const useStyles = makeStyles({
     root: {
@@ -19,6 +22,27 @@ interface IBottomNavProps {
 
 export default function BottomNav(props: IBottomNavProps) {
     const classes = useStyles()
+    const [isAdmin, setIsAdmin] = useState(false)
+
+    useEffect(() => {
+        fetch(goTo('is-admin'), {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authenticate": getJWT()
+            }
+          })
+        .then(res => res.json())
+        .then(result => {
+            setIsAdmin(result)      
+        });
+    }, [setIsAdmin])
+
+    function getAdminPage() {
+        return !isAdmin ? 
+            <></> :
+            <BottomNavigationAction label="ADMIN" value="/admin" icon={<SupervisorAccountIcon />} />
+    }
 
     return(
         <Route render={({history}: {history: any}) => (
@@ -33,6 +57,7 @@ export default function BottomNav(props: IBottomNavProps) {
             <BottomNavigationAction label="Standings" value="/standings" icon={<BarChartIcon />} />
             <BottomNavigationAction label="Predict" value="/home" icon={<SportsSoccerIcon />} />
             <BottomNavigationAction label="History" value="/history" icon={<HistoryIcon />} />
+            {getAdminPage()}
             </BottomNavigation>
         )}/>
 
