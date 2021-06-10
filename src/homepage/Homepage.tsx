@@ -1,6 +1,7 @@
 import { Container, createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core';
-import logo from '../img/logo.svg';
+import React from 'react';
 import BottomNav from '../misc/BottomNav';
+import Header from '../misc/Header';
 import Prediction from '../predictions/Predictions';
 
 const useStyles = makeStyles({
@@ -9,10 +10,9 @@ const useStyles = makeStyles({
   },
   homepage: {
     position: 'absolute',
-    top: 0,
+    top: '19vw',
     left: 0,
     width: '100%',
-    height: '100%'
   }
 });
 
@@ -29,8 +29,8 @@ function Homepage() {
   const classes = useStyles();
     return (
       <ThemeProvider theme={theme}>
+        <Header/>
       <Container className={classes.homepage}>
-        <img className={classes.logo} src={logo} alt={'euro logo'}/>
         <Prediction />
       </Container>
       <BottomNav value={'/home'}/>

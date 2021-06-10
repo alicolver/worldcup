@@ -1,14 +1,9 @@
 import { Box, Button, Card, makeStyles, OutlinedInput } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SUCCESS } from "../utils/Constants";
 import { getJWT, goTo } from "../utils/Utils";
-import { IMatchDetails, ITeam } from "./Predictions";
+import { IMatch } from "./Predictions";
 import Team from "./Team";
-
-interface IGameProps {
-    team1: ITeam,
-    team2: ITeam,
-    match: IMatchDetails
-}
 
 const useStyles = makeStyles({
     match: {
@@ -54,12 +49,22 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Game(props: IGameProps) {
+export default function Game(props: IMatch) {
     const classes = useStyles()
     const [team1score, setTeam1Score] = useState({ score: '', error: false});
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false});
+    const [isEditing, setIsEditing] = useState(true);
+
+    useEffect(() => {
+        setIsEditing(!props.hasPrediction)
+    }, [setIsEditing, props.hasPrediction])
 
     function handleClick() {
+        if (!isEditing) {
+            setIsEditing(true)
+            return
+        }
+    
         const scoreOne = parseInt(team1score.score)
         const scoreTwo = parseInt(teamTwoScore.score)
         if (isNaN(scoreOne) || isNaN(scoreTwo)) {
@@ -85,7 +90,7 @@ export default function Game(props: IGameProps) {
         })
         .then(res => res.json())
         .then(result => {
-              if (result["success"] === true) {
+              if (result[SUCCESS] === true) {
                 alert('successfully stored prediction')
               } else {
                 alert('Error whilst sending prediction, please try again')
@@ -93,12 +98,15 @@ export default function Game(props: IGameProps) {
         });
     }
 
-    return(
-        <Card className={classes.matchCard}>
-           <Box className={classes.match}>
-                <Box>
-                    <Team name={props.team1.name} emoji={props.team1.emoji}/>
-                </Box>
+    function renderPredictedScore() {
+        return (
+            <span className={classes.dash}>{props.prediction?.team_one_pred + '-' + props.prediction?.team_two_pred}</span>
+        )
+    }
+
+    function renderUnpredictedScore() {
+        return (
+            <>
                 <OutlinedInput 
                 className={classes.teaminput} 
                 id="outlined-basic" 
@@ -112,8 +120,27 @@ export default function Game(props: IGameProps) {
                 label=""
                 onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value})}
                 error={teamTwoScore.error}/>
+            </>
+        )
+    }
+
+    function getPredictionRender() {
+        return isEditing ? renderUnpredictedScore() : renderPredictedScore()
+    }
+
+    function getSetOrEditText(): string {
+        return isEditing ? 'Submit Prediction' : 'Edit Prediction'
+    }
+
+    return(
+        <Card className={classes.matchCard}>
+           <Box className={classes.match}>
                 <Box>
-                    <Team name={props.team2.name} emoji={props.team2.emoji}/>
+                    <Team name={props.team_one.name} emoji={props.team_one.emoji}/>
+                </Box>
+                {getPredictionRender()}
+                <Box>
+                    <Team name={props.team_two.name} emoji={props.team_two.emoji}/>
                 </Box>
             </Box>
             <Box className={classes.date}>
@@ -125,7 +152,7 @@ export default function Game(props: IGameProps) {
                 className={classes.button}
                 onClick={() => handleClick()}
             >
-                    Submit Prediction
+                    {getSetOrEditText()}
                 </Button>
             </Box>
             </Card>

@@ -3,7 +3,10 @@ import logo from '../img/logo.svg'
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    maxHeight: '15vw'
+    maxHeight: '15vw',
+    marginBottom: '5vw',
+    position: 'fixed',
+    top: 0
   }
 }));
 

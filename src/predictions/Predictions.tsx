@@ -1,5 +1,5 @@
 import Game from "./Game";
-import { makeStyles, Typography } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getJWT, goTo } from "../utils/Utils";
 import { Redirect } from "react-router";
@@ -22,10 +22,18 @@ export interface IMatchDetails {
     matchid: number
 }
 
-interface IMatch {
+export interface IPrediction {
+    team_one_pred: string,
+    team_two_pred: string,
+    predictionid: string
+}
+
+export interface IMatch {
     team_one: ITeam,
     team_two: ITeam,
-    match: IMatchDetails
+    match: IMatchDetails,
+    hasPrediction: boolean,
+    prediction?: IPrediction
 }
 
 export default function Prediction() {
@@ -44,7 +52,8 @@ export default function Prediction() {
             'kick_off_time': '',
             'is_knockout': false,
             'matchid': -1
-        }
+        },
+        'hasPrediction': false
     }])
 
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
@@ -71,12 +80,12 @@ export default function Prediction() {
         )
     } else {
         return(
-            <div>
+            <Container>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography> 
                 {matches.map(element => {
-                    return <Game team1={element.team_one} team2={element.team_two} match={element.match}/>
+                    return <Game {...element}/>
                 })}
-            </div>
+            </Container>
         )
     }
 }

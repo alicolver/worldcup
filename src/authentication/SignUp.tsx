@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { goTo, isTokenValid, validateEmail } from '../utils/Utils';
+import { SUCCESS } from '../utils/Constants';
 
 function Copyright() {
   return (
@@ -81,7 +82,7 @@ export default function SignUp() {
     })
       .then(res => res.json())
       .then(result => {
-        if (result["success"] === false) {
+        if (result[SUCCESS] === false) {
           alert('error whilst signing up :(')
         } else {
           setSuccessfulSignup(true)
