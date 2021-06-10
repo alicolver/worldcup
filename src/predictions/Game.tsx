@@ -70,8 +70,27 @@ export default function Game(props: IGameProps) {
         setTeam1Score({ ...team1score, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        fetch(goTo('/predict'))
-
+        fetch(goTo('predict'), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              team_one_pred: team1score.score,
+              team_two_pred: teamTwoScore.score,
+              matchid: props.match.matchid,
+              team_to_progress: null,
+              penalty_winners: null
+            })
+        })
+        .then(res => res.json())
+        .then(result => {
+              if (result["succes"] === true) {
+                alert('successfully stored prediction')
+              } else {
+                alert('Error whilst sending prediction, please try again')
+              }
+        });
     }
 
     return(
