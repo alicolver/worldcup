@@ -1,7 +1,53 @@
+import { Container, makeStyles, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { getJWT, goTo } from "../utils/Utils";
+import LiveGame from "./LiveGame";
+import { IMatch } from "./Predictions";
+
+const useStyles = makeStyles({
+    liveGames: {
+        fontSize: '8vw'
+    }
+})
+
 export default function AdminPage() {
-    return (
-        <>
-        ADMIN PAGE
-        </>
-    )
+    const classes = useStyles()
+    const [matches, setMatches] = useState<IMatch[]>([])
+    const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
+
+    useEffect(() => {
+        getMatches();
+    }, [setMatches])
+
+    if (invalidResponse) {
+        return (
+            <Redirect to={'/'} />
+        )
+    } else {
+        return (
+                <Container>
+                <Typography className={classes.liveGames}>Live Games</Typography>
+                {matches.map(element => {
+                        return <LiveGame {...element} isFixed={false} callback={getMatches} />
+                })} 
+                </Container>
+        )
+    }
+
+    function getMatches() {
+        console.log('attempting fetch')
+        fetch(goTo('match/in-progress'), {
+            method: 'GET',
+            headers: {
+                'Authenticate': getJWT()
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.success) {
+                setMatches(res.matches);
+            } else {
+                setInvalidResponse(true);
+            }
+        });
+    }
 }

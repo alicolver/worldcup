@@ -57,7 +57,7 @@ interface IGameProps {
     team_two_pred?: string
 }
 
-export default function Game(props: IMatch & IGameProps) {
+export default function LiveGame(props: IMatch & IGameProps) {
     const classes = useStyles()
     const [team1score, setTeam1Score] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
@@ -93,23 +93,22 @@ export default function Game(props: IMatch & IGameProps) {
         setTeam1Score({ ...team1score, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        fetch(goTo('prediction'), {
-            method: "POST",
+        fetch(goTo('score'), {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 'Authenticate': getJWT()
             },
             body: JSON.stringify({
-                team_one_pred: team1score.score,
-                team_two_pred: teamTwoScore.score,
-                matchid: props.match.matchid,
-                penalty_winners: null
+                team_one_goals: team1score.score,
+                team_two_goals: teamTwoScore.score,
+                matchid: props.match.matchid
             })
         })
             .then(res => res.json())
             .then(result => {
                 if (!result[SUCCESS]) {
-                    alert('Error whilst sending prediction, please try again')
+                    alert('Error whilst updating scores, please try again')
                 } else {
                     props.callback()
                     setIsEditing(false)
@@ -117,13 +116,13 @@ export default function Game(props: IMatch & IGameProps) {
             });
     }
 
-    function renderPredictedScore() {
+    function renderCurrentScore() {
         return (
             <span className={classes.dash}>{props.prediction?.team_one_pred + '-' + props.prediction?.team_two_pred}</span>
         )
     }
 
-    function renderUnpredictedScore() {
+    function renderEditScore() {
         return (
             <>
                 <OutlinedInput
@@ -146,11 +145,11 @@ export default function Game(props: IMatch & IGameProps) {
     }
 
     function getPredictionRender() {
-        return isEditing ? renderUnpredictedScore() : renderPredictedScore()
+        return isEditing ? renderEditScore() : renderCurrentScore()
     }
 
     function getSetOrEditText(): string {
-        return isEditing ? 'Submit Prediction' : 'Edit Prediction'
+        return isEditing ? 'Submit Score' : 'Edit Score'
     }
 
     function getButton() {
