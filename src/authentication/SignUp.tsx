@@ -191,7 +191,7 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
-            <Grid container justify="flex-end">
+            <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
                   <Link onClick={() => { history.push('/') }} variant="body2">
