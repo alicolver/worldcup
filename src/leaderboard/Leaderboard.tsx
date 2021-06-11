@@ -87,7 +87,7 @@ export default function LeaderBoard() {
             <TableRow key={index}>
               <TableCell>{renderLive()}{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                 {row.name}
+                 {row.name.split(' ')[0]}
               </TableCell>
               <TableCell>{row.correct_results}</TableCell>
               <TableCell>{row.correct_scores}</TableCell>
