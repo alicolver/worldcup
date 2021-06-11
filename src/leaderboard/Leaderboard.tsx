@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getJWT, goTo } from "../utils/Utils";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,6 +15,17 @@ const useStyles = makeStyles({
     padding: '5px'
   },
 });
+
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: '#1caac9',
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+
 
 interface leaderBoardRecord {
   name: String,
@@ -64,11 +75,11 @@ export default function LeaderBoard() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>#</TableCell>
-            <TableCell>User</TableCell>
-            <TableCell align="right">R</TableCell>
-            <TableCell align="right">S</TableCell>
-            <TableCell align="right">Points</TableCell>
+            <StyledTableCell>#</StyledTableCell>
+            <StyledTableCell>Player</StyledTableCell>
+            <StyledTableCell>R</StyledTableCell>
+            <StyledTableCell>S</StyledTableCell>
+            <StyledTableCell align="center">Pts</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -78,9 +89,9 @@ export default function LeaderBoard() {
               <TableCell component="th" scope="row">
                  {renderLive()}{row.name}
               </TableCell>
-              <TableCell align="right">{row.correct_results}</TableCell>
-              <TableCell align="right">{row.correct_scores}</TableCell>
-              <TableCell align="right">{row.score}</TableCell>
+              <TableCell>{row.correct_results}</TableCell>
+              <TableCell>{row.correct_scores}</TableCell>
+              <TableCell align="center">{row.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>
