@@ -1,6 +1,7 @@
-import { Container, makeStyles, Typography } from "@material-ui/core";
+import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import { fontTheme } from "../homepage/Homepage";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import { goTo, getJWT } from "../utils/Utils";
@@ -30,7 +31,7 @@ export default function History() {
         )
     } else {
         return (
-            <>
+            <ThemeProvider theme={fontTheme}>
             <Header/>
             <Container>
                 <Typography className={classes.upcomingGames}>Your History</Typography>
@@ -38,7 +39,7 @@ export default function History() {
                 { inProgressMatches.map(element => { return (<FixedGame {...element}/>)})}
             </Container>
             <BottomNav value={'/history'}/>
-            </>
+            </ThemeProvider>
         )
     }
 

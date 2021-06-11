@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getJWT, goTo } from "../utils/Utils";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -39,6 +39,9 @@ export default function LeaderBoard() {
   const [isLive, setIsLive] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
 
+  const position = useRef(1)
+  const previousPts = useRef(-1)
+
   useEffect(() => {
     fetch(goTo('leaderboard'), {
       method: 'GET',
@@ -62,6 +65,9 @@ export default function LeaderBoard() {
         setIsLive(res.matches.length > 0);
       }
     });
+
+    position.current = 1
+    previousPts.current = -1
   }, [setLeaderboardData])
 
 
@@ -73,30 +79,46 @@ export default function LeaderBoard() {
     }
   }
 
+  function getPosition(score: number) {
+    if (previousPts.current === score) {
+      return '='
+    } else {
+      previousPts.current = score
+      position.current = position.current + 1
+      return position.current
+    }
+  }
+
+  function getRows() {
+    return (leaderboardData.map((row, index) => (
+      <TableRow key={index}>
+        <TableCell>{getPosition(row.score)}</TableCell>
+        <TableCell component="th" scope="row">
+          {row.name.split(' ')[0]}
+        </TableCell>
+        <TableCell align={'left'}>{renderLive()}</TableCell>
+        <TableCell>{row.correct_results}</TableCell>
+        <TableCell>{row.correct_scores}</TableCell>
+        <TableCell align="center"><b>{row.score}</b></TableCell>
+      </TableRow>
+    )))
+  } 
+
   return (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} size="small">
         <TableHead>
           <TableRow>
             <StyledTableCell>#</StyledTableCell>
             <StyledTableCell>Player</StyledTableCell>
+            <StyledTableCell></StyledTableCell>
             <StyledTableCell>R</StyledTableCell>
             <StyledTableCell>S</StyledTableCell>
             <StyledTableCell align="center"><b>Pts</b></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {leaderboardData.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{renderLive()}{index + 1}</TableCell>
-              <TableCell component="th" scope="row">
-                {row.name.split(' ')[0]}
-              </TableCell>
-              <TableCell>{row.correct_results}</TableCell>
-              <TableCell>{row.correct_scores}</TableCell>
-              <TableCell align="center"><b>{row.score}</b></TableCell>
-            </TableRow>
-          ))}
+          {getRows()}
         </TableBody>
       </Table>
     </TableContainer>

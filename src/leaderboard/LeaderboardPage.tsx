@@ -10,7 +10,7 @@ const useStyles = makeStyles({
       marginTop: '50px',
       marginBottom: '10vw',
       paddingTop: '5vw',
-      paddingBottom: '5vw'
+      paddingBottom: '10vw'
     }
   });
   

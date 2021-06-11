@@ -10,14 +10,14 @@ const useStyles = makeStyles({
   },
   homepage: {
     position: 'absolute',
-    top: '19vw',
+    top: '15vw',
     left: 0,
     width: '100%',
     marginBottom: '30vw'
   }
 });
 
-const theme = createMuiTheme({
+export const fontTheme = createMuiTheme({
   typography: {
     fontFamily: [
       'Source Sans Pro',
@@ -29,7 +29,7 @@ const theme = createMuiTheme({
 function Homepage() {
   const classes = useStyles();
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={fontTheme}>
         <Header/>
       <Container className={classes.homepage}>
         <Prediction />

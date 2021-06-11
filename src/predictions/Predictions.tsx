@@ -1,15 +1,16 @@
 import Game from "./Game";
-import { Container, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { getJWT, goTo } from "../utils/Utils";
 import { Redirect } from "react-router";
+import { fontTheme } from "../homepage/Homepage";
 
 const useStyles = makeStyles({
     upcomingGames: {
         'fontSize': '8vw'
     },
     gameContainer: {
-        'marginBottom': '15vw'
+        marginBottom: '19vw'
     }
 })
 
@@ -56,6 +57,7 @@ export default function Prediction() {
         )
     } else {
         return (
+            <ThemeProvider theme={fontTheme}>
             <Container className={classes.gameContainer}>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
                 {matches.map(element => {
@@ -66,6 +68,7 @@ export default function Prediction() {
                     }
                 })}
             </Container>
+            </ThemeProvider>
         )
     }
 
