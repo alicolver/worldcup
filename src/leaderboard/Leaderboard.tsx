@@ -41,7 +41,10 @@ export default function LeaderBoard() {
 
   useEffect(() => {
     fetch(goTo('leaderboard'), {
-      method: 'GET'
+      method: 'GET',
+      headers: {
+        'Authenticate': getJWT()
+      }
     }).then(res => res.json()).then(res => {
       if (res.success) {
         console.log(res)
@@ -52,13 +55,13 @@ export default function LeaderBoard() {
     fetch(goTo('match/in-progress'), {
       method: 'GET',
       headers: {
-          'Authenticate': getJWT()
+        'Authenticate': getJWT()
       }
-  }).then(res => res.json()).then(res => {
+    }).then(res => res.json()).then(res => {
       if (res.success) {
-          setIsLive(res.matches.length > 0);
+        setIsLive(res.matches.length > 0);
       }
-  });
+    });
   }, [setLeaderboardData])
 
 
@@ -87,7 +90,7 @@ export default function LeaderBoard() {
             <TableRow key={index}>
               <TableCell>{renderLive()}{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                 {row.name.split(' ')[0]}
+                {row.name.split(' ')[0]}
               </TableCell>
               <TableCell>{row.correct_results}</TableCell>
               <TableCell>{row.correct_scores}</TableCell>
