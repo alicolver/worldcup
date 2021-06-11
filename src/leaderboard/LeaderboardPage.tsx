@@ -9,7 +9,10 @@ const useStyles = makeStyles({
       padding: '5px',
       marginTop: '50px',
       marginBottom: '10vw',
-      paddingTop: '5vw'
+      paddingTop: '5vw',
+      width: '90vw',
+      left: '3.5vw',
+      position: 'fixed'
     },
   });
   

@@ -79,19 +79,19 @@ export default function LeaderBoard() {
             <StyledTableCell>Player</StyledTableCell>
             <StyledTableCell>R</StyledTableCell>
             <StyledTableCell>S</StyledTableCell>
-            <StyledTableCell align="center">Pts</StyledTableCell>
+            <StyledTableCell align="center"><b>Pts</b></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {leaderboardData.map((row, index) => (
             <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{renderLive()}{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                 {renderLive()}{row.name}
+                 {row.name}
               </TableCell>
               <TableCell>{row.correct_results}</TableCell>
               <TableCell>{row.correct_scores}</TableCell>
-              <TableCell align="center">{row.score}</TableCell>
+              <TableCell align="center"><b>{row.score}</b></TableCell>
             </TableRow>
           ))}
         </TableBody>
