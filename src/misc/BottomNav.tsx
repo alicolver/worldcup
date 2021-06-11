@@ -34,7 +34,7 @@ export default function BottomNav(props: IBottomNavProps) {
           })
         .then(res => res.json())
         .then(result => {
-            setIsAdmin(result)      
+            setIsAdmin(result.success)      
         });
     }, [setIsAdmin])
 
