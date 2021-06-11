@@ -139,7 +139,7 @@ export default function LiveGame(props: IMatch & IGameProps) {
 
     function renderCurrentScore() {
         return (
-            <span className={classes.dash}>{props.prediction?.team_one_pred + '-' + props.prediction?.team_two_pred}</span>
+            <span className={classes.dash}>{props.match.team_one_goals + '-' + props.match.team_two_goals}</span>
         )
     }
 
