@@ -40,13 +40,7 @@ const useStyles = makeStyles({
     }
 })
 
-interface IGameProps {
-    hasPrediction: boolean,
-    team_one_pred?: string,
-    team_two_pred?: string
-}
-
-export default function FixedGame(props: IMatch & IGameProps) {
+export default function FixedGame(props: IMatch) {
     const classes = useStyles()
 
     function renderPredictedScore() {
