@@ -10,10 +10,8 @@ const useStyles = makeStyles({
       marginTop: '50px',
       marginBottom: '10vw',
       paddingTop: '5vw',
-      width: '90vw',
-      left: '3.5vw',
-      position: 'fixed'
-    },
+      paddingBottom: '5vw'
+    }
   });
   
 
