@@ -21,28 +21,27 @@ export default function AdminPage() {
     const classes = useStyles()
     const [matches, setMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
+    const [isAdmin, setIsAdmin] = useState<boolean>(true)
 
     useEffect(() => {
-        getMatches();
-    }, [setMatches])
+        getMatches()
+        checkAdmin()
+    }, [setMatches, setIsAdmin])
 
-    if (invalidResponse) {
-        return (
-            <Redirect to={'/'} />
-        )
-    } else {
-        return (
-            <>
-            <Header/>
-                <Container className={classes.liveGames}>
-                <Typography>Live Games</Typography>
-                {matches.map(element => {
-                        return <LiveGame {...element} callback={getMatches} />
-                })} 
-                </Container>
-            <BottomNav value={'/admin'}/>
-            </>
-        )
+    function checkAdmin() {
+        fetch(goTo('is-admin'), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authenticate": getJWT()
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (!result.success) {
+                    setIsAdmin(false)
+                }
+            });
     }
 
     function getMatches() {
@@ -58,5 +57,32 @@ export default function AdminPage() {
                 setInvalidResponse(true);
             }
         });
+
     }
+
+
+    if (invalidResponse) {
+        return (
+            <Redirect to={'/'} />
+        )
+    }
+
+    if (!isAdmin) {
+        return (
+            <Redirect to={'/home'} />
+        )
+    }
+
+    return (
+        <>
+            <Header />
+            <Container className={classes.liveGames}>
+                <Typography>Live Games</Typography>
+                {matches.map(element => {
+                    return <LiveGame {...element} callback={getMatches} />
+                })}
+            </Container>
+            <BottomNav value={'/admin'} />
+        </>
+    )
 }

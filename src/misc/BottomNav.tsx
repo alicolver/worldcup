@@ -9,13 +9,13 @@ import { getJWT, goTo } from "../utils/Utils";
 
 const useStyles = makeStyles({
     root: {
-      width: '100vw',
-      position: 'fixed',
-      bottom: 0,
-      left: 0
+        width: '100vw',
+        position: 'fixed',
+        bottom: 0,
+        left: 0
     },
-  });
-  
+});
+
 interface IBottomNavProps {
     value: string
 }
@@ -28,38 +28,38 @@ export default function BottomNav(props: IBottomNavProps) {
         fetch(goTo('is-admin'), {
             method: "GET",
             headers: {
-              "Content-Type": "application/json",
-              "Authenticate": getJWT()
+                "Content-Type": "application/json",
+                "Authenticate": getJWT()
             }
-          })
-        .then(res => res.json())
-        .then(result => {
-            setIsAdmin(result.success)      
-        });
+        })
+            .then(res => res.json())
+            .then(result => {
+                setIsAdmin(result.success)
+            });
     }, [setIsAdmin])
 
     function getAdminPage() {
-        return !isAdmin ? 
+        return !isAdmin ?
             <></> :
             <BottomNavigationAction label="ADMIN" value="/admin" icon={<SupervisorAccountIcon />} />
     }
 
-    return(
-        <Route render={({history}: {history: any}) => (
+    return (
+        <Route render={({ history }: { history: any }) => (
             <BottomNavigation
-            value={props.value}
-            onChange={(ignored, newValue) => {
-                history.push(newValue)
-            }}
-            showLabels
-            className={classes.root}
+                value={props.value}
+                onChange={(ignored, newValue) => {
+                    history.push(newValue)
+                }}
+                showLabels
+                className={classes.root}
             >
-            <BottomNavigationAction label="Standings" value="/standings" icon={<BarChartIcon />} />
-            <BottomNavigationAction label="Predict" value="/home" icon={<SportsSoccerIcon />} />
-            <BottomNavigationAction label="History" value="/history" icon={<HistoryIcon />} />
-            {getAdminPage()}
+                <BottomNavigationAction label="Standings" value="/standings" icon={<BarChartIcon />} />
+                <BottomNavigationAction label="Predict" value="/home" icon={<SportsSoccerIcon />} />
+                <BottomNavigationAction label="History" value="/history" icon={<HistoryIcon />} />
+                {getAdminPage()}
             </BottomNavigation>
-        )}/>
+        )} />
 
     )
 }
