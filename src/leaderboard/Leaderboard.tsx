@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getJWT, goTo } from "../utils/Utils";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -39,9 +39,6 @@ export default function LeaderBoard() {
   const [isLive, setIsLive] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
 
-  const position = useRef(1)
-  const previousPts = useRef(-1)
-
   useEffect(() => {
     fetch(goTo('leaderboard'), {
       method: 'GET',
@@ -66,8 +63,6 @@ export default function LeaderBoard() {
       }
     });
 
-    position.current = 1
-    previousPts.current = -1
   }, [setLeaderboardData])
 
 
@@ -79,20 +74,10 @@ export default function LeaderBoard() {
     }
   }
 
-  function getPosition(score: number) {
-    if (previousPts.current === score) {
-      return '='
-    } else {
-      previousPts.current = score
-      position.current = position.current + 1
-      return position.current
-    }
-  }
-
   function getRows() {
     return (leaderboardData.map((row, index) => (
       <TableRow key={index}>
-        <TableCell>{getPosition(row.score)}</TableCell>
+        <TableCell>{index === 0 ? index + 1 : (leaderboardData[index - 1].score === row.score ? '=' : index + 1)}</TableCell>
         <TableCell component="th" scope="row">
           {row.name.split(' ')[0]}
         </TableCell>
@@ -102,7 +87,7 @@ export default function LeaderBoard() {
         <TableCell align="center"><b>{row.score}</b></TableCell>
       </TableRow>
     )))
-  } 
+  }
 
   return (
     <TableContainer component={Paper}>
