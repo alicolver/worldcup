@@ -17,6 +17,7 @@ const useStyles = makeStyles({
 export default function History() {
     const classes = useStyles()
     const [matches, setMatches] = useState<IMatch[]>([])
+    const [inProgressMatches, setInProgressMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
 
     useEffect(() => {
@@ -33,9 +34,8 @@ export default function History() {
             <Header/>
             <Container>
                 <Typography className={classes.upcomingGames}>Your History</Typography>
-                { matches.map(element => {
-                        return (<FixedGame {...element}/>)
-                })}
+                { matches.map(element => { return (<FixedGame {...element}/>)})}
+                { inProgressMatches.map(element => { return (<FixedGame {...element}/>)})}
             </Container>
             <BottomNav value={'/history'}/>
             </>
@@ -43,8 +43,6 @@ export default function History() {
     }
 
     function getMatches() {
-        var allMatches: IMatch[] = []
-        console.log('attempting fetch')
         fetch(goTo('match/ended'), {
             method: 'GET',
             headers: {
@@ -52,7 +50,7 @@ export default function History() {
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
-                allMatches.push(...res.matches)
+                setMatches(res.matches)
             } else {
                 setInvalidResponse(true);
             }
@@ -64,14 +62,10 @@ export default function History() {
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
-                allMatches.push(...res.matches)
+                setInProgressMatches(res.matches)
             } else {
                 setInvalidResponse(true);
             }
         });
-
-        console.log(allMatches)
-
-        setMatches(allMatches)
     }
 }
