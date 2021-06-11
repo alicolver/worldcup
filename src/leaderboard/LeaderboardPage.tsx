@@ -8,6 +8,7 @@ const useStyles = makeStyles({
     leaderboard: {
       padding: '5px',
       marginTop: '50px',
+      marginBottom: '10vw'
     },
   });
   

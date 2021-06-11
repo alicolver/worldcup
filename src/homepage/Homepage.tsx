@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     top: '19vw',
     left: 0,
     width: '100%',
+    marginBottom: '30vw'
   }
 });
 

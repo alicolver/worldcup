@@ -7,6 +7,9 @@ import { Redirect } from "react-router";
 const useStyles = makeStyles({
     upcomingGames: {
         'fontSize': '8vw'
+    },
+    gameContainer: {
+        'marginBottom': '15vw'
     }
 })
 
@@ -53,7 +56,7 @@ export default function Prediction() {
         )
     } else {
         return (
-            <Container>
+            <Container className={classes.gameContainer}>
                 <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
                 {matches.map(element => {
                     if (element.hasPrediction && element.prediction) {
