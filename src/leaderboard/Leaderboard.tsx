@@ -64,7 +64,8 @@ export default function LeaderBoard() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Standings</TableCell>
+            <TableCell>#</TableCell>
+            <TableCell>User</TableCell>
             <TableCell align="right">R</TableCell>
             <TableCell align="right">S</TableCell>
             <TableCell align="right">Points</TableCell>
@@ -73,8 +74,9 @@ export default function LeaderBoard() {
         <TableBody>
           {leaderboardData.map((row, index) => (
             <TableRow key={index}>
+              <TableCell>{index + 1}</TableCell>
               <TableCell component="th" scope="row">
-                 {renderLive()}{(index + 1) + '. ' + row.name}
+                 {renderLive()}{row.name}
               </TableCell>
               <TableCell align="right">{row.correct_results}</TableCell>
               <TableCell align="right">{row.correct_scores}</TableCell>
