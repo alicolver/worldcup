@@ -53,11 +53,7 @@ const useStyles = makeStyles({
 })
 
 interface IGameProps {
-    callback: () => void,
-    hasPrediction: boolean,
-    isFixed: boolean,
-    team_one_pred?: string,
-    team_two_pred?: string
+    callback: () => void
 }
 
 export default function LiveGame(props: IMatch & IGameProps) {
@@ -67,18 +63,19 @@ export default function LiveGame(props: IMatch & IGameProps) {
     const [isEditing, setIsEditing] = useState(true);
 
     useEffect(() => {
-        setIsEditing(!props.hasPrediction || !props.isFixed)
-        if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
+        const hasScore = props.match.team_one_goals && props.match.team_two_goals
+        setIsEditing(!hasScore)
+        if (hasScore) {
             setTeam1Score({
                 error: false,
-                score: props.team_one_pred
+                score: props.match.team_one_goals
             })
             setTeamTwoScore({
                 error: false,
-                score: props.team_two_pred
+                score: props.match.team_two_goals
             })
         }
-    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred, props.isFixed])
+    }, [props.hasPrediction, props.match.team_one_goals, props.match.team_two_goals])
 
     function handleClick() {
         if (!isEditing) {
@@ -177,19 +174,17 @@ export default function LiveGame(props: IMatch & IGameProps) {
     }
 
     function getButton() {
-        return props.isFixed ?
-            <></> : (
-                <Box className={classes.buttonBox}>
-                    <Button
-                        variant='contained'
-                        className={classes.button}
-                        onClick={() => handleClick()}
-                    >
-                        {getSetOrEditText()}
-                    </Button>
-                </Box>
-            )
-    }
+        return (
+        <Box className={classes.buttonBox}>
+            <Button
+                variant='contained'
+                className={classes.button}
+                onClick={() => handleClick()}
+            >
+                {getSetOrEditText()}
+            </Button>
+        </Box>  
+    )}
 
     return (
         <Card className={classes.matchCard}>

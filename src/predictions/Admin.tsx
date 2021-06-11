@@ -37,7 +37,7 @@ export default function AdminPage() {
                 <Container className={classes.liveGames}>
                 <Typography>Live Games</Typography>
                 {matches.map(element => {
-                        return <LiveGame {...element} isFixed={false} callback={getMatches} />
+                        return <LiveGame {...element} callback={getMatches} />
                 })} 
                 </Container>
             <BottomNav value={'/admin'}/>

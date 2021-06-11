@@ -19,6 +19,8 @@ export interface IMatchDetails {
     match_date: string,
     kick_off_time: string,
     is_knockout: boolean,
+    team_one_goals: string,
+    team_two_goals: string,
     matchid: number
 }
 
