@@ -61,14 +61,14 @@ export default function Game(props: IMatch & IGameProps) {
     const [wasSent, setWasSent] = useState(defaultWasSent)
 
     useEffect(() => {
-        if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
+        if (props.hasPrediction) {
             setTeamOneScore({
                 error: false,
-                score: props.team_one_pred
+                score: props.team_one_pred!
             })
             setTeamTwoScore({
                 error: false,
-                score: props.team_two_pred
+                score: props.team_two_pred!
             })
         }
         setWasSent({success: false, error: false})
