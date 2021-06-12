@@ -14,7 +14,7 @@ const useStyles = makeStyles({
         marginTop: '19vw'
     },
     historyContainer: {
-        marginBottom: '10vw'
+        marginBottom: '19vw'
     }
 })
 

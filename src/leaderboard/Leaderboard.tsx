@@ -40,8 +40,6 @@ export default function LeaderBoard() {
   const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
 
   useEffect(() => {
-    position.current = 1
-    previousPts.current = -1
     fetch(goTo('leaderboard'), {
       method: 'GET',
       headers: {
@@ -64,12 +62,8 @@ export default function LeaderBoard() {
         setIsLive(res.matches.length > 0);
       }
     });
-<<<<<<< HEAD
-  }, [setLeaderboardData, setIsLive])
-=======
 
   }, [setLeaderboardData])
->>>>>>> 168c1d4eb6e6ba19dfb70ef02e5ce47a94785dc1
 
 
   function renderLive() {
