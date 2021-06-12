@@ -55,9 +55,10 @@ interface IGameProps {
 
 export default function Game(props: IMatch & IGameProps) {
     const classes = useStyles()
+    const defaultWasSent = {success: false, error: false}
     const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
-    const [wasSentSuccess, setWasSentSuccess] = useState(false)
+    const [wasSent, setWasSent] = useState(defaultWasSent)
 
     useEffect(() => {
         if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
@@ -70,7 +71,7 @@ export default function Game(props: IMatch & IGameProps) {
                 score: props.team_two_pred
             })
         }
-        setWasSentSuccess(false)
+        setWasSent({success: false, error: false})
     }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
 
     function handlePrediction() {
@@ -117,13 +118,13 @@ export default function Game(props: IMatch & IGameProps) {
             .then(res => res.json())
             .then(result => {
                 if (!result[SUCCESS]) {
-                    alert('Error whilst sending prediction, please try again');
+                    setWasSent({success: false, error: true})
                 } else {
-                    setWasSentSuccess(true)
-                    setTimeout(function() {
-                        setWasSentSuccess(false);
-                    }, 500)
+                    setWasSent({success: true, error: false})
                 }
+                setTimeout(function() {
+                    setWasSent(defaultWasSent);
+                }, 500)
             });
     }
 
@@ -132,11 +133,7 @@ export default function Game(props: IMatch & IGameProps) {
             <>
                 <OutlinedInput
                     className={classes.teaminput}
-                    style={wasSentSuccess ? 
-                        {
-                            border: '1px solid rgb(86, 180, 89)',
-                            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
-                        } : {}}
+                    style={getResponseGlow()}
                     id="outlined-basic"
                     type="number"
                     value={teamOneScore.score}
@@ -147,11 +144,7 @@ export default function Game(props: IMatch & IGameProps) {
                     className={classes.teaminput}
                     id="outlined-basic"
                     type="number"
-                    style={wasSentSuccess ? 
-                        {
-                            border: '1px solid rgb(86, 180, 89)',
-                            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
-                        } : {}}
+                    style={getResponseGlow()}
                     value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
@@ -159,6 +152,17 @@ export default function Game(props: IMatch & IGameProps) {
                      />
             </>
         )
+    }
+
+    function getResponseGlow(): React.CSSProperties | undefined {
+        return wasSent.success ?
+            {
+                border: '1px solid rgb(86, 180, 89)',
+                boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
+            } : wasSent.error ? {
+                border: '1px solid rgb(199, 18, 49)',
+                boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(160, 30, 60, 0.6)'
+            } : {};
     }
 
     function getDate(): string {
