@@ -83,6 +83,9 @@ export default function Game(props: IMatch & IGameProps) {
             return
         }
 
+        setTeamOneScore({...teamOneScore, error: false})
+        setTeamTwoScore({...teamTwoScore, error: false})
+
         sendPrediction(scoreOne, scoreTwo);
     }
 
