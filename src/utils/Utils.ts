@@ -19,6 +19,16 @@ export function validateEmail(email: String): boolean {
     return re.test(String(email).toLowerCase());
 }
 
+export function dateToOrdinal(day: number) {
+    if (day > 3 && day < 21) return 'th';
+    switch (day % 10) {
+        case 1:  return "st";
+        case 2:  return "nd";
+        case 3:  return "rd";
+        default: return "th";
+    }
+}
+
 export function goTo(endpoint: string): string {
     return PROXY + endpoint
 }

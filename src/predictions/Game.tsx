@@ -1,7 +1,7 @@
-import { Box, Button, Card, makeStyles, OutlinedInput } from "@material-ui/core";
+import { Box, Card, makeStyles, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
-import { getJWT, goTo } from "../utils/Utils";
+import { dateToOrdinal, getJWT, goTo } from "../utils/Utils";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
         margin: '0 auto',
         display: 'flex',
         justifyContent: 'space-between',
-        marginBottom: '3vh'
+        paddingBottom: '3vw'
     },
     game: {
         width: '80vw',
@@ -22,30 +22,27 @@ const useStyles = makeStyles({
         position: 'relative'
     },
     teaminput: {
-        width: '10vw',
-        height: '8vw',
-        fontSize: '4vw',
-        marginTop: '6vw'
+        width: '50px',
+        height: '50px',
+        fontSize: '40px',
+        textAlign: 'center',
+        marginTop: '4vw'
     },
     dash: {
         fontSize: '8vw',
         marginTop: '4vw'
     },
     date: {
-        fontSize: '5vw',
-        marginBottom: '1.5vh',
+        fontSize: '4vw',
+        marginBottom: '0.5vh',
+        maringTop: '0.5vh',
         verticalAlign: 'center',
-        position: 'relative'
+        position: 'relative',
+        color: 'grey'
     },
     matchCard: {
         marginBottom: '4vh',
         textAlign: 'center'
-    },
-    buttonBox: {
-        marginBottom: '1.5vh'
-    },
-    button: {
-        backgroundColor: '#1caac9'
     }
 })
 
@@ -58,14 +55,13 @@ interface IGameProps {
 
 export default function Game(props: IMatch & IGameProps) {
     const classes = useStyles()
-    const [team1score, setTeam1Score] = useState({ score: '', error: false });
+    const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
-    const [isEditing, setIsEditing] = useState(true);
+    const [wasSentSuccess, setWasSentSuccess] = useState(false)
 
     useEffect(() => {
-        setIsEditing(!props.hasPrediction)
         if (props.hasPrediction && props.team_one_pred && props.team_two_pred) {
-            setTeam1Score({
+            setTeamOneScore({
                 error: false,
                 score: props.team_one_pred
             })
@@ -74,24 +70,37 @@ export default function Game(props: IMatch & IGameProps) {
                 score: props.team_two_pred
             })
         }
+        setWasSentSuccess(false)
     }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
 
-    function handleClick() {
-        if (!isEditing) {
-            setIsEditing(true)
-            return
-        }
-
-        const scoreOne = parseInt(team1score.score)
+    function handlePrediction() {
+        const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
-        if (isNaN(scoreOne) || isNaN(scoreTwo)) {
-            setTeam1Score({ ...team1score, error: true })
-            setTeamTwoScore({ ...teamTwoScore, error: true })
+        var areBothScoresValid = validateScores(scoreOne, scoreTwo);
+
+        if (!areBothScoresValid) {
             return
         }
-        setTeam1Score({ ...team1score, error: false })
-        setTeamTwoScore({ ...teamTwoScore, error: false })
 
+        sendPrediction(scoreOne, scoreTwo);
+    }
+
+    function validateScores(scoreOne: number, scoreTwo: number) {
+        var areBothScoresValid = true;
+        if (isNaN(scoreOne)) {
+            setTeamOneScore({ ...teamOneScore, error: true });
+            areBothScoresValid = false;
+        }
+
+        if (isNaN(scoreTwo)) {
+            setTeamTwoScore({ ...teamTwoScore, error: true });
+            areBothScoresValid = false;
+        }
+
+        return areBothScoresValid;
+    }
+
+    function sendPrediction(scoreOne: number, scoreTwo: number) {
         fetch(goTo('prediction'), {
             method: "POST",
             headers: {
@@ -108,18 +117,14 @@ export default function Game(props: IMatch & IGameProps) {
             .then(res => res.json())
             .then(result => {
                 if (!result[SUCCESS]) {
-                    alert('Error whilst sending prediction, please try again')
+                    alert('Error whilst sending prediction, please try again');
                 } else {
-                    props.callback()
-                    setIsEditing(false)
+                    setWasSentSuccess(true)
+                    setTimeout(function() {
+                        setWasSentSuccess(false);
+                    }, 500)
                 }
             });
-    }
-
-    function renderPredictedScore() {
-        return (
-            <span className={classes.dash}>{props.prediction?.team_one_pred + '-' + props.prediction?.team_two_pred}</span>
-        )
     }
 
     function renderUnpredictedScore() {
@@ -127,59 +132,53 @@ export default function Game(props: IMatch & IGameProps) {
             <>
                 <OutlinedInput
                     className={classes.teaminput}
+                    style={wasSentSuccess ? 
+                        {
+                            border: '1px solid rgb(86, 180, 89)',
+                            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
+                        } : {}}
                     id="outlined-basic"
                     type="number"
-                    value={team1score.score}
-                    onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value })}
-                    error={team1score.error} />
-                <span className={classes.dash}>-</span>
+                    value={teamOneScore.score}
+                    onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
+                    onBlur={() => handlePrediction()}
+                    error={teamOneScore.error} />
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
                     type="number"
+                    style={wasSentSuccess ? 
+                        {
+                            border: '1px solid rgb(86, 180, 89)',
+                            boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
+                        } : {}}
                     value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
-                    error={teamTwoScore.error} />
+                    onBlur={() => handlePrediction()}
+                    error={teamTwoScore.error}
+                     />
             </>
         )
     }
 
-    function getPredictionRender() {
-        return isEditing ? renderUnpredictedScore() : renderPredictedScore()
+    function getDate(): string {
+       return props.match.match_date.split('-')[2]
     }
-
-    function getSetOrEditText(): string {
-        return isEditing ? 'Submit Prediction' : 'Edit Prediction'
-    }
-
-    function getButton() {
-        return (
-        <Box className={classes.buttonBox}>
-            <Button
-                variant='contained'
-                className={classes.button}
-                onClick={() => handleClick()}
-            >
-                {getSetOrEditText()}
-            </Button>
-        </Box>  
-    )}
 
     return (
         <Card className={classes.matchCard}>
+            <Box className={classes.date}>
+                {getDate() + dateToOrdinal(parseInt(getDate())) + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
+            </Box>
             <Box className={classes.match}>
                 <Box>
                     <Team name={props.team_one.name} emoji={props.team_one.emoji} />
                 </Box>
-                {getPredictionRender()}
+                {renderUnpredictedScore()}
                 <Box>
                     <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
             </Box>
-            <Box className={classes.date}>
-                {props.match.match_date + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
-            </Box>
-            {getButton()}
         </Card>
     )
 }
