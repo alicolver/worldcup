@@ -48,7 +48,8 @@ const useStyles = makeStyles({
         backgroundColor: '#1caac9'
     },
     endButton: {
-        backgroundColor: '#1c4c87'
+        backgroundColor: '#1c4c87',
+        paddingBottom: '3vw'
     }
 })
 
