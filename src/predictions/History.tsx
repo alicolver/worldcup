@@ -12,6 +12,9 @@ const useStyles = makeStyles({
     upcomingGames: {
         fontSize: '8vw',
         marginTop: '19vw'
+    },
+    historyContainer: {
+        marginBottom: '10vw'
     }
 })
 
@@ -33,7 +36,7 @@ export default function History() {
         return (
             <ThemeProvider theme={fontTheme}>
             <Header/>
-            <Container>
+            <Container className={classes.historyContainer}>
                 <Typography className={classes.upcomingGames}>Your History</Typography>
                 { matches.map(element => { return (<FixedGame {...element}/>)})}
                 { inProgressMatches.map(element => { return (<FixedGame {...element}/>)})}

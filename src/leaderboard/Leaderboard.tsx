@@ -43,6 +43,8 @@ export default function LeaderBoard() {
   const previousPts = useRef(-1)
 
   useEffect(() => {
+    position.current = 1
+    previousPts.current = -1
     fetch(goTo('leaderboard'), {
       method: 'GET',
       headers: {
@@ -65,10 +67,7 @@ export default function LeaderBoard() {
         setIsLive(res.matches.length > 0);
       }
     });
-
-    position.current = 1
-    previousPts.current = -1
-  }, [setLeaderboardData])
+  }, [setLeaderboardData, setIsLive])
 
 
   function renderLive() {
