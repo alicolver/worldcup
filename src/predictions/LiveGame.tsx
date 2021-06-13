@@ -154,6 +154,7 @@ export default function LiveGame(props: IMatch) {
             </Box>
             <Button
                 variant='contained'
+                className={classes.endGameButton}
                 onClick={() => endGame()}>
                 End
             </Button>

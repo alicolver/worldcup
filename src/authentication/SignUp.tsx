@@ -72,6 +72,10 @@ export default function SignUp() {
       return
     }
 
+    if (password !== confirmPassword) {
+      return
+    }
+
     fetch(goTo('signup'), {
       method: "POST",
       headers: {

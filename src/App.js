@@ -1,6 +1,7 @@
 import { HashRouter as Router, Route } from 'react-router-dom'
 import SignUp from './authentication/SignUp'
 import SignIn from './authentication/SignIn'
+import PasswordReset from './authentication/PasswordReset'
 import LeaderboardPage from './leaderboard/LeaderboardPage'
 import Prediction from './predictions/Predictions'
 import Homepage from './homepage/Homepage'
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/home" exact component={Homepage}/>
             <Route path="/history" exact component={History}/>
             <Route path="/admin" exact component={AdminPage}/>
+            <Route path="/reset" exact component={PasswordReset}/>
         </Router>
     )
 }

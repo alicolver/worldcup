@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { goTo, isTokenValid, setJWT } from '../utils/Utils';
+import { goTo, isTokenValid } from '../utils/Utils';
 
 function Copyright() {
   return (
@@ -46,11 +46,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function PasswordReset() {
   const classes = useStyles();
   const [email, setEmail] = useState({ value: '', error: false });
-  const [password, setPassword] = useState({ value: '', error: false });
+  const [otp, setOtp] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [validToken, setValidToken] = useState(false);
+  const [successfulReset, setSuccessfulReset] = useState(false);
 
   useEffect(() => {
     isTokenValid().then(valid => {
@@ -60,32 +63,59 @@ export default function SignIn() {
     })
   }, [setValidToken])
 
-  const handleLogin = () => {
-    fetch(goTo('login'), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value
-      })
+  function sendOtp() {
+    fetch(goTo('reset-password'), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email.value
+        })
     })
-      .then(res => res.json())
-      .then(result => {
+    .then(res => res.json())
+    .then(result => {
         if (result["error-message"] === "") {
-          setJWT(result["token"]);
-          setValidToken(true)
+            setSuccessfulReset(true)
         } else {
-          setPassword({ ...password, error: true });
-          setEmail({ ...email, error: true });
+            alert('Error resetting password try again later')
         }
-      });
-  };
+    });
+  }
+
+  function resetPassword() {
+      if (password !== confirmPassword) {
+          return
+      }
+
+    fetch(goTo('reset-password'), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email.value,
+            otp: otp,
+            newPassword: password
+        })
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result["error-message"] === "") {
+            alert('Check your email for your OTP')
+        } else {
+            alert('Error sending OTP try again later')
+        }
+    });
+  }
 
   if (validToken) {
     return (
       <Redirect to={'/home'} />
+    )
+  } else if (successfulReset) {
+    return (
+        <Redirect to={'/login'}/>
     )
   } else {
     return (
@@ -96,7 +126,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Recover Password
           </Typography>
           <div className={classes.form}>
             <TextField
@@ -113,6 +143,28 @@ export default function SignIn() {
               onChange={(input) => setEmail({ ...email, value: input.target.value })}
               error={email.error}
             />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={() => sendOtp()}
+            >
+              Request OTP
+            </Button>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="One Time Password"
+              type="password"
+              id="password"
+              autoComplete="OTP"
+              onChange={(input) => setOtp(input.target.value)}
+            />
             <TextField
               variant="outlined"
               margin="normal"
@@ -123,8 +175,20 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={(input) => setPassword({ ...password, value: input.target.value })}
-              error={password.error}
+              onChange={(input) => setPassword(input.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={(input) => setConfirmPassword(input.target.value)}
+              error={password !== confirmPassword}
             />
             <Button
               type="submit"
@@ -132,22 +196,15 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => handleLogin()}
+              onClick={() => resetPassword()}
             >
-              Sign In
+              Reset Password
             </Button>
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
                   <Link onClick={() => { history.push('/signup') }} variant="body2">
                     {"Don't have an account? Sign Up"}
-                  </Link>
-                )} />
-              </Grid>
-              <Grid item>
-                <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.push('/reset') }} variant="body2">
-                    {"Forgotten your password? Reset it here."}
                   </Link>
                 )} />
               </Grid>
