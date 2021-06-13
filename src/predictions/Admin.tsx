@@ -60,7 +60,6 @@ export default function AdminPage() {
 
     }
 
-
     if (invalidResponse) {
         return (
             <Redirect to={'/'} />
@@ -79,7 +78,7 @@ export default function AdminPage() {
             <Container className={classes.liveGames}>
                 <Typography>Live Games</Typography>
                 {matches.map(element => {
-                    return <LiveGame {...element} callback={getMatches} />
+                    return <LiveGame {...element} />
                 })}
             </Container>
             <BottomNav value={'/admin'} />

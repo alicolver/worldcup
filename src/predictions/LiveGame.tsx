@@ -1,73 +1,20 @@
-import { Box, Button, Card, makeStyles, OutlinedInput } from "@material-ui/core";
+import { Box, Button, Card, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
-import { getJWT, goTo } from "../utils/Utils";
+import { dateToOrdinal, getJWT, goTo } from "../utils/Utils";
+import { useStyles } from "./Game";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 
-const useStyles = makeStyles({
-    match: {
-        width: '80vw',
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '3vh'
-    },
-    game: {
-        width: '80vw',
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '5vh',
-        position: 'relative'
-    },
-    teaminput: {
-        width: '10vw',
-        height: '8vw',
-        fontSize: '4vw',
-        marginTop: '6vw'
-    },
-    dash: {
-        fontSize: '8vw',
-        marginTop: '4vw'
-    },
-    date: {
-        fontSize: '5vw',
-        marginBottom: '1.5vh',
-        verticalAlign: 'center',
-        position: 'relative'
-    },
-    matchCard: {
-        marginBottom: '4vh',
-        textAlign: 'center'
-    },
-    buttonBox: {
-        marginBottom: '1.5vh'
-    },
-    button: {
-        backgroundColor: '#1caac9'
-    },
-    endButton: {
-        backgroundColor: '#1c4c87',
-        paddingBottom: '3vw'
-    }
-})
-
-interface IGameProps {
-    callback: () => void
-}
-
-export default function LiveGame(props: IMatch & IGameProps) {
+export default function LiveGame(props: IMatch) {
     const classes = useStyles()
-    const [team1score, setTeam1Score] = useState({ score: '', error: false });
+    const defaultWasSent = {success: false, error: false}
+    const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
-    const [isEditing, setIsEditing] = useState(true);
+    const [wasSent, setWasSent] = useState(defaultWasSent)
 
     useEffect(() => {
-        const hasScore = props.match.team_one_goals && props.match.team_two_goals
-        setIsEditing(!hasScore)
-        if (hasScore) {
-            setTeam1Score({
+            setTeamOneScore({
                 error: false,
                 score: props.match.team_one_goals
             })
@@ -75,25 +22,25 @@ export default function LiveGame(props: IMatch & IGameProps) {
                 error: false,
                 score: props.match.team_two_goals
             })
-        }
-    }, [props.hasPrediction, props.match.team_one_goals, props.match.team_two_goals])
+        setWasSent({success: false, error: false})
+    }, [props.match.team_one_goals, props.match.team_two_goals])
 
-    function handleClick() {
-        if (!isEditing) {
-            setIsEditing(true)
-            return
-        }
-
-        const scoreOne = parseInt(team1score.score)
+    function handlePrediction() {
+        const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
-        if (isNaN(scoreOne) || isNaN(scoreTwo)) {
-            setTeam1Score({ ...team1score, error: true })
-            setTeamTwoScore({ ...teamTwoScore, error: true })
+        var areBothScoresValid = validateScores(scoreOne, scoreTwo);
+
+        if (!areBothScoresValid) {
             return
         }
-        setTeam1Score({ ...team1score, error: false })
-        setTeamTwoScore({ ...teamTwoScore, error: false })
 
+        setTeamOneScore({...teamOneScore, error: false})
+        setTeamTwoScore({...teamTwoScore, error: false})
+
+        sendScore(scoreOne, scoreTwo);
+    }
+
+    function sendScore(scoreOne: number, scoreTwo: number) {
         fetch(goTo('score'), {
             method: "PUT",
             headers: {
@@ -109,10 +56,7 @@ export default function LiveGame(props: IMatch & IGameProps) {
             .then(res => res.json())
             .then(result => {
                 if (!result[SUCCESS]) {
-                    alert('Error whilst updating scores, please try again')
-                } else {
-                    props.callback()
-                    setIsEditing(false)
+                    alert('Error whilst updating scores, please try again');
                 }
             });
     }
@@ -138,76 +82,82 @@ export default function LiveGame(props: IMatch & IGameProps) {
         }
     }
 
-    function renderCurrentScore() {
-        return (
-            <span className={classes.dash}>{props.match.team_one_goals + '-' + props.match.team_two_goals}</span>
-        )
+    function validateScores(scoreOne: number, scoreTwo: number) {
+        var areBothScoresValid = true;
+        if (isNaN(scoreOne)) {
+            setTeamOneScore({ ...teamOneScore, error: true });
+            areBothScoresValid = false;
+        }
+
+        if (isNaN(scoreTwo)) {
+            setTeamTwoScore({ ...teamTwoScore, error: true });
+            areBothScoresValid = false;
+        }
+
+        return areBothScoresValid;
     }
 
-    function renderEditScore() {
+    function renderUnpredictedScore() {
         return (
             <>
                 <OutlinedInput
                     className={classes.teaminput}
+                    style={getResponseGlow()}
                     id="outlined-basic"
                     type="number"
-                    value={team1score.score}
-                    onChange={(input) => setTeam1Score({ ...team1score, score: input.target.value })}
-                    error={team1score.error} />
-                <span className={classes.dash}>-</span>
+                    value={teamOneScore.score}
+                    onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
+                    onBlur={() => handlePrediction()}
+                    error={teamOneScore.error} />
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
                     type="number"
+                    style={getResponseGlow()}
                     value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
-                    error={teamTwoScore.error} />
+                    onBlur={() => handlePrediction()}
+                    error={teamTwoScore.error}
+                     />
             </>
         )
     }
 
-    function getPredictionRender() {
-        return isEditing ? renderEditScore() : renderCurrentScore()
+    function getResponseGlow(): React.CSSProperties | undefined {
+        return wasSent.success ?
+            {
+                border: '1px solid rgb(86, 180, 89)',
+                boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
+            } : wasSent.error ? {
+                border: '1px solid rgb(199, 18, 49)',
+                boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(160, 30, 60, 0.6)'
+            } : {};
     }
 
-    function getSetOrEditText(): string {
-        return isEditing ? 'Submit Score' : 'Edit Score'
+    function getDate(): string {
+       return props.match.match_date.split('-')[2]
     }
-
-    function getButton() {
-        return (
-        <Box className={classes.buttonBox}>
-            <Button
-                variant='contained'
-                className={classes.button}
-                onClick={() => handleClick()}
-            >
-                {getSetOrEditText()}
-            </Button>
-        </Box>  
-    )}
 
     return (
         <Card className={classes.matchCard}>
+            <Box className={classes.date}>
+                {getDate() + dateToOrdinal(parseInt(getDate())) + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
+            </Box>
             <Box className={classes.match}>
                 <Box>
                     <Team name={props.team_one.name} emoji={props.team_one.emoji} />
                 </Box>
-                {getPredictionRender()}
+                {renderUnpredictedScore()}
                 <Box>
                     <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
             </Box>
-            <Box className={classes.date}>
-                {props.match.match_date + ' ' + props.match.kick_off_time}
-            </Box>
-            {getButton()}
             <Button
                 variant='contained'
-                className={classes.endButton}
                 onClick={() => endGame()}>
-                End Game
+                End
             </Button>
         </Card>
     )
+
 }
