@@ -28,6 +28,13 @@ export const useStyles = makeStyles({
         textAlign: 'center',
         marginTop: '4vw'
     },
+    fixedTeaminput: {
+        width: '50px',
+        height: '50px',
+        fontSize: '40px',
+        textAlign: 'center',
+        marginTop: '1vw'
+    },
     dash: {
         fontSize: '8vw',
         marginTop: '4vw'
@@ -47,6 +54,23 @@ export const useStyles = makeStyles({
     },
     endGameButton: {
         marginBottom: '3vw'
+    },
+    yourScore: {
+        marginTop: '3vw',
+    },
+    yourScoreText: {
+        padding: '4px',
+        borderRadius: '3px',
+        color: 'white'
+    },
+    fixedGameTeamName: {
+        marginTop: '7vw'
+    },
+    resultText: {
+        backgroundColor: '#505e73',
+        padding: '4px',
+        borderRadius: '3px',
+        color: 'white'
     }
 })
 

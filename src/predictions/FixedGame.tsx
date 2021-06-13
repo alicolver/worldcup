@@ -1,5 +1,5 @@
-import { Box, Card, OutlinedInput } from "@material-ui/core";
-import { dateToOrdinal } from "../utils/Utils";
+import { Box, Card, Grid, OutlinedInput } from "@material-ui/core";
+import { calculateScore } from "../utils/Utils";
 import { useStyles } from "./Game";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
@@ -7,42 +7,57 @@ import Team from "./Team";
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
 
+    function getScore() {
+        return calculateScore(
+            props.prediction?.team_one_pred, 
+            props.prediction?.team_two_pred, 
+            parseInt(props.match.team_one_goals), 
+            parseInt(props.match.team_two_goals))
+    }
+
     function renderUnpredictedScore() {
         return (
-            <>
+            <Grid container spacing={1}>
+                <Grid item xs={12} className={classes.yourScore}>
+                <span className={classes.yourScoreText}
+                    style={{
+                        backgroundColor: getScore() === 3 ? '#16b877' : getScore() === 1 ? '#1caac9' : '#505e73'
+                    }}
+                >{calculateScore(props.prediction?.team_one_pred, props.prediction?.team_two_pred, parseInt(props.match.team_one_goals), parseInt(props.match.team_two_goals)) + ' pts'}</span>
+                </Grid>
+                <Grid item xs={6}>
                 <OutlinedInput
-                    className={classes.teaminput}
+                    className={classes.fixedTeaminput}
                     id="outlined-basic"
                     type="number"
                     value={props.prediction?.team_one_pred}
                     readOnly
                     />
+                </Grid>
+                <Grid item xs={6}>
                 <OutlinedInput
-                    className={classes.teaminput}
+                    className={classes.fixedTeaminput}
                     id="outlined-basic"
                     type="number"
                     value={props.prediction?.team_two_pred}
                     readOnly
                      />
-            </>
+                </Grid>
+                <Grid item xs={12}>
+                <span className={classes.resultText}>{props.match.team_one_goals + '-' + props.match.team_two_goals}</span>
+                </Grid>
+            </Grid>
         )
-    }
-
-    function getDate(): string {
-       return props.match.match_date.split('-')[2]
     }
 
     return (
         <Card className={classes.matchCard}>
-            <Box className={classes.date}>
-                {getDate() + dateToOrdinal(parseInt(getDate())) + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
-            </Box>
             <Box className={classes.match}>
-                <Box>
+                <Box className={classes.fixedGameTeamName}>
                     <Team name={props.team_one.name} emoji={props.team_one.emoji} />
                 </Box>
                 {renderUnpredictedScore()}
-                <Box>
+                <Box className={classes.fixedGameTeamName}>
                     <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
             </Box>
