@@ -5,7 +5,7 @@ import { dateToOrdinal, getJWT, goTo } from "../utils/Utils";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 
-const useStyles = makeStyles({
+export const useStyles = makeStyles({
     match: {
         width: '80vw',
         margin: '0 auto',
@@ -42,7 +42,8 @@ const useStyles = makeStyles({
     },
     matchCard: {
         marginBottom: '4vh',
-        textAlign: 'center'
+        textAlign: 'center',
+        borderRadius: '10px'
     }
 })
 
