@@ -7,7 +7,10 @@ import { fontTheme } from "../homepage/Homepage";
 
 const useStyles = makeStyles({
     upcomingGames: {
-        'fontSize': '8vw'
+        'fontSize': '8vw',
+        paddingTop: '4vw',
+        paddingBottom: '4vw',
+        textAlign: 'center'
     },
     gameContainer: {
         marginBottom: '19vw'

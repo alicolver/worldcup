@@ -1,8 +1,9 @@
 import LeaderBoard from "./Leaderboard";
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, ThemeProvider, Typography } from "@material-ui/core";
 import Header from "../misc/Header";
 import BottomNav from "../misc/BottomNav";
+import { fontTheme } from "../homepage/Homepage";
 
 const useStyles = makeStyles({
     leaderboard: {
@@ -11,20 +12,30 @@ const useStyles = makeStyles({
       marginBottom: '10vw',
       paddingTop: '5vw',
       paddingBottom: '10vw'
-    }
-  });
-  
+    },
+    upcomingGames: {
+      fontSize: '8vw',
+      paddingTop: '4vw',
+      paddingBottom: '4vw',
+      textAlign: 'center',
+      fontFamily: [
+        'Source Sans Pro',
+        'sans-serif',
+      ].join(',')
+  }
+});
 
 export default function LeaderboardPage() {
     const classes = useStyles();
 
     return(
-        <React.Fragment>
+        <ThemeProvider theme={fontTheme}>
           <Header/>
             <div className={classes.leaderboard}>
+          <Typography className={classes.upcomingGames}>Standings</Typography>
             <LeaderBoard/>                
             </div>
           <BottomNav value={'/standings'}/>
-        </React.Fragment>
+        </ThemeProvider>
     )
 }

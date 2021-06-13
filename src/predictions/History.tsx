@@ -11,10 +11,16 @@ import { IMatch } from "./Predictions";
 const useStyles = makeStyles({
     upcomingGames: {
         fontSize: '8vw',
-        marginTop: '19vw'
+        marginTop: '19vw',
+        fontFamily: [
+            'Source Sans Pro',
+            'sans-serif',
+        ].join(','),
+        paddingBottom: '3vw'
     },
     historyContainer: {
-        marginBottom: '19vw'
+        marginBottom: '19vw',
+        textAlign: 'center'
     }
 })
 
@@ -37,7 +43,7 @@ export default function History() {
             <ThemeProvider theme={fontTheme}>
             <Header/>
             <Container className={classes.historyContainer}>
-                <Typography className={classes.upcomingGames}>Your History</Typography>
+                <Typography className={classes.upcomingGames}>Your Predictions</Typography>
                 { matches.map(element => { return (<FixedGame {...element}/>)})}
                 { inProgressMatches.map(element => { return (<FixedGame {...element}/>)})}
             </Container>
