@@ -75,10 +75,8 @@ export default function PasswordReset() {
     })
     .then(res => res.json())
     .then(result => {
-        if (result["error-message"] === "") {
-            setSuccessfulReset(true)
-        } else {
-            alert('Error resetting password try again later')
+        if (result["error-message"] !== "") {
+            alert('Error creating OTP try again later')
         }
     });
   }
@@ -101,10 +99,10 @@ export default function PasswordReset() {
     })
     .then(res => res.json())
     .then(result => {
-        if (result["error-message"] === "") {
-            alert('Check your email for your OTP')
+        if (result["success"]) {
+           setSuccessfulReset(true)
         } else {
-            alert('Error sending OTP try again later')
+            alert('Error resetting password')
         }
     });
   }
