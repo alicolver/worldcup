@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/euro2020/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/euro2020/static/js/main.035b765f.chunk.js",
-    "main.js.map": "/euro2020/static/js/main.035b765f.chunk.js.map",
+    "main.js": "/euro2020/static/js/main.a76e233a.chunk.js",
+    "main.js.map": "/euro2020/static/js/main.a76e233a.chunk.js.map",
     "runtime-main.js": "/euro2020/static/js/runtime-main.0a798108.js",
     "runtime-main.js.map": "/euro2020/static/js/runtime-main.0a798108.js.map",
     "static/js/2.92e65bf2.chunk.js": "/euro2020/static/js/2.92e65bf2.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.0a798108.js",
     "static/js/2.92e65bf2.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.035b765f.chunk.js"
+    "static/js/main.a76e233a.chunk.js"
   ]
 }
