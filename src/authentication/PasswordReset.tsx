@@ -65,46 +65,46 @@ export default function PasswordReset() {
 
   function sendOtp() {
     fetch(goTo('reset-password'), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email.value
-        })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email.value
+      })
     })
-    .then(res => res.json())
-    .then(result => {
-        if (result["error-message"] !== "") {
-            alert('Error creating OTP try again later')
+      .then(res => res.json())
+      .then(result => {
+        if (!result["success"]) {
+          alert('Error creating OTP try again later')
         }
-    });
+      });
   }
 
   function resetPassword() {
-      if (password !== confirmPassword) {
-          return
-      }
+    if (password !== confirmPassword) {
+      return
+    }
 
     fetch(goTo('reset-password'), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email.value,
-            otp: otp,
-            newPassword: password
-        })
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email.value,
+        otp: otp,
+        password: password
+      })
     })
-    .then(res => res.json())
-    .then(result => {
+      .then(res => res.json())
+      .then(result => {
         if (result["success"]) {
-           setSuccessfulReset(true)
+          setSuccessfulReset(true)
         } else {
-            alert('Error resetting password')
+          alert('Error resetting password')
         }
-    });
+      });
   }
 
   if (validToken) {
@@ -113,7 +113,7 @@ export default function PasswordReset() {
     )
   } else if (successfulReset) {
     return (
-        <Redirect to={'/login'}/>
+      <Redirect to={'/'} />
     )
   } else {
     return (
