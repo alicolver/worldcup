@@ -83,7 +83,7 @@ interface IGameProps {
 
 export default function Game(props: IMatch & IGameProps) {
     const classes = useStyles()
-    const defaultWasSent = {success: false, error: false}
+    const defaultWasSent = { success: false, error: false }
     const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
     const [wasSent, setWasSent] = useState(defaultWasSent)
@@ -99,7 +99,7 @@ export default function Game(props: IMatch & IGameProps) {
                 score: props.team_two_pred!
             })
         }
-        setWasSent({success: false, error: false})
+        setWasSent({ success: false, error: false })
     }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
 
     function handlePrediction() {
@@ -111,8 +111,8 @@ export default function Game(props: IMatch & IGameProps) {
             return
         }
 
-        setTeamOneScore({...teamOneScore, error: false})
-        setTeamTwoScore({...teamTwoScore, error: false})
+        setTeamOneScore({ ...teamOneScore, error: false })
+        setTeamTwoScore({ ...teamTwoScore, error: false })
 
         sendPrediction(scoreOne, scoreTwo);
     }
@@ -149,11 +149,11 @@ export default function Game(props: IMatch & IGameProps) {
             .then(res => res.json())
             .then(result => {
                 if (!result[SUCCESS]) {
-                    setWasSent({success: false, error: true})
+                    setWasSent({ success: false, error: true })
                 } else {
-                    setWasSent({success: true, error: false})
+                    setWasSent({ success: true, error: false })
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                     setWasSent(defaultWasSent);
                 }, 500)
             });
@@ -180,7 +180,7 @@ export default function Game(props: IMatch & IGameProps) {
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
                     error={teamTwoScore.error}
-                     />
+                />
             </>
         )
     }
@@ -196,14 +196,10 @@ export default function Game(props: IMatch & IGameProps) {
             } : {};
     }
 
-    function getDate(): string {
-       return props.match.match_date.split('-')[2]
-    }
-
     return (
         <Card className={classes.matchCard}>
             <Box className={classes.date}>
-                {getDate() + dateToOrdinal(parseInt(getDate())) + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
+                {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
             </Box>
             <Box className={classes.match}>
                 <Box>

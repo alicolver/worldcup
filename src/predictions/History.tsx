@@ -41,13 +41,13 @@ export default function History() {
     } else {
         return (
             <ThemeProvider theme={fontTheme}>
-            <Header/>
-            <Container className={classes.historyContainer}>
-                <Typography className={classes.upcomingGames}>Your Predictions</Typography>
-                { matches.map(element => { return (<FixedGame {...element}/>)})}
-                { inProgressMatches.map(element => { return (<FixedGame {...element}/>)})}
-            </Container>
-            <BottomNav value={'/history'}/>
+                <Header />
+                <Container className={classes.historyContainer}>
+                    <Typography className={classes.upcomingGames}>Your Predictions</Typography>
+                    {inProgressMatches.map(element => { return (<FixedGame {...element} />) })}
+                    {matches.map(element => { return (<FixedGame {...element} />) })}
+                </Container>
+                <BottomNav value={'/history'} />
             </ThemeProvider>
         )
     }

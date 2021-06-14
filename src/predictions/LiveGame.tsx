@@ -8,21 +8,21 @@ import Team from "./Team";
 
 export default function LiveGame(props: IMatch) {
     const classes = useStyles()
-    const defaultWasSent = {success: false, error: false}
+    const defaultWasSent = { success: false, error: false }
     const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
     const [wasSent, setWasSent] = useState(defaultWasSent)
 
     useEffect(() => {
-            setTeamOneScore({
-                error: false,
-                score: props.match.team_one_goals
-            })
-            setTeamTwoScore({
-                error: false,
-                score: props.match.team_two_goals
-            })
-        setWasSent({success: false, error: false})
+        setTeamOneScore({
+            error: false,
+            score: props.match.team_one_goals
+        })
+        setTeamTwoScore({
+            error: false,
+            score: props.match.team_two_goals
+        })
+        setWasSent({ success: false, error: false })
     }, [props.match.team_one_goals, props.match.team_two_goals])
 
     function handlePrediction() {
@@ -34,8 +34,8 @@ export default function LiveGame(props: IMatch) {
             return
         }
 
-        setTeamOneScore({...teamOneScore, error: false})
-        setTeamTwoScore({...teamTwoScore, error: false})
+        setTeamOneScore({ ...teamOneScore, error: false })
+        setTeamTwoScore({ ...teamTwoScore, error: false })
 
         sendScore(scoreOne, scoreTwo);
     }
@@ -118,7 +118,7 @@ export default function LiveGame(props: IMatch) {
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
                     error={teamTwoScore.error}
-                     />
+                />
             </>
         )
     }
@@ -134,14 +134,10 @@ export default function LiveGame(props: IMatch) {
             } : {};
     }
 
-    function getDate(): string {
-       return props.match.match_date.split('-')[2]
-    }
-
     return (
         <Card className={classes.matchCard}>
             <Box className={classes.date}>
-                {getDate() + dateToOrdinal(parseInt(getDate())) + ' ' + props.match.kick_off_time.substring(0, props.match.kick_off_time.length - 3)}
+                {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
             </Box>
             <Box className={classes.match}>
                 <Box>
