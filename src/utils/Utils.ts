@@ -1,4 +1,9 @@
 import { PROXY } from './Constants'
+import jwtDecode from "jwt-decode"
+
+interface IDecodedUser {
+    admin?: boolean,
+}
 
 export function isTokenValid(): Promise<boolean> {
     const jwt = getJWT();
@@ -14,6 +19,18 @@ export function isTokenValid(): Promise<boolean> {
     })
 }
 
+export function isAdminCheck(): boolean {
+    const jwt = getJWT();
+    try {
+        const decoded = jwtDecode<IDecodedUser>(jwt)
+        if (decoded.admin) {
+            return decoded.admin
+        }
+    } catch { }
+    return false
+}
+
+
 export function validateEmail(email: String): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -22,21 +39,21 @@ export function validateEmail(email: String): boolean {
 export function dateToOrdinal(day: number) {
     if (day > 3 && day < 21) return 'th';
     switch (day % 10) {
-        case 1:  return "st";
-        case 2:  return "nd";
-        case 3:  return "rd";
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
         default: return "th";
     }
 }
 
-export function calculateScore(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): number { 
+export function calculateScore(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): number {
     if (pred_one_goals === undefined || pred_two_goals === undefined) {
         return 0
     }
 
     const pred_one = parseInt(pred_one_goals)
     const pred_two = parseInt(pred_two_goals)
-    
+
     if (pred_one === act_one_goals && pred_two === act_two_goals) {
         return 3
     }

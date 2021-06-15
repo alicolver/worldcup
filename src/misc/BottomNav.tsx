@@ -3,9 +3,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import HistoryIcon from '@material-ui/icons/History';
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
-import { getJWT, goTo } from "../utils/Utils";
 
 const useStyles = makeStyles({
     root: {
@@ -18,30 +16,16 @@ const useStyles = makeStyles({
 
 interface IBottomNavProps {
     value: string
+    admin: boolean
 }
 
 export default function BottomNav(props: IBottomNavProps) {
     const classes = useStyles()
-    const [isAdmin, setIsAdmin] = useState(false)
-
-    useEffect(() => {
-        fetch(goTo('is-admin'), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authenticate": getJWT()
-            }
-        })
-            .then(res => res.json())
-            .then(result => {
-                setIsAdmin(result.success)
-            });
-    }, [setIsAdmin])
 
     function getAdminPage() {
-        return !isAdmin ?
-            <></> :
-            <BottomNavigationAction label="ADMIN" value="/admin" icon={<SupervisorAccountIcon />} />
+        return props.admin ?
+            <BottomNavigationAction label="ADMIN" value="/admin" icon={<SupervisorAccountIcon />} /> :
+            <></>
     }
 
     return (

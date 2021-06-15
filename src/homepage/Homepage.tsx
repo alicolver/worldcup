@@ -3,6 +3,7 @@ import React from 'react';
 import BottomNav from '../misc/BottomNav';
 import Header from '../misc/Header';
 import Prediction from '../predictions/Predictions';
+import { isAdminCheck } from "../utils/Utils";
 
 const useStyles = makeStyles({
   logo: {
@@ -34,7 +35,7 @@ function Homepage() {
       <Container className={classes.homepage}>
         <Prediction />
       </Container>
-      <BottomNav value={'/home'}/>
+        <BottomNav value={'/home'} admin={isAdminCheck()}/>
       </ThemeProvider>
     )
 }

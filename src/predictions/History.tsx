@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { fontTheme } from "../homepage/Homepage";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
-import { goTo, getJWT } from "../utils/Utils";
+import { goTo, getJWT, isAdminCheck } from "../utils/Utils";
 import FixedGame from "./FixedGame";
 import { IMatch } from "./Predictions";
 
@@ -47,7 +47,7 @@ export default function History() {
                     {inProgressMatches.map(element => { return (<FixedGame {...element} />) })}
                     {matches.map(element => { return (<FixedGame {...element} />) })}
                 </Container>
-                <BottomNav value={'/history'} />
+                <BottomNav value={'/history'} admin={isAdminCheck()} />
             </ThemeProvider>
         )
     }

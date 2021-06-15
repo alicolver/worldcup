@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
-import { getJWT, goTo } from "../utils/Utils";
+import { getJWT, goTo, isAdminCheck } from "../utils/Utils";
 import LiveGame from "./LiveGame";
 import { IMatch } from "./Predictions";
 
@@ -81,7 +81,7 @@ export default function AdminPage() {
                     return <LiveGame {...element} />
                 })}
             </Container>
-            <BottomNav value={'/admin'} />
+            <BottomNav value={'/admin'} admin={isAdminCheck()} />
         </>
     )
 }
