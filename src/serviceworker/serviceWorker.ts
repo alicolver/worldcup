@@ -42,7 +42,7 @@ export function register(config?: Config): void {
         console.log("Service worker starting")
 
         window.addEventListener('load', (): void => {
-            const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
+            const swUrl = `${process.env.PUBLIC_URL}/src/serviceworker/serviceWorker.js`
 
             if (isLocalhost) {
                 // This is running on localhost. Let's check if a service worker still exists or not.
