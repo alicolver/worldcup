@@ -61,16 +61,16 @@ export default function Prediction() {
     } else {
         return (
             <ThemeProvider theme={fontTheme}>
-            <Container className={classes.gameContainer}>
-                <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
-                {matches.map(element => {
-                    if (element.hasPrediction && element.prediction) {
-                        return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
-                    } else {
-                        return <Game {...element} callback={getMatches} />
-                    }
-                })}
-            </Container>
+                <Container className={classes.gameContainer}>
+                    <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
+                    {matches.map(element => {
+                        if (element.hasPrediction && element.prediction) {
+                            return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
+                        } else {
+                            return <Game {...element} callback={getMatches} />
+                        }
+                    })}
+                </Container>
             </ThemeProvider>
         )
     }

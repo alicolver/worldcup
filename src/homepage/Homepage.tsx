@@ -29,15 +29,15 @@ export const fontTheme = createMuiTheme({
 
 function Homepage() {
   const classes = useStyles();
-    return (
-      <ThemeProvider theme={fontTheme}>
-        <Header/>
+  return (
+    <ThemeProvider theme={fontTheme}>
+      <Header />
       <Container className={classes.homepage}>
         <Prediction />
       </Container>
-        <BottomNav value={'/home'} admin={isAdminCheck()}/>
-      </ThemeProvider>
-    )
+      <BottomNav value={'/home'} admin={isAdminCheck()} />
+    </ThemeProvider>
+  )
 }
 
 export default Homepage;

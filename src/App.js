@@ -8,6 +8,7 @@ import Homepage from './homepage/Homepage'
 import History from './predictions/History'
 import AdminPage from './predictions/Admin'
 
+
 export default function App() {
     return (
         <Router>
