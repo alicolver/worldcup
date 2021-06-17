@@ -1,5 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import logo from '../img/logo.svg'
+import { deleteJWT, isAdminCheck } from "../utils/Utils";
 
 const useStyles = makeStyles({
   logo: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles({
     position: 'fixed',
     width: '100%',
     backgroundColor: 'white',
-    top: 0, 
+    top: 0,
     zIndex: 10
   },
   colorStrip: {
@@ -26,12 +27,20 @@ const useStyles = makeStyles({
 });
 
 export default function Header() {
-    const classes = useStyles()
+  const classes = useStyles()
 
-    return(
-        <div className={classes.headerBar}>
-          <img className={classes.logo} src={logo} alt={'euro logo'}/>
-          <div className={classes.colorStrip}/>
-        </div>
-    )
+  function logout() {
+    if (!isAdminCheck()) {
+      return
+    }
+    deleteJWT()
+    window.location.reload();
+  }
+
+  return (
+    <div className={classes.headerBar} onClick={logout} >
+      <img className={classes.logo} src={logo} alt={'euro logo'} />
+      <div className={classes.colorStrip} />
+    </div>
+  )
 }

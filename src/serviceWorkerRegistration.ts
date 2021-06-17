@@ -97,32 +97,6 @@ function registerValidSW(swUrl: string, config?: Config) {
                         }
                     }
                 };
-
-                if (!isAdminCheck()) {
-                    return
-                }
-
-                registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: pub,
-                }).then(x => {
-                    console.log("Success from push sub")
-                    console.log(x)
-
-                    fetch(goTo('notification/subscribe'), {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'Authenticate': getJWT()
-                        },
-                        body: JSON.stringify({
-                            subscription: JSON.stringify(x)
-                        })
-                    }).then(res => {
-                        console.log(res)
-                    })
-
-                })
             };
         })
         .catch((error) => {
@@ -156,6 +130,40 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         .catch(() => {
             console.log('No internet connection found. App is running in offline mode.');
         });
+}
+
+export function test() {
+
+    console.log("Calling test")
+
+    navigator.serviceWorker.ready.then((registration) => {
+        if (!isAdminCheck()) {
+            return
+        }
+
+        console.log("Passed admin check")
+
+        registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: pub,
+        }).then(x => {
+            console.log("Success from push sub")
+            console.log(x)
+
+            fetch(goTo('notification/subscribe'), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authenticate': getJWT()
+                },
+                body: JSON.stringify({
+                    subscription: JSON.stringify(x)
+                })
+            }).then(res => {
+                console.log(res)
+            })
+        })
+    })
 }
 
 export function unregister() {

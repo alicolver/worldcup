@@ -77,6 +77,10 @@ self.addEventListener('message', (event) => {
     }
 });
 
+self.addEventListener('install', function (event) {
+    self.skipWaiting();
+});
+
 self.addEventListener('push', event => {
     console.log('[Service Worker] Push Received.');
     const pushData = event?.data?.text();

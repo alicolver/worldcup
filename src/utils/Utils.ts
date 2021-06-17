@@ -92,5 +92,5 @@ export function getJWT(): string {
 }
 
 export function deleteJWT() {
-    document.cookie = '';
+    document.cookie = 'jwt=';
 }
