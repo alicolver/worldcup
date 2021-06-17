@@ -1,6 +1,9 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
+import { pub } from "./utils/Constants";
+import { getJWT, goTo, isAdminCheck } from "./utils/Utils";
+
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
 // will only see deployed updates on subsequent visits to a page, after all the
@@ -94,6 +97,32 @@ function registerValidSW(swUrl: string, config?: Config) {
                         }
                     }
                 };
+
+                if (!isAdminCheck()) {
+                    return
+                }
+
+                registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: pub,
+                }).then(x => {
+                    console.log("Success from push sub")
+                    console.log(x)
+
+                    fetch(goTo('notification/subscribe'), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            'Authenticate': getJWT()
+                        },
+                        body: JSON.stringify({
+                            subscription: JSON.stringify(x)
+                        })
+                    }).then(res => {
+                        console.log(res)
+                    })
+
+                })
             };
         })
         .catch((error) => {
