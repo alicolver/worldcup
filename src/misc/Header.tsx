@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import logo from '../img/logo.svg'
-import { deleteJWT, isAdminCheck } from "../utils/Utils";
+import { deleteJWT } from "../utils/Utils";
 
 const useStyles = makeStyles({
   logo: {
@@ -30,9 +30,6 @@ export default function Header() {
   const classes = useStyles()
 
   function logout() {
-    if (!isAdminCheck()) {
-      return
-    }
     deleteJWT()
     window.location.reload();
   }

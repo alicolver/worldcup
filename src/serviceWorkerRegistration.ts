@@ -132,17 +132,8 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         });
 }
 
-export function test() {
-
-    console.log("Calling test")
-
+export function registerPushNotifications() {
     navigator.serviceWorker.ready.then((registration) => {
-        if (!isAdminCheck()) {
-            return
-        }
-
-        console.log("Passed admin check")
-
         registration.pushManager.subscribe({
             userVisibleOnly: true,
             applicationServerKey: pub,
@@ -157,13 +148,42 @@ export function test() {
                     'Authenticate': getJWT()
                 },
                 body: JSON.stringify({
-                    subscription: JSON.stringify(x)
+                    subscription: JSON.stringify(x),
+                    blocked: false,
                 })
             }).then(res => {
                 console.log(res)
             })
         })
     })
+}
+
+export function updateNotificationDenied() {
+    fetch(goTo('notification/subscribe'), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            'Authenticate': getJWT()
+        },
+        body: JSON.stringify({
+            blocked: true,
+        })
+    })
+}
+
+export function test() {
+
+    Notification.requestPermission().then(permission => {
+        if (permission === 'denied') {
+            updateNotificationDenied()
+            return
+        }
+        if (permission === 'default') {
+            return
+        }
+        registerPushNotifications()
+    })
+
 }
 
 export function unregister() {
