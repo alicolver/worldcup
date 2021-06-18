@@ -55,7 +55,7 @@ export default function SignIn() {
 
   useEffect(() => {
     isTokenValid().then(valid => {
-      if (valid) {
+      if (valid === true) {
         setValidToken(true)
       }
     })
@@ -74,10 +74,10 @@ export default function SignIn() {
     })
       .then(res => res.json())
       .then(result => {
-        if (result["error-message"] === "") {
+        if (result["success"] === true) {
           setJWT(result["token"]);
-          test()
           setValidToken(true)
+          test()
         } else {
           setPassword({ ...password, error: true });
           setEmail({ ...email, error: true });
