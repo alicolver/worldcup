@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Redirect } from "react-router-dom";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles({
@@ -36,6 +37,7 @@ interface leaderBoardRecord {
 
 export default function LeaderBoard() {
   const classes = useStyles();
+  const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
   const [isLive, setIsLive] = useState(false);
   const [leaderboardData, setLeaderboardData] = useState<leaderBoardRecord[]>([])
 
@@ -46,9 +48,11 @@ export default function LeaderBoard() {
         'Authenticate': getJWT()
       }
     }).then(res => res.json()).then(res => {
-      if (res.success) {
+      if (res.success === true) {
         console.log(res)
         setLeaderboardData(res.leaderboard)
+      } else {
+        setInvalidResponse(true)
       }
     })
 
@@ -87,6 +91,12 @@ export default function LeaderBoard() {
         <TableCell align="center"><b>{row.score}</b></TableCell>
       </TableRow>
     )))
+  }
+
+  if (invalidResponse) {
+    return (
+      <Redirect to={'/'} />
+    )
   }
 
   return (
