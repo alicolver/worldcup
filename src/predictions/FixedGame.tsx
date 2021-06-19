@@ -14,7 +14,7 @@ export default function FixedGame(props: IMatch) {
                         style={{
                             backgroundColor: props.prediction?.score === 3 ? '#16b877' : props.prediction?.score === 1 ? '#1caac9' : '#505e73'
                         }}
-                    >{props.prediction?.score + ' pts'}</span>
+                    >{(props.prediction?.score || 0) + ' pts'}</span>
                 </Grid>
                 <Grid item xs={6}>
                     <OutlinedInput
