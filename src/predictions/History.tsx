@@ -58,7 +58,7 @@ export default function History() {
                 {!params.userid ? <Header /> : <HeaderReturn />}
                 <Container className={classes.historyContainer}>
                     <Typography className={classes.upcomingGames}>{name} Predictions</Typography>
-                    {inProgressMatches.map(element => { return (<FixedGame {...element} />) })}
+                    {inProgressMatches.map(element => { return (<FixedGame {...element} in_progress={true}/>) })}
                     {matches.map(element => { return (<FixedGame {...element} />) })}
                 </Container>
                 {!params.userid ? <BottomNav value={'/history'} admin={isAdminCheck()} /> : <></>}

@@ -44,6 +44,7 @@ export interface IMatch {
     match: IMatchDetails,
     hasPrediction: boolean,
     prediction?: IPrediction
+    in_progress?: boolean
 }
 
 export default function Prediction() {

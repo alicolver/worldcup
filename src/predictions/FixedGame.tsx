@@ -2,6 +2,7 @@ import { Box, Card, Grid, OutlinedInput } from "@material-ui/core";
 import { useStyles } from "./Game";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
@@ -43,6 +44,12 @@ export default function FixedGame(props: IMatch) {
 
     return (
         <Card className={classes.matchCard}>
+            {props.in_progress ?
+                <div style={{ position: 'absolute', left: '6vw', paddingTop: '1vh' }}>
+                    <FiberManualRecordIcon style={{ color: 'green' }} />
+                </div> :
+                <></>
+            }
             <Box className={classes.match}>
                 <Box className={classes.fixedGameTeamName}>
                     <Team name={props.team_one.name} emoji={props.team_one.emoji} />
