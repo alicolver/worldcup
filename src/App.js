@@ -7,6 +7,7 @@ import Prediction from './predictions/Predictions'
 import Homepage from './homepage/Homepage'
 import History from './predictions/History'
 import AdminPage from './predictions/Admin'
+import MatchPredictions from './predictions/MatchPredictions'
 
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/history" exact component={History} />
             <Route path="/admin" exact component={AdminPage} />
             <Route path="/reset" exact component={PasswordReset} />
+            <Route path="/match/:matchid" exact component={MatchPredictions} />
         </Router>
     )
 }

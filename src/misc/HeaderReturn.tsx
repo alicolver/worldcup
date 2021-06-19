@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
   headerBar: {
     height: '15vw',
-    marginBottom: '5vw',
+    marginBottom: '10vw',
     position: 'fixed',
     width: '100%',
     backgroundColor: 'white',

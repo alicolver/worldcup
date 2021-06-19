@@ -14,6 +14,9 @@ const useStyles = makeStyles({
         top: '19vw',
         width: '90%',
         left: '5%'
+    },
+    liveGamesText: {
+        fontSize: '8vw'
     }
 })
 
@@ -76,7 +79,7 @@ export default function AdminPage() {
         <>
             <Header />
             <Container className={classes.liveGames}>
-                <Typography>Live Games</Typography>
+                <Typography className={classes.liveGamesText}>Live Games</Typography>
                 {matches.map(element => {
                     return <LiveGame {...element} />
                 })}

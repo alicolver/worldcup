@@ -35,6 +35,13 @@ export const useStyles = makeStyles({
         textAlign: 'center',
         marginTop: '1vw'
     },
+    fixedTeaminputPreds: {
+        width: '50px',
+        height: '50px',
+        fontSize: '40px',
+        textAlign: 'center',
+        marginTop: '10vw'
+    },
     dash: {
         fontSize: '8vw',
         marginTop: '4vw'
@@ -71,6 +78,11 @@ export const useStyles = makeStyles({
         padding: '4px',
         borderRadius: '3px',
         color: 'white'
+    },
+    allPredictionContainer: {
+        marginTop: '25vw',
+        marginBottom: '19vw',
+        position: 'fixed'
     }
 })
 
@@ -197,19 +209,19 @@ export default function Game(props: IMatch & IGameProps) {
     }
 
     return (
-        <Card className={classes.matchCard}>
-            <Box className={classes.date}>
-                {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
-            </Box>
-            <Box className={classes.match}>
-                <Box>
-                    <Team name={props.team_one.name} emoji={props.team_one.emoji} />
+            <Card className={classes.matchCard}>
+                <Box className={classes.date}>
+                    {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
                 </Box>
-                {renderUnpredictedScore()}
-                <Box>
-                    <Team name={props.team_two.name} emoji={props.team_two.emoji} />
+                <Box className={classes.match}>
+                    <Box>
+                        <Team name={props.team_one.name} emoji={props.team_one.emoji} />
+                    </Box>
+                    {renderUnpredictedScore()}
+                    <Box>
+                        <Team name={props.team_two.name} emoji={props.team_two.emoji} />
+                    </Box>
                 </Box>
-            </Box>
-        </Card>
+            </Card>
     )
 }

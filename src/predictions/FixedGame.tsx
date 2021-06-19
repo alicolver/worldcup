@@ -3,6 +3,7 @@ import { useStyles } from "./Game";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import { Route } from "react-router-dom";
 
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
@@ -43,7 +44,8 @@ export default function FixedGame(props: IMatch) {
     }
 
     return (
-        <Card className={classes.matchCard}>
+        <Route render={({ history }: { history: any }) => (
+        <Card className={classes.matchCard} onClick={() => { history.push('/match/' + props.match.matchid) }}>
             {props.in_progress ?
                 <div style={{ position: 'absolute', left: '6vw', paddingTop: '1vh' }}>
                     <FiberManualRecordIcon style={{ color: 'green' }} />
@@ -60,5 +62,6 @@ export default function FixedGame(props: IMatch) {
                 </Box>
             </Box>
         </Card>
+        )} />
     )
 }

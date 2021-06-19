@@ -35,7 +35,8 @@ export interface IPrediction {
     team_one_pred: string,
     team_two_pred: string,
     predictionid: string,
-    score?: number
+    score?: number,
+    name?: string
 }
 
 export interface IMatch {

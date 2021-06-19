@@ -57,6 +57,8 @@ export default function LiveGame(props: IMatch) {
             .then(result => {
                 if (!result[SUCCESS]) {
                     alert('Error whilst updating scores, please try again');
+                } else {
+                    setWasSent({ ...wasSent, success: true })
                 }
             });
     }
