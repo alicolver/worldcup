@@ -12,14 +12,15 @@ import AdminPage from './predictions/Admin'
 export default function App() {
     return (
         <Router>
-            <Route path="/" exact component={SignIn}/>
-            <Route path="/signup" exact component={SignUp}/>
-            <Route path="/standings" exact component={LeaderboardPage}/>
-            <Route path="/predict" exact component={Prediction}/>
-            <Route path="/home" exact component={Homepage}/>
-            <Route path="/history" exact component={History}/>
-            <Route path="/admin" exact component={AdminPage}/>
-            <Route path="/reset" exact component={PasswordReset}/>
+            <Route path="/" exact component={SignIn} />
+            <Route path="/signup" exact component={SignUp} />
+            <Route path="/standings" exact component={LeaderboardPage} />
+            <Route path="/predict" exact component={Prediction} />
+            <Route path="/home" exact component={Homepage} />
+            <Route path="/history/:userid" exact component={History} />
+            <Route path="/history" exact component={History} />
+            <Route path="/admin" exact component={AdminPage} />
+            <Route path="/reset" exact component={PasswordReset} />
         </Router>
     )
 }

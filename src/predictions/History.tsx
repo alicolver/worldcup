@@ -1,10 +1,11 @@
 import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { fontTheme } from "../homepage/Homepage";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
-import { goTo, getJWT, isAdminCheck } from "../utils/Utils";
+import HeaderReturn from "../misc/HeaderReturn";
+import { goTo, getJWT, isAdminCheck, getUserid } from "../utils/Utils";
 import FixedGame from "./FixedGame";
 import { IMatch } from "./Predictions";
 
@@ -24,15 +25,28 @@ const useStyles = makeStyles({
     }
 })
 
+interface IParams {
+    userid?: string
+}
+
 export default function History() {
     const classes = useStyles()
+    const [name, setName] = useState<string>("Your")
     const [matches, setMatches] = useState<IMatch[]>([])
     const [inProgressMatches, setInProgressMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
 
+    const params = useParams<IParams>()
+
     useEffect(() => {
-        getMatches();
-    }, [])
+        if (params.userid) {
+            getMatches(parseInt(params.userid));
+            getName(parseInt(params.userid))
+        } else {
+            console.log(getUserid())
+            getMatches(getUserid())
+        }
+    }, [params.userid])
 
     if (invalidResponse) {
         return (
@@ -41,19 +55,19 @@ export default function History() {
     } else {
         return (
             <ThemeProvider theme={fontTheme}>
-                <Header />
+                {!params.userid ? <Header /> : <HeaderReturn />}
                 <Container className={classes.historyContainer}>
-                    <Typography className={classes.upcomingGames}>Your Predictions</Typography>
+                    <Typography className={classes.upcomingGames}>{name} Predictions</Typography>
                     {inProgressMatches.map(element => { return (<FixedGame {...element} />) })}
                     {matches.map(element => { return (<FixedGame {...element} />) })}
                 </Container>
-                <BottomNav value={'/history'} admin={isAdminCheck()} />
+                {!params.userid ? <BottomNav value={'/history'} admin={isAdminCheck()} /> : <></>}
             </ThemeProvider>
         )
     }
 
-    function getMatches() {
-        fetch(goTo('match/ended'), {
+    function getMatches(userid: number) {
+        fetch(goTo('match/ended?userid=' + userid), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()
@@ -65,7 +79,7 @@ export default function History() {
                 setInvalidResponse(true);
             }
         });
-        fetch(goTo('match/in-progress'), {
+        fetch(goTo('match/in-progress?userid=' + userid), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()
@@ -73,6 +87,21 @@ export default function History() {
         }).then(res => res.json()).then(res => {
             if (res.success) {
                 setInProgressMatches(res.matches)
+            } else {
+                setInvalidResponse(true);
+            }
+        });
+    }
+
+    function getName(userid: number) {
+        fetch(goTo('user/name?userid=' + userid), {
+            method: 'GET',
+            headers: {
+                'Authenticate': getJWT()
+            }
+        }).then(res => res.json()).then(res => {
+            if (res.success) {
+                setName(res.name.split(" ")[0] + "'s")
             } else {
                 setInvalidResponse(true);
             }

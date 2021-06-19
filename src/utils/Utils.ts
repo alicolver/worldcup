@@ -2,6 +2,7 @@ import { PROXY } from './Constants'
 import jwtDecode from "jwt-decode"
 
 interface IDecodedUser {
+    userid: number
     admin?: boolean,
 }
 
@@ -28,6 +29,15 @@ export function isAdminCheck(): boolean {
         }
     } catch { }
     return false
+}
+
+export function getUserid(): number {
+    const jwt = getJWT();
+    try {
+        const decoded = jwtDecode<IDecodedUser>(jwt)
+        return decoded.userid
+    } catch { }
+    return 0
 }
 
 
