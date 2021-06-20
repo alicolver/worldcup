@@ -5,6 +5,7 @@ import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import { getJWT, resolveEndpoint, isAdminCheck } from "../utils/Utils";
 import LiveGame from "./LiveGame";
+import MissingPredictions from "./MissingPredictions";
 import { IMatch } from "./Predictions";
 
 const useStyles = makeStyles({
@@ -78,13 +79,13 @@ export default function AdminPage() {
         <>
             <Header />
             <Container className={classes.liveGames}>
-                <Typography className={classes.liveGamesText}>Live Games</Typography>
+                {matches.length > 0 ? <Typography className={classes.liveGamesText}>Live Games</Typography> : <></>}
                 {matches.map(element => {
                     return <LiveGame {...element} />
                 })}
             </Container>
             <Container>
-                <Typography className={classes.liveGamesText}>Upcoming Games</Typography>
+                <MissingPredictions/>
             </Container>
             <BottomNav value={'/admin'} admin={isAdminCheck()} />
         </>
