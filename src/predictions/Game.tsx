@@ -1,7 +1,7 @@
 import { Box, Card, makeStyles, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
-import { dateToOrdinal, getJWT, goTo } from "../utils/Utils";
+import { dateToOrdinal, getJWT, resolveEndpoint } from "../utils/Utils";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 
@@ -148,7 +148,7 @@ export default function Game(props: IMatch & IGameProps) {
     }
 
     function sendPrediction(scoreOne: number, scoreTwo: number) {
-        fetch(goTo('prediction'), {
+        fetch(resolveEndpoint('prediction'), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { goTo, isTokenValid } from '../utils/Utils';
+import { resolveEndpoint, isTokenValid } from '../utils/Utils';
 
 function Copyright() {
   return (
@@ -63,8 +63,8 @@ export default function PasswordReset() {
     })
   }, [setValidToken])
 
-  function sendOtp() {
-    fetch(goTo('reset-password'), {
+  function sendOtp(): void {
+    fetch(resolveEndpoint('reset-password'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -81,12 +81,12 @@ export default function PasswordReset() {
       });
   }
 
-  function resetPassword() {
+  function resetPassword(): void {
     if (password !== confirmPassword) {
       return
     }
 
-    fetch(goTo('reset-password'), {
+    fetch(resolveEndpoint('reset-password'), {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"

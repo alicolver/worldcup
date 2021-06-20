@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getJWT, goTo } from "../utils/Utils";
+import { getJWT, resolveEndpoint } from "../utils/Utils";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -46,7 +46,7 @@ export default function LeaderBoard() {
   const history = useHistory()
 
   useEffect(() => {
-    fetch(goTo('leaderboard'), {
+    fetch(resolveEndpoint('leaderboard'), {
       method: 'GET',
       headers: {
         'Authenticate': getJWT()
@@ -60,7 +60,7 @@ export default function LeaderBoard() {
       }
     })
 
-    fetch(goTo('match/in-progress'), {
+    fetch(resolveEndpoint('match/in-progress'), {
       method: 'GET',
       headers: {
         'Authenticate': getJWT()

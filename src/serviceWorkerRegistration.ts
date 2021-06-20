@@ -2,7 +2,7 @@
 // register() is not called by default.
 
 import { pub } from "./utils/Constants";
-import { getJWT, goTo } from "./utils/Utils";
+import { getJWT, resolveEndpoint } from "./utils/Utils";
 
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)
@@ -141,7 +141,7 @@ export function registerPushNotifications() {
             console.log("Success from push sub")
             console.log(x)
 
-            fetch(goTo('notification/subscribe'), {
+            fetch(resolveEndpoint('notification/subscribe'), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -159,7 +159,7 @@ export function registerPushNotifications() {
 }
 
 export function updateNotificationDenied() {
-    fetch(goTo('notification/subscribe'), {
+    fetch(resolveEndpoint('notification/subscribe'), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

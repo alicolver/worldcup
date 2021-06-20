@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import SingleGameLeaderBoard from "../leaderboard/SingleGameLeaderboard";
 import HeaderReturn from "../misc/HeaderReturn";
 import { SUCCESS } from "../utils/Constants";
-import { calculateScore, getJWT, goTo, gotResultCorrect, gotScoreCorrect } from "../utils/Utils";
+import { calculateScore, getJWT, resolveEndpoint, gotResultCorrect, gotScoreCorrect } from "../utils/Utils";
 import { useStyles } from "./Game";
 import { IMatchDetails, IPrediction, ITeam } from "./Predictions";
 import Team from "./Team";
@@ -59,7 +59,7 @@ export default function MatchPredictions() {
     }, [params.matchid])
 
     function getPredictionData(matchid: string) {
-        fetch(goTo('match/predictions?matchid=' + matchid), {
+        fetch(resolveEndpoint('match/predictions?matchid=' + matchid), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

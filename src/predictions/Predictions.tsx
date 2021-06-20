@@ -1,7 +1,7 @@
 import Game from "./Game";
 import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { getJWT, goTo } from "../utils/Utils";
+import { getJWT, resolveEndpoint } from "../utils/Utils";
 import { Redirect } from "react-router";
 import { fontTheme } from "../homepage/Homepage";
 
@@ -80,7 +80,7 @@ export default function Prediction() {
 
     function getMatches() {
         console.log('attempting fetch')
-        fetch(goTo('prediction-required'), {
+        fetch(resolveEndpoint('prediction-required'), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()

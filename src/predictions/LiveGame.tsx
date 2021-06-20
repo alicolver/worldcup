@@ -1,7 +1,7 @@
 import { Box, Button, Card, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
-import { dateToOrdinal, getJWT, goTo } from "../utils/Utils";
+import { dateToOrdinal, getJWT, resolveEndpoint } from "../utils/Utils";
 import { useStyles } from "./Game";
 import { IMatch } from "./Predictions";
 import Team from "./Team";
@@ -41,7 +41,7 @@ export default function LiveGame(props: IMatch) {
     }
 
     function sendScore(scoreOne: number, scoreTwo: number) {
-        fetch(goTo('score'), {
+        fetch(resolveEndpoint('score'), {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export default function LiveGame(props: IMatch) {
 
     function endGame() {
         if (window.confirm('Are you sure the match is finished?')) {
-            fetch(goTo('match/end'), {
+            fetch(resolveEndpoint('match/end'), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

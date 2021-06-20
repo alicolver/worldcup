@@ -105,7 +105,7 @@ export function gotResultCorrect(pred_one_goals: string | undefined, pred_two_go
     return ((act_one_goals > act_two_goals && pred_one > pred_two) || (act_one_goals < act_two_goals && pred_one < pred_two) || (act_one_goals === act_two_goals && pred_one === pred_two))
 }
 
-export function goTo(endpoint: string): string {
+export function resolveEndpoint(endpoint: string): string {
     return PROXY + endpoint
 }
 

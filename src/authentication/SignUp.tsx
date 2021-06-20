@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { goTo, isTokenValid, validateEmail } from '../utils/Utils';
+import { resolveEndpoint, isTokenValid, validateEmail } from '../utils/Utils';
 import { SUCCESS } from '../utils/Constants';
 
 function Copyright() {
@@ -76,7 +76,7 @@ export default function SignUp() {
       return
     }
 
-    fetch(goTo('signup'), {
+    fetch(resolveEndpoint('signup'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

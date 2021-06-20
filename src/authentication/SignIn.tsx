@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { goTo, isTokenValid, setJWT } from '../utils/Utils';
+import { resolveEndpoint, isTokenValid, setJWT } from '../utils/Utils';
 import { test } from '../serviceWorkerRegistration'
 
 function Copyright() {
@@ -62,7 +62,7 @@ export default function SignIn() {
   }, [setValidToken])
 
   const handleLogin = () => {
-    fetch(goTo('login'), {
+    fetch(resolveEndpoint('login'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

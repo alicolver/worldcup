@@ -5,7 +5,7 @@ import { fontTheme } from "../homepage/Homepage";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import HeaderReturn from "../misc/HeaderReturn";
-import { goTo, getJWT, isAdminCheck, getUserid } from "../utils/Utils";
+import { resolveEndpoint, getJWT, isAdminCheck, getUserid } from "../utils/Utils";
 import FixedGame from "./FixedGame";
 import { IMatch } from "./Predictions";
 
@@ -67,7 +67,7 @@ export default function History() {
     }
 
     function getMatches(userid: number) {
-        fetch(goTo('match/ended?userid=' + userid), {
+        fetch(resolveEndpoint('match/ended?userid=' + userid), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()
@@ -79,7 +79,7 @@ export default function History() {
                 setInvalidResponse(true);
             }
         });
-        fetch(goTo('match/in-progress?userid=' + userid), {
+        fetch(resolveEndpoint('match/in-progress?userid=' + userid), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()
@@ -94,7 +94,7 @@ export default function History() {
     }
 
     function getName(userid: number) {
-        fetch(goTo('user/name?userid=' + userid), {
+        fetch(resolveEndpoint('user/name?userid=' + userid), {
             method: 'GET',
             headers: {
                 'Authenticate': getJWT()
