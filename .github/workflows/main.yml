@@ -27,4 +27,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: deploy
-        run: npm install && npm run deploy
+        run: |
+          git config --global user.email "a.colver@btinternet.com"
+          git config --global user.name "Ali Colver"
+          npm install
+          npm run deploy
