@@ -48,7 +48,7 @@ const emptyData: IAllUserPredictionGameData = {
 
 export default function MatchPredictions() {
     const classes = useStyles()
-    const [matchData, setMatchData] = useState(emptyData)
+    const [matchData, setMatchData] = useState<IAllUserPredictionGameData>(emptyData)
 
     const params = useParams<IParams>()
 
@@ -70,7 +70,7 @@ export default function MatchPredictions() {
         .then(res => {
             console.log(res)
             if (res[SUCCESS]) {
-                setMatchData({ match: res['match'], team_one: res['team_one'], team_two: res['team_two'], predictions: res['predictions']})
+                setMatchData({...res})
             }
         })
     }
@@ -105,7 +105,7 @@ export default function MatchPredictions() {
             return { 
                 ...element, 
                 predicted_score: (element.team_one_pred + '-' + element.team_two_pred),
-                name: element.name ? element.name : 'Mystery Man',
+                name: element.name ? element.name : '',
                 correct_result: gotResultCorrect(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals)),
                 correct_score: gotScoreCorrect(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals)),
                 score: calculateScore(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals))
@@ -118,11 +118,11 @@ export default function MatchPredictions() {
             <Container className={classes.allPredictionContainer}>
             <Card className={classes.matchCard}>
             <Box className={classes.match}>
-                <Box className={classes.fixedGameTeamName}>
+                <Box className={classes.predictionHistoryTeamName}>
                     <Team name={matchData.team_one.name} emoji={matchData.team_one.emoji} />
                 </Box>
                 {renderScore()}
-                <Box className={classes.fixedGameTeamName}>
+                <Box className={classes.predictionHistoryTeamName}>
                     <Team name={matchData.team_two.name} emoji={matchData.team_two.emoji} />
                 </Box>
             </Box>

@@ -40,7 +40,7 @@ export const useStyles = makeStyles({
         height: '50px',
         fontSize: '40px',
         textAlign: 'center',
-        marginTop: '10vw'
+        marginTop: '7vw'
     },
     dash: {
         fontSize: '8vw',
@@ -72,6 +72,9 @@ export const useStyles = makeStyles({
     },
     fixedGameTeamName: {
         marginTop: '7vw'
+    },
+    predictionHistoryTeamName: {
+        marginTop: '3vw'
     },
     resultText: {
         backgroundColor: '#505e73',

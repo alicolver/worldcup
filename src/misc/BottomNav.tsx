@@ -24,7 +24,7 @@ export default function BottomNav(props: IBottomNavProps) {
 
     function getAdminPage() {
         return props.admin ?
-            <BottomNavigationAction label="ADMIN" value="/admin" icon={<SupervisorAccountIcon />} /> :
+            <BottomNavigationAction label="Admin" value="/admin" icon={<SupervisorAccountIcon />} /> :
             <></>
     }
 
