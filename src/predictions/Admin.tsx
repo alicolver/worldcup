@@ -17,7 +17,9 @@ const useStyles = makeStyles({
     liveGamesText: {
         fontSize: '8vw',
         textAlign: 'center'
-    }
+    }, missingGames: {
+        marginBottom: '19vw'
+    },
 })
 
 export default function AdminPage() {
@@ -84,8 +86,8 @@ export default function AdminPage() {
                     return <LiveGame {...element} />
                 })}
             </Container>
-            <Container>
-                <MissingPredictions/>
+            <Container className={classes.missingGames}>
+                <MissingPredictions />
             </Container>
             <BottomNav value={'/admin'} admin={isAdminCheck()} />
         </>
