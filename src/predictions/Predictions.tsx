@@ -52,6 +52,7 @@ export default function Prediction() {
     const classes = useStyles()
     const [matches, setMatches] = useState<IMatch[]>([])
     const [invalidResponse, setInvalidResponse] = useState<boolean>(false)
+    const [hidden, setHidden] = useState<boolean>(false)
 
     useEffect(() => {
         getMatches();
@@ -65,7 +66,7 @@ export default function Prediction() {
         return (
             <ThemeProvider theme={fontTheme}>
                 <Container className={classes.gameContainer}>
-                    <Typography className={classes.upcomingGames}>Upcoming Games</Typography>
+                    <Typography className={classes.upcomingGames}>{hidden ? "Games coming soon" : "Upcoming Games"}</Typography>
                     {matches.map(element => {
                         if (element.hasPrediction && element.prediction) {
                             return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
@@ -87,6 +88,7 @@ export default function Prediction() {
             }
         }).then(res => res.json()).then(res => {
             if (res.success) {
+                setHidden(res.hidden)
                 setMatches(res.matches);
             } else {
                 setInvalidResponse(true);
