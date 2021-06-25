@@ -1,4 +1,4 @@
-import { Box, Card, makeStyles, OutlinedInput } from "@material-ui/core";
+import { Box, Card, Checkbox, makeStyles, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
 import { dateToOrdinal, getJWT, resolveEndpoint } from "../utils/Utils";
@@ -93,7 +93,8 @@ interface IGameProps {
     callback: () => void,
     hasPrediction: boolean,
     team_one_pred?: string,
-    team_two_pred?: string
+    team_two_pred?: string,
+    penalty_winners?: number | null,
 }
 
 export default function Game(props: IMatch & IGameProps) {
@@ -102,6 +103,7 @@ export default function Game(props: IMatch & IGameProps) {
     const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
     const [wasSent, setWasSent] = useState(defaultWasSent)
+    const [penalityWinners, setPenaltyWinners] = useState(0)
 
     useEffect(() => {
         if (props.hasPrediction) {
@@ -113,11 +115,17 @@ export default function Game(props: IMatch & IGameProps) {
                 error: false,
                 score: props.team_two_pred!
             })
+            if (props.match.is_knockout && props.penalty_winners != null) {
+                setPenaltyWinners(props.penalty_winners!)
+            }
         }
         setWasSent({ success: false, error: false })
-    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred])
+    }, [props.hasPrediction, props.team_one_pred, props.team_two_pred, props.penalty_winners, props.match.is_knockout])
 
-    function handlePrediction() {
+    function handlePrediction(pens: number) {
+        if (pens === 0) {
+            return
+        }
         const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
         var areBothScoresValid = validateScores(scoreOne, scoreTwo);
@@ -129,7 +137,7 @@ export default function Game(props: IMatch & IGameProps) {
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        sendPrediction(scoreOne, scoreTwo);
+        sendPrediction(scoreOne, scoreTwo, pens);
     }
 
     function validateScores(scoreOne: number, scoreTwo: number) {
@@ -147,7 +155,7 @@ export default function Game(props: IMatch & IGameProps) {
         return areBothScoresValid;
     }
 
-    function sendPrediction(scoreOne: number, scoreTwo: number) {
+    function sendPrediction(scoreOne: number, scoreTwo: number, penaltyWinnerPred: number) {
         fetch(resolveEndpoint('prediction'), {
             method: "POST",
             headers: {
@@ -158,7 +166,7 @@ export default function Game(props: IMatch & IGameProps) {
                 team_one_pred: scoreOne,
                 team_two_pred: scoreTwo,
                 matchid: props.match.matchid,
-                penalty_winners: null
+                penalty_winners: penaltyWinnerPred,
             })
         })
             .then(res => res.json())
@@ -184,7 +192,7 @@ export default function Game(props: IMatch & IGameProps) {
                     type="number"
                     value={teamOneScore.score}
                     onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
-                    onBlur={() => handlePrediction()}
+                    onBlur={() => handlePrediction(penalityWinners)}
                     error={teamOneScore.error} />
                 <OutlinedInput
                     className={classes.teaminput}
@@ -193,7 +201,7 @@ export default function Game(props: IMatch & IGameProps) {
                     style={getResponseGlow()}
                     value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
-                    onBlur={() => handlePrediction()}
+                    onBlur={() => handlePrediction(penalityWinners)}
                     error={teamTwoScore.error}
                 />
             </>
@@ -211,20 +219,44 @@ export default function Game(props: IMatch & IGameProps) {
             } : {};
     }
 
+    function changePenaltyWinners(winner: number) {
+        return (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (e.target.checked) {
+                setPenaltyWinners(winner)
+                handlePrediction(winner)
+            }
+        }
+    }
+
     return (
-            <Card className={classes.matchCard}>
-                <Box className={classes.date}>
-                    {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
+        <Card className={classes.matchCard}>
+            <Box className={classes.date}>
+                {props.match.match_date + dateToOrdinal(parseInt(props.match.match_date)) + " - " + props.match.kick_off_time}
+            </Box>
+            <Box className={classes.match}>
+                <Box>
+                    <Team name={props.team_one.name} emoji={props.team_one.emoji} />
                 </Box>
-                <Box className={classes.match}>
-                    <Box>
-                        <Team name={props.team_one.name} emoji={props.team_one.emoji} />
-                    </Box>
-                    {renderUnpredictedScore()}
-                    <Box>
-                        <Team name={props.team_two.name} emoji={props.team_two.emoji} />
-                    </Box>
+                {renderUnpredictedScore()}
+                <Box>
+                    <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
-            </Card>
+            </Box>
+            {
+                props.match.is_knockout &&
+                <Box>
+                    <Checkbox
+                        checked={penalityWinners === 1}
+                        onChange={changePenaltyWinners(1)}
+                    />
+                    Penalty Winners
+                    <Checkbox
+                        checked={penalityWinners === 2}
+                        onChange={changePenaltyWinners(2)}
+                    />
+                </Box>
+            }
+
+        </Card>
     )
 }

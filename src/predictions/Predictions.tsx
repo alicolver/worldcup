@@ -35,6 +35,7 @@ export interface IPrediction {
     team_one_pred: string,
     team_two_pred: string,
     predictionid: string,
+    penalty_winners: number | null,
     score?: number,
     name?: string
 }
@@ -69,7 +70,7 @@ export default function Prediction() {
                     <Typography className={classes.upcomingGames}>{hidden ? "Games coming soon" : "Upcoming Games"}</Typography>
                     {matches.map(element => {
                         if (element.hasPrediction && element.prediction) {
-                            return <Game {...element} callback={getMatches} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
+                            return <Game {...element} callback={getMatches} penalty_winners={element.match.is_knockout ? element.prediction.penalty_winners : 0} team_one_pred={element.prediction.team_one_pred} team_two_pred={element.prediction.team_two_pred} />
                         } else {
                             return <Game {...element} callback={getMatches} />
                         }

@@ -43,6 +43,7 @@ const emptyData: IAllUserPredictionGameData = {
         team_one_pred: '0',
         team_two_pred: '0',
         predictionid: '-1',
+        penalty_winners: null,
     }]
 }
 
