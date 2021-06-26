@@ -1,4 +1,4 @@
-import { Box, Button, Card, OutlinedInput } from "@material-ui/core";
+import { Box, Button, Card, Checkbox, OutlinedInput } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { SUCCESS } from "../utils/Constants";
 import { dateToOrdinal, getJWT, resolveEndpoint } from "../utils/Utils";
@@ -12,6 +12,7 @@ export default function LiveGame(props: IMatch) {
     const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
     const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
     const [wasSent, setWasSent] = useState(defaultWasSent)
+    const [penalityWinners, setPenaltyWinners] = useState(0)
 
     useEffect(() => {
         setTeamOneScore({
@@ -64,21 +65,35 @@ export default function LiveGame(props: IMatch) {
     }
 
     function endGame() {
+        if (props.match.is_knockout && isDraw() && penalityWinners === 0) {
+            alert('You need to select a penalty winner')
+            return
+        }
+
         if (window.confirm('Are you sure the match is finished?')) {
+            let body: {
+                matchid: number
+                penalty_winners?: number
+            } = {
+                matchid: props.match.matchid,
+            }
+            if (props.match.is_knockout && isDraw()) {
+                body.penalty_winners = penalityWinners
+            }
             fetch(resolveEndpoint('match/end'), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     'Authenticate': getJWT()
                 },
-                body: JSON.stringify({
-                    matchid: props.match.matchid
-                })
+                body: JSON.stringify(body)
             })
                 .then(res => res.json())
                 .then(result => {
                     if (!result[SUCCESS]) {
                         alert('Error whilst updating scores, please try again')
+                    } else {
+                        window.location.reload()
                     }
                 });
         }
@@ -136,6 +151,18 @@ export default function LiveGame(props: IMatch) {
             } : {};
     }
 
+    function isDraw(): boolean {
+        return parseInt(teamOneScore.score) === parseInt(teamTwoScore.score)
+    }
+
+    function changePenaltyWinners(winner: number) {
+        return (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (e.target.checked) {
+                setPenaltyWinners(winner)
+            }
+        }
+    }
+
     return (
         <Card className={classes.matchCard}>
             <Box className={classes.date}>
@@ -150,6 +177,21 @@ export default function LiveGame(props: IMatch) {
                     <Team name={props.team_two.name} emoji={props.team_two.emoji} />
                 </Box>
             </Box>
+            {
+                (props.match.is_knockout && isDraw()) &&
+
+                <Box className={classes.penaltyWinner}>
+                    <Checkbox
+                        checked={penalityWinners === 1}
+                        onChange={changePenaltyWinners(1)}
+                    />
+                    Penalty Winners
+                    <Checkbox
+                        checked={penalityWinners === 2}
+                        onChange={changePenaltyWinners(2)}
+                    />
+                </Box>
+            }
             <Button
                 variant='contained'
                 className={classes.endGameButton}

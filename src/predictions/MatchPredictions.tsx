@@ -2,10 +2,11 @@ import { Box, Card, Container, Grid, OutlinedInput } from "@material-ui/core";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import KnockoutGameLeaderBoard from "../leaderboard/KnockoutGameLeaderboard";
 import SingleGameLeaderBoard from "../leaderboard/SingleGameLeaderboard";
 import HeaderReturn from "../misc/HeaderReturn";
 import { SUCCESS } from "../utils/Constants";
-import { calculateScore, getJWT, resolveEndpoint, gotResultCorrect, gotScoreCorrect } from "../utils/Utils";
+import { getJWT, resolveEndpoint, gotResultCorrect, gotScoreCorrect } from "../utils/Utils";
 import { useStyles } from "./Game";
 import { IMatchDetails, IPrediction, ITeam } from "./Predictions";
 import Team from "./Team";
@@ -26,7 +27,7 @@ const emptyData: IAllUserPredictionGameData = {
     team_one: {
         name: 'Team 1',
         emoji: ''
-    }, 
+    },
     team_two: {
         name: 'Team 2',
         emoji: ''
@@ -67,13 +68,13 @@ export default function MatchPredictions() {
                 'Authenticate': getJWT()
             }
         })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            if (res[SUCCESS]) {
-                setMatchData({...res})
-            }
-        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+                if (res[SUCCESS]) {
+                    setMatchData({ ...res })
+                }
+            })
     }
 
     function renderScore() {
@@ -103,32 +104,39 @@ export default function MatchPredictions() {
 
     function getFormattedMatchData() {
         return matchData.predictions.map(element => {
-            return { 
-                ...element, 
+            return {
+                ...element,
                 predicted_score: (element.team_one_pred + '-' + element.team_two_pred),
                 name: element.name ? element.name : '',
                 correct_result: gotResultCorrect(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals)),
                 correct_score: gotScoreCorrect(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals)),
-                score: calculateScore(element.team_one_pred, element.team_two_pred, parseInt(matchData.match.team_one_goals), parseInt(matchData.match.team_two_goals))
-            }})
+                score: element.score,
+                penalty_winners: (element.penalty_winners || 0),
+            }
+        })
     }
-    
+
     return (
         <>
-            <HeaderReturn/>
+            <HeaderReturn />
             <Container className={classes.allPredictionContainer}>
-            <Card className={classes.matchCard}>
-            <Box className={classes.match}>
-                <Box className={classes.predictionHistoryTeamName}>
-                    <Team name={matchData.team_one.name} emoji={matchData.team_one.emoji} />
-                </Box>
-                {renderScore()}
-                <Box className={classes.predictionHistoryTeamName}>
-                    <Team name={matchData.team_two.name} emoji={matchData.team_two.emoji} />
-                </Box>
-            </Box>
-            </Card>
-            <SingleGameLeaderBoard entries={getFormattedMatchData()}/>
+                <Card className={classes.matchCard}>
+                    <Box className={classes.match}>
+                        <Box className={classes.predictionHistoryTeamName}>
+                            <Team name={matchData.team_one.name} emoji={matchData.team_one.emoji} />
+                        </Box>
+                        {renderScore()}
+                        <Box className={classes.predictionHistoryTeamName}>
+                            <Team name={matchData.team_two.name} emoji={matchData.team_two.emoji} />
+                        </Box>
+                    </Box>
+                </Card>
+                {
+                    matchData.match.is_knockout ?
+                        <KnockoutGameLeaderBoard entries={getFormattedMatchData()} team_one_emoji={matchData.team_one.emoji} team_two_emoji={matchData.team_two.emoji} />
+                        :
+                        <SingleGameLeaderBoard entries={getFormattedMatchData()} />
+                }
             </Container>
         </>
     )

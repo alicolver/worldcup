@@ -76,6 +76,9 @@ export const useStyles = makeStyles({
     predictionHistoryTeamName: {
         marginTop: '3vw'
     },
+    penaltyWinner: {
+        fontSize: '16px',
+    },
     resultText: {
         backgroundColor: '#505e73',
         padding: '4px',
@@ -244,7 +247,7 @@ export default function Game(props: IMatch & IGameProps) {
             </Box>
             {
                 props.match.is_knockout &&
-                <Box>
+                <Box className={classes.penaltyWinner}>
                     <Checkbox
                         checked={penalityWinners === 1}
                         onChange={changePenaltyWinners(1)}
