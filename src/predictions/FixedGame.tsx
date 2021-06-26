@@ -1,5 +1,8 @@
 import { Box, Card, Checkbox, Grid, OutlinedInput } from "@material-ui/core";
+import { CheckboxProps } from '@material-ui/core/Checkbox';
 import { useStyles } from "./Game";
+import { green, red } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
 import { IMatch } from "./Predictions";
 import Team from "./Team";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
@@ -12,6 +15,26 @@ scoreToColour.set(2, '#1caac9')
 scoreToColour.set(3, '#16b877')
 scoreToColour.set(4, '#ab1db8')
 scoreToColour.set(5, '#bfa72e')
+
+const GreenCheckbox = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
+    },
+    checked: {},
+})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+
+const RedCheckbox = withStyles({
+    root: {
+        color: red[400],
+        '&$checked': {
+            color: red[600],
+        },
+    },
+    checked: {},
+})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
@@ -51,6 +74,61 @@ export default function FixedGame(props: IMatch) {
         )
     }
 
+    function renderPenaltyWinners() {
+        if (!props.match.is_knockout) {
+            return <></>
+        }
+        if (!props.match.is_fulltime) {
+            return (
+                <Box>
+                    <Checkbox
+                        checked={props.prediction?.penalty_winners === 1}
+                        disabled
+                    />
+                    Penalty Winners
+                    <Checkbox
+                        checked={props.prediction?.penalty_winners === 2}
+                        disabled
+                    />
+                </Box>
+            )
+        }
+
+        if (props.match.team_one_goals !== props.match.team_two_goals) {
+            return <></>
+        }
+
+        if (props.prediction?.penalty_winners === props.match.penalty_winners) {
+            return (
+                <Box>
+                    <GreenCheckbox
+                        checked={props.prediction?.penalty_winners === 1}
+                        disabled
+                    />
+                    Penalty Winners
+                    <GreenCheckbox
+                        checked={props.prediction?.penalty_winners === 2}
+                        disabled
+                    />
+                </Box>
+            )
+        }
+
+        return (
+            <Box>
+                <RedCheckbox
+                    checked={props.prediction?.penalty_winners === 1}
+                    disabled
+                />
+                Penalty Winners
+                <RedCheckbox
+                    checked={props.prediction?.penalty_winners === 2}
+                    disabled
+                />
+            </Box>
+        )
+    }
+
     return (
         <Route render={({ history }: { history: any }) => (
             <Card className={classes.matchCard} onClick={() => { history.push('/match/' + props.match.matchid) }}>
@@ -70,18 +148,8 @@ export default function FixedGame(props: IMatch) {
                     </Box>
                 </Box>
                 {
-                    props.match.is_knockout &&
-                    <Box>
-                        <Checkbox
-                            checked={props.prediction?.penalty_winners === 1}
-                            disabled
-                        />
-                        Penalty Winners
-                        <Checkbox
-                            checked={props.prediction?.penalty_winners === 2}
-                            disabled
-                        />
-                    </Box>
+                    renderPenaltyWinners()
+
                 }
             </Card>
         )} />

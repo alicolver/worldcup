@@ -57,7 +57,7 @@ export const useStyles = makeStyles({
     matchCard: {
         marginBottom: '4vh',
         textAlign: 'center',
-        borderRadius: '10px'
+        borderRadius: '10px',
     },
     endGameButton: {
         marginBottom: '3vw'

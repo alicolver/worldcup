@@ -38,7 +38,9 @@ const emptyData: IAllUserPredictionGameData = {
         team_two_goals: '0',
         matchid: -1,
         match_date: '01/01/2020',
-        kick_off_time: '00:00:00'
+        kick_off_time: '00:00:00',
+        is_fulltime: true,
+        penalty_winners: null,
     },
     predictions: [{
         team_one_pred: '0',
@@ -121,22 +123,29 @@ export default function MatchPredictions() {
             <HeaderReturn />
             <Container className={classes.allPredictionContainer}>
                 <Card className={classes.matchCard}>
-                    <Box className={classes.match}>
-                        <Box className={classes.predictionHistoryTeamName}>
-                            <Team name={matchData.team_one.name} emoji={matchData.team_one.emoji} />
-                        </Box>
-                        {renderScore()}
-                        <Box className={classes.predictionHistoryTeamName}>
-                            <Team name={matchData.team_two.name} emoji={matchData.team_two.emoji} />
-                        </Box>
+                <Box className={classes.match}>
+                <Box className={classes.predictionHistoryTeamName}>
+                <Team name={matchData.team_one.name} emoji={matchData.team_one.emoji} />
+                </Box>
+            {renderScore()}
+                <Box className={classes.predictionHistoryTeamName}>
+                <Team name={matchData.team_two.name} emoji={matchData.team_two.emoji} />
+                </Box>
+                </Box>
+                {
+                    (matchData.match.is_fulltime && ((matchData.match.penalty_winners || 0) !== 0)) &&
+                    <Box style={{paddingBottom:'10px'}}>
+                            Penalty Winners: {matchData.match.penalty_winners === 1 ? matchData.team_one.emoji : matchData.team_two.emoji}
                     </Box>
+                }
+                    
                 </Card>
                 {
-                    matchData.match.is_knockout ?
-                        <KnockoutGameLeaderBoard entries={getFormattedMatchData()} team_one_emoji={matchData.team_one.emoji} team_two_emoji={matchData.team_two.emoji} />
-                        :
-                        <SingleGameLeaderBoard entries={getFormattedMatchData()} />
-                }
+                matchData.match.is_knockout?
+                <KnockoutGameLeaderBoard entries={getFormattedMatchData()} team_one_emoji={matchData.team_one.emoji} team_two_emoji={matchData.team_two.emoji} />
+                :
+                <SingleGameLeaderBoard entries={getFormattedMatchData()} />
+            }
             </Container>
         </>
     )
