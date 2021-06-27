@@ -1,4 +1,4 @@
-import { PROXY } from './Constants'
+import { LAMBDA, PROXY } from './Constants'
 import jwtDecode from "jwt-decode"
 
 interface IDecodedUser {
@@ -90,7 +90,7 @@ export function gotScoreCorrect(pred_one_goals: string | undefined, pred_two_goa
 
     const pred_one = parseInt(pred_one_goals)
     const pred_two = parseInt(pred_two_goals)
-    
+
     return pred_one === act_one_goals && pred_two === act_two_goals
 }
 
@@ -101,11 +101,14 @@ export function gotResultCorrect(pred_one_goals: string | undefined, pred_two_go
 
     const pred_one = parseInt(pred_one_goals)
     const pred_two = parseInt(pred_two_goals)
-    
+
     return ((act_one_goals > act_two_goals && pred_one > pred_two) || (act_one_goals < act_two_goals && pred_one < pred_two) || (act_one_goals === act_two_goals && pred_one === pred_two))
 }
 
 export function resolveEndpoint(endpoint: string): string {
+    if (endpoint === 'leaderboard') {
+        return LAMBDA + endpoint
+    }
     return PROXY + endpoint
 }
 
