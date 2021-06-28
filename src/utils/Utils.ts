@@ -106,9 +106,9 @@ export function gotResultCorrect(pred_one_goals: string | undefined, pred_two_go
 }
 
 export function resolveEndpoint(endpoint: string): string {
-    if (endpoint === 'leaderboard' || endpoint.startsWith('match/predictions?matchid=')) {
-        return LAMBDA + endpoint
-    }
+    // if (endpoint === 'leaderboard' || endpoint.startsWith('match/predictions?matchid=')) {
+    //     return LAMBDA + endpoint
+    // }
     return PROXY + endpoint
 }
 
