@@ -16,6 +16,7 @@ scoreToColour.set(2, '#1caac9')
 scoreToColour.set(3, '#16b877')
 scoreToColour.set(4, '#ab1db8')
 scoreToColour.set(5, '#bfa72e')
+scoreToColour.set(6, '#a48111')
 
 const GreenCheckbox = withStyles({
     root: {
