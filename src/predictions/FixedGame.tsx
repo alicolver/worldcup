@@ -36,7 +36,7 @@ const RedCheckbox = withStyles({
         },
     },
     checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" indeterminate {...props} />);
+})((props: CheckboxProps) => <Checkbox color="default" indeterminate={props.checked} {...props} />);
 
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
