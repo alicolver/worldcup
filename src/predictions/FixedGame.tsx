@@ -7,6 +7,7 @@ import { IMatch } from "./Predictions";
 import Team from "./Team";
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { Route } from "react-router-dom";
+import ClearIcon from '@material-ui/icons/Clear';
 
 const scoreToColour = new Map<number, string>()
 scoreToColour.set(0, '#505e73')
@@ -34,7 +35,7 @@ const RedCheckbox = withStyles({
         },
     },
     checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+})((props: CheckboxProps) => <Checkbox color="default" indeterminate {...props} />);
 
 export default function FixedGame(props: IMatch) {
     const classes = useStyles()
