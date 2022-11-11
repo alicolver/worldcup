@@ -36,7 +36,7 @@ export default function Header() {
 
   return (
     <div className={classes.headerBar} onClick={logout} >
-      <img className={classes.logo} src={logo} alt={'euro logo'} />
+      <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
       <div className={classes.colorStrip} />
     </div>
   )

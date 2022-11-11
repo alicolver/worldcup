@@ -47,7 +47,7 @@ export default function HeaderReturn() {
       <IconButton className={classes.backButton} onClick={goBack}>
         <ArrowBackIcon />
       </IconButton>
-      <img className={classes.logo} src={logo} alt={'euro logo'} />
+      <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
       <div className={classes.colorStrip} />
     </div>
   )
