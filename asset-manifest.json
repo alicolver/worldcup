@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/euro2020/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/euro2020/static/js/main.f4702759.chunk.js",
-    "main.js.map": "/euro2020/static/js/main.f4702759.chunk.js.map",
-    "runtime-main.js": "/euro2020/static/js/runtime-main.494ef275.js",
-    "runtime-main.js.map": "/euro2020/static/js/runtime-main.494ef275.js.map",
-    "static/js/2.d7b47d7b.chunk.js": "/euro2020/static/js/2.d7b47d7b.chunk.js",
-    "static/js/2.d7b47d7b.chunk.js.map": "/euro2020/static/js/2.d7b47d7b.chunk.js.map",
-    "static/js/3.6b9a34e1.chunk.js": "/euro2020/static/js/3.6b9a34e1.chunk.js",
-    "static/js/3.6b9a34e1.chunk.js.map": "/euro2020/static/js/3.6b9a34e1.chunk.js.map",
-    "index.html": "/euro2020/index.html",
-    "service-worker.js": "/euro2020/service-worker.js",
-    "service-worker.js.map": "/euro2020/service-worker.js.map",
-    "static/css/main.6dea0f05.chunk.css.map": "/euro2020/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.d7b47d7b.chunk.js.LICENSE.txt": "/euro2020/static/js/2.d7b47d7b.chunk.js.LICENSE.txt",
-    "static/media/logo.b61bf1d9.svg": "/euro2020/static/media/logo.b61bf1d9.svg"
+    "main.css": "/worldcup/static/css/main.6dea0f05.chunk.css",
+    "main.js": "/worldcup/static/js/main.fdb1df82.chunk.js",
+    "main.js.map": "/worldcup/static/js/main.fdb1df82.chunk.js.map",
+    "runtime-main.js": "/worldcup/static/js/runtime-main.3d169abf.js",
+    "runtime-main.js.map": "/worldcup/static/js/runtime-main.3d169abf.js.map",
+    "static/js/2.5ca588eb.chunk.js": "/worldcup/static/js/2.5ca588eb.chunk.js",
+    "static/js/2.5ca588eb.chunk.js.map": "/worldcup/static/js/2.5ca588eb.chunk.js.map",
+    "static/js/3.596b86af.chunk.js": "/worldcup/static/js/3.596b86af.chunk.js",
+    "static/js/3.596b86af.chunk.js.map": "/worldcup/static/js/3.596b86af.chunk.js.map",
+    "index.html": "/worldcup/index.html",
+    "service-worker.js": "/worldcup/service-worker.js",
+    "service-worker.js.map": "/worldcup/service-worker.js.map",
+    "static/css/main.6dea0f05.chunk.css.map": "/worldcup/static/css/main.6dea0f05.chunk.css.map",
+    "static/js/2.5ca588eb.chunk.js.LICENSE.txt": "/worldcup/static/js/2.5ca588eb.chunk.js.LICENSE.txt",
+    "static/media/logo.2e437646.svg": "/worldcup/static/media/logo.2e437646.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.494ef275.js",
-    "static/js/2.d7b47d7b.chunk.js",
+    "static/js/runtime-main.3d169abf.js",
+    "static/js/2.5ca588eb.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.f4702759.chunk.js"
+    "static/js/main.fdb1df82.chunk.js"
   ]
 }
