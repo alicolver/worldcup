@@ -1,5 +1,6 @@
 import { Container, createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 import React from 'react';
+import League from '../league/League';
 import BottomNav from '../misc/BottomNav';
 import Header from '../misc/Header';
 import Prediction from '../predictions/Predictions';
@@ -33,9 +34,8 @@ function Homepage() {
     <ThemeProvider theme={fontTheme}>
       <Header />
       <Container className={classes.homepage}>
-        <Prediction />
+        <League />
       </Container>
-      <BottomNav value={'/home'} admin={isAdminCheck()} />
     </ThemeProvider>
   )
 }

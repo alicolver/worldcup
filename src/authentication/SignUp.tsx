@@ -76,7 +76,7 @@ export default function SignUp() {
       return
     }
 
-    fetch(resolveEndpoint('signup'), {
+    fetch(resolveEndpoint('auth/signup'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -84,11 +84,13 @@ export default function SignUp() {
       body: JSON.stringify({
         email: email,
         password: password,
-        name: firstName + ' ' + lastName
+        givenName: firstName,
+        familyName:  lastName
       })
     })
       .then(res => res.json())
       .then(result => {
+        console.log(result)
         if (result[SUCCESS] === false) {
           alert('error whilst signing up :(')
         } else {

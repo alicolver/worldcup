@@ -172,7 +172,6 @@ export function updateNotificationDenied() {
 }
 
 export function test() {
-
     Notification.requestPermission().then(permission => {
         if (permission === 'denied') {
             updateNotificationDenied()

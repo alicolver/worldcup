@@ -11,7 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { resolveEndpoint, isTokenValid, setJWT } from '../utils/Utils';
+import { resolveEndpoint, isTokenValid, setAuthToken } from '../utils/Utils';
 import { test } from '../serviceWorkerRegistration'
 
 function Copyright() {
@@ -62,7 +62,7 @@ export default function SignIn() {
   }, [setValidToken])
 
   const handleLogin = () => {
-    fetch(resolveEndpoint('login'), {
+    fetch(resolveEndpoint('auth/login'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -71,18 +71,21 @@ export default function SignIn() {
         email: email.value,
         password: password.value
       })
-    })
-      .then(res => res.json())
-      .then(result => {
-        if (result["success"] === true) {
-          setJWT(result["token"]);
-          setValidToken(true)
-          test()
-        } else {
+    }).then(res => {
+        if (res.status !== 200) {
           setPassword({ ...password, error: true });
           setEmail({ ...email, error: true });
+          return null;
         }
-      });
+          return res.json()
+        })
+        .then(result => {
+          if (result !== null) {
+          setAuthToken(result["token"]);
+          setValidToken(true)
+          test()
+          }
+        });
   };
 
   if (validToken) {

@@ -1,31 +1,36 @@
-import { LAMBDA, PROXY } from './Constants'
+import { PROXY } from './Constants'
 import jwtDecode from "jwt-decode"
 
 interface IDecodedUser {
     userid: number
-    admin?: boolean,
+    isAdmin?: boolean,
 }
 
 export function isTokenValid(): Promise<boolean> {
     const jwt = getJWT();
-    return fetch(PROXY + "validateToken", {
+    return fetch(PROXY + "auth/check", {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authenticate': jwt
+            'Authorization': jwt
         }
-    }).then(res => res.json()).then(res => {
-        return res.success
-    })
+    }).then(res => {
+        if (res.status === 200) {
+            console.log('success')
+            return true
+        } 
+        console.log('error')
+            return false
+        })
 }
 
 export function isAdminCheck(): boolean {
     const jwt = getJWT();
     try {
         const decoded = jwtDecode<IDecodedUser>(jwt)
-        if (decoded.admin) {
-            return decoded.admin
+        if (decoded.isAdmin) {
+            return decoded.isAdmin
         }
     } catch { }
     return false
@@ -106,19 +111,16 @@ export function gotResultCorrect(pred_one_goals: string | undefined, pred_two_go
 }
 
 export function resolveEndpoint(endpoint: string): string {
-    // if (endpoint === 'leaderboard' || endpoint.startsWith('match/predictions?matchid=')) {
-    //     return LAMBDA + endpoint
-    // }
     return PROXY + endpoint
 }
 
-export function setJWT(jwt: string) {
-    document.cookie = "jwt=" + jwt;
+export function setAuthToken(token: string) {
+    document.cookie = "authtoken=" + token;
 }
 
 export function getJWT(): string {
     const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${'jwt'}=`);
+    const parts = value.split(`; ${'authtoken'}=`);
     if (parts.length === 2) {
         const jwt = parts.pop()!.split(';').shift()
         return (typeof jwt === 'undefined') ? '' : jwt;
@@ -127,5 +129,5 @@ export function getJWT(): string {
 }
 
 export function deleteJWT() {
-    document.cookie = 'jwt=';
+    document.cookie = 'authtoken=';
 }

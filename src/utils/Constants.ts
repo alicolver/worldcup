@@ -1,5 +1,5 @@
-export const PROXY = 'https://euro2020-back-end.herokuapp.com/'
-// export const PROXY = 'http://localhost:5000/'
+// export const PROXY = 'https://mvlag9k698.execute-api.eu-west-2.amazonaws.com/prod/'
+export const PROXY = 'https://m8n8luh9ri.execute-api.eu-west-2.amazonaws.com/prod/' // ALI DEV STACK
 export const LAMBDA = 'https://dle6yh5vm2.execute-api.eu-west-2.amazonaws.com/'
 export const SUCCESS = 'success'
 

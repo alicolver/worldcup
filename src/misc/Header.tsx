@@ -1,28 +1,22 @@
 import { makeStyles } from "@material-ui/core";
-import logo from '../img/logo.svg'
+import qatar from '../img/qatar.png'
 import { deleteJWT } from "../utils/Utils";
 
 const useStyles = makeStyles({
   logo: {
-    maxHeight: '15vw'
+    height: '6vh',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   headerBar: {
     maxHeight: '15vw',
     marginBottom: '5vw',
     position: 'fixed',
     width: '100%',
-    backgroundColor: 'white',
+    background: 'linear-gradient(90deg, rgba(154,12,52,1) 0%, rgba(0,0,0,1) 100%)',
     top: 0,
     zIndex: 10
-  },
-  colorStrip: {
-    content: "",
-    position: 'absolute',
-    top: '100%',
-    left: '0',
-    width: '100%',
-    height: '4px',
-    background: 'linear-gradient(130deg,#ff7a18,#af002d 41.07%,#319197 76.05%)'
   }
 });
 
@@ -36,8 +30,7 @@ export default function Header() {
 
   return (
     <div className={classes.headerBar} onClick={logout} >
-      <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
-      <div className={classes.colorStrip} />
+      <img className={classes.logo} src={qatar} alt={'qatar 2022 logo'} />
     </div>
   )
 }
