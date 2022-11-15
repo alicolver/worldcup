@@ -49,7 +49,7 @@ export default function SignIn() {
     })
   }, [setValidToken])
 
-  const handleLogin = () => {
+  const handleLogin = (history: any) => () => {
     fetch(resolveEndpoint('auth/login'), {
       method: "POST",
       headers: {
@@ -60,20 +60,28 @@ export default function SignIn() {
         password: password.value
       })
     }).then(res => {
-        if (res.status !== 200) {
-          setPassword({ ...password, error: true });
-          setEmail({ ...email, error: true });
-          return null;
-        }
-          return res.json()
+      if (res.status === 307) {
+        history.push({
+          pathname: '/reset',
+          state: { email: email },
         })
-        .then(result => {
-          if (result !== null) {
+        return null
+      }
+
+      if (res.status >= 400) {
+        setPassword({ ...password, error: true });
+        setEmail({ ...email, error: true });
+        return null;
+      }
+      return res.json()
+    })
+      .then(result => {
+        if (result !== null) {
           setAuthToken(result["token"]);
           setValidToken(true)
           test()
-          }
-        });
+        }
+      });
   };
 
   if (validToken) {
@@ -119,16 +127,18 @@ export default function SignIn() {
               onChange={(input) => setPassword({ ...password, value: input.target.value })}
               error={password.error}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={() => handleLogin()}
-            >
-              Sign In
-            </Button>
+            <Route render={({ history }: { history: any }) => (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleLogin(history)}
+              >
+                Sign In
+              </Button>
+            )} />
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (

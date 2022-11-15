@@ -34,9 +34,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PasswordReset() {
+interface PasswordResetProps {
+  location?: {
+    state?: {
+      email?: {
+        value: string
+      }
+    }
+  }
+}
+
+export default function PasswordReset(props: PasswordResetProps) {
   const classes = useStyles();
-  const [email, setEmail] = useState({ value: '', error: false });
+  const [email, setEmail] = useState({ value: props.location?.state?.email?.value || '', error: false });
   const [otp, setOtp] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -52,7 +62,7 @@ export default function PasswordReset() {
   }, [setValidToken])
 
   function sendOtp(): void {
-    fetch(resolveEndpoint('reset-password'), {
+    fetch(resolveEndpoint('auth/reset'), {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -61,9 +71,8 @@ export default function PasswordReset() {
         email: email.value
       })
     })
-      .then(res => res.json())
       .then(result => {
-        if (!result["success"]) {
+        if (result.status !== 200) {
           alert('Error creating OTP try again later')
         }
       });
@@ -74,20 +83,19 @@ export default function PasswordReset() {
       return
     }
 
-    fetch(resolveEndpoint('reset-password'), {
-      method: "PUT",
+    fetch(resolveEndpoint('auth/confirm'), {
+      method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         email: email.value,
-        otp: otp,
+        confirmationCode: otp,
         password: password
       })
     })
-      .then(res => res.json())
       .then(result => {
-        if (result["success"]) {
+        if (result.status === 200) {
           setSuccessfulReset(true)
         } else {
           alert('Error resetting password')
@@ -112,7 +120,7 @@ export default function PasswordReset() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Recover Password
+            Reset Password
           </Typography>
           <div className={classes.form}>
             <TextField
@@ -125,6 +133,7 @@ export default function PasswordReset() {
               type="email"
               name="email"
               autoComplete="email"
+              value={email.value}
               autoFocus
               onChange={(input) => setEmail({ ...email, value: input.target.value })}
               error={email.error}
@@ -137,7 +146,7 @@ export default function PasswordReset() {
               className={classes.submit}
               onClick={() => sendOtp()}
             >
-              Request OTP
+              Request verification code
             </Button>
             <TextField
               variant="outlined"
@@ -145,7 +154,7 @@ export default function PasswordReset() {
               required
               fullWidth
               name="password"
-              label="One Time Password"
+              label="Verification Code"
               type="password"
               id="password"
               autoComplete="OTP"
