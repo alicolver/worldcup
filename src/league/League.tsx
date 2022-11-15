@@ -29,12 +29,11 @@ const useStyles = makeStyles({
     },
     leagueItem: {
         flex: '0 0 50%',
-        backgroundColor: '#DDDDDD',
-        boxShadow: 'box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px',
         marginRight: '5px',
         borderRadius: '1vw',
         fontSize: '0.9rem !important',
-        verticalAlign: 'top'
+        verticalAlign: 'top',
+        fontWeight: 'bold'
     },
     leagueConfig: {
         display: 'flex',
@@ -61,10 +60,10 @@ export default function League() {
             <Container className={classes.leagueTopDiv}>
                 <Typography className={classes.heading}>Leagues</Typography>
                 <Container className={classes.leagueConfig}>
-                    <Button className={classes.leagueItem} onClick={() => history.push('/league/create')}>
+                    <Button variant="outlined" className={classes.leagueItem} onClick={() => history.push('/league/create')}>
                         <Typography><SettingsApplicationsIcon className={classes.iconStyle}/>Create League</Typography>
                     </Button>
-                    <Button className={classes.leagueItem} onClick={() => history.push('/league/join')}>
+                    <Button variant="outlined" className={classes.leagueItem} onClick={() => history.push('/league/join')}>
                         <Typography><ControlPointIcon className={classes.iconStyle}/>Join League</Typography>
                     </Button>
                 </Container>

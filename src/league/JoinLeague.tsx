@@ -1,7 +1,9 @@
 import { Button, Container, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { fontTheme } from "../homepage/Homepage";
 import Header from "../misc/Header";
+import { getJWT, resolveEndpoint } from "../utils/Utils";
 
 const useStyles = makeStyles({
     container: {
@@ -39,6 +41,26 @@ const useStyles = makeStyles({
 export default function JoinLeaguePage() {
     const classes = useStyles()
     const history = useHistory()
+    const [leagueName, setLeagueName] = useState({ value: '', error: false });
+
+    const handleLeagueJoin = () => {
+        fetch(resolveEndpoint('league/join'), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": getJWT()
+          },
+          body: JSON.stringify({
+            leagueId: leagueName.value
+          })
+        }).then(res => {
+            if (res.status === 200) {
+                history.push('/')
+            } else {
+                setLeagueName({ ...leagueName, error: true })
+            }
+        })
+    }
 
     return (
         <ThemeProvider theme={fontTheme}>
@@ -53,8 +75,10 @@ export default function JoinLeaguePage() {
                     label="League Id"
                     helperText="Get your friend to send you the league id :)"
                     className={classes.inputText}
+                    error={leagueName.error}
+                    onChange={(input) => setLeagueName({...leagueName, value: input.target.value })}
                 />
-                <Button className={classes.joinButton}>
+                <Button className={classes.joinButton} onClick={() => handleLeagueJoin()}>
                     Join League!    
                 </Button>            
             </Container>

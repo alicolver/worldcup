@@ -1,7 +1,9 @@
 import { ThemeProvider, Container, Typography, TextField, Button, makeStyles } from "@material-ui/core"
+import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { fontTheme } from "../homepage/Homepage"
 import Header from "../misc/Header"
+import { getJWT, resolveEndpoint } from "../utils/Utils"
 
 const useStyles = makeStyles({
     container: {
@@ -39,6 +41,27 @@ const useStyles = makeStyles({
 
 export default function CreateLeaguePage() {
     const classes = useStyles()
+    const history = useHistory()
+    const [leagueName, setLeagueName] = useState({ value: '', error: false });
+
+    const handleLeagueCreate = () => {
+        fetch(resolveEndpoint('league/create'), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": getJWT()
+          },
+          body: JSON.stringify({
+            leagueName: leagueName.value
+          })
+        }).then(res => {
+            if (res.status === 200) {
+                history.push('/')
+            } else {
+                setLeagueName({ ...leagueName, error: true })
+            }
+        })
+    }
 
     return (
         <ThemeProvider theme={fontTheme}>
@@ -50,8 +73,10 @@ export default function CreateLeaguePage() {
                     id="outlined-helperText"
                     label="League Name"
                     className={classes.inputText}
+                    onChange={(input) => setLeagueName({ ...leagueName, value: input.target.value })}
+                    error={leagueName.error}
                 />
-                <Button className={classes.joinButton}>
+                <Button className={classes.joinButton} onClick={() => handleLeagueCreate()}>
                     Create League!    
                 </Button>            
             </Container>
