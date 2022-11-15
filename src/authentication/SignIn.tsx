@@ -150,7 +150,7 @@ export default function SignIn() {
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
                   <Link onClick={() => { history.push('/reset') }} variant="body2">
-                    {"Forgotten your password? Reset it here."}
+                    {"Forgotten your password? Reset it here"}
                   </Link>
                 )} />
               </Grid>

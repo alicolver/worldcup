@@ -198,6 +198,13 @@ export default function PasswordReset(props: PasswordResetProps) {
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
+                  <Link onClick={() => { history.push('/') }} variant="body2">
+                    {"Remembered your password? Sign in"}
+                  </Link>
+                )} />
+              </Grid>
+              <Grid item>
+                <Route render={({ history }: { history: any }) => (
                   <Link onClick={() => { history.push('/signup') }} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
