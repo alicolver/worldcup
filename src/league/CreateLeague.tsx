@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import { fontTheme } from "../homepage/Homepage"
 import Header from "../misc/Header"
+import { IUserTextInput } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 
 const useStyles = makeStyles({
@@ -42,7 +43,7 @@ const useStyles = makeStyles({
 export default function CreateLeaguePage() {
     const classes = useStyles()
     const history = useHistory()
-    const [leagueName, setLeagueName] = useState({ value: '', error: false });
+    const [leagueName, setLeagueName] = useState<IUserTextInput>({ value: '', error: false });
 
     const handleLeagueCreate = () => {
         fetch(resolveEndpoint('league/create'), {
@@ -55,10 +56,9 @@ export default function CreateLeaguePage() {
             leagueName: leagueName.value
           })
         }).then(res => {
-            if (res.status === 200) {
-                history.push('/home')
-            } else {
+            if (res.status !== 200) {
                 setLeagueName({ ...leagueName, error: true })
+                alert('League Name already in use, try again')
             }
         })
     }

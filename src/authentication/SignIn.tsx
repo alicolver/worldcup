@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import { resolveEndpoint, isTokenValid, setAuthToken } from '../utils/Utils';
 import { test } from '../serviceWorkerRegistration'
 import { Copyright } from './Copyright';
+import { IUserTextInput } from '../types/types';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [email, setEmail] = useState({ value: '', error: false });
-  const [password, setPassword] = useState({ value: '', error: false });
-  const [validToken, setValidToken] = useState(false);
+  const [email, setEmail] = useState<IUserTextInput>({ value: '', error: false });
+  const [password, setPassword] = useState<IUserTextInput>({ value: '', error: false });
+  const [validToken, setValidToken] = useState<boolean>(false);
 
   useEffect(() => {
     isTokenValid().then(valid => {
