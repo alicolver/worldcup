@@ -10,7 +10,6 @@ const useStyles = makeStyles({
     marginRight: 'auto'
   },
   headerBar: {
-    maxHeight: '15vw',
     marginBottom: '5vw',
     position: 'fixed',
     width: '100%',
@@ -29,7 +28,7 @@ export default function Header() {
   }
 
   return (
-    <div className={classes.headerBar} onClick={logout} >
+    <div className={classes.headerBar} onClick={logout} style={{ padding: "0.5rem" }}>
       <img className={classes.logo} src={qatar} alt={'qatar 2022 logo'} />
     </div>
   )

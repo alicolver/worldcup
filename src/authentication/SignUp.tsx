@@ -13,19 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { resolveEndpoint, isTokenValid, validateEmail } from '../utils/Utils';
 import { SUCCESS } from '../utils/Constants';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { Copyright } from './Copyright';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
