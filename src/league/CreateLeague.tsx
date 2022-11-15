@@ -56,7 +56,7 @@ export default function CreateLeaguePage() {
           })
         }).then(res => {
             if (res.status === 200) {
-                history.push('/')
+                history.push('/home')
             } else {
                 setLeagueName({ ...leagueName, error: true })
             }
