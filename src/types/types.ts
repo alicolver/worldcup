@@ -7,7 +7,12 @@ export interface ILeague {
     leagueId: string,
     leagueName: string,
     userIds: string[],
-    currentRanking: string,
+    users: {
+        userId: string;
+        totalPoints: number;
+        rank: number
+    }[];
+    currentRanking: number,
 }
 
 export interface IUserData {
