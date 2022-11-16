@@ -36,9 +36,9 @@ export default function LeaguePreview() {
     function getRows(): ReactFragment {
         return (leagueData.map((data, index) => (
             <TableRow>
-                <TableCell>=1</TableCell>
+                <TableCell>{data.currentRanking}</TableCell>
                 <TableCell onClick={() => history.push('/standings?leagueId=' + data.leagueId)}>{data.leagueName}</TableCell>
-                <TableCell><ShareIcon onClick={() => navigator.clipboard.writeText(`${HOST_URL}league/join?leagueId=${data.leagueId}`)} /></TableCell>
+                <TableCell>{data.leagueId === "global" ? "" : <ShareIcon onClick={() => navigator.clipboard.writeText(`${HOST_URL}league/join?leagueId=${data.leagueId}`)} />}</TableCell>
             </ TableRow>
         )))
     }

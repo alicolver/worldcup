@@ -6,7 +6,8 @@ export interface IUserTextInput {
 export interface ILeague {
     leagueId: string,
     leagueName: string,
-    userIds: string[]
+    userIds: string[],
+    currentRanking: string,
 }
 
 export interface IUserData {

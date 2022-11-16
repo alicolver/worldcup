@@ -59,6 +59,8 @@ export default function CreateLeaguePage() {
             if (res.status !== 200) {
                 setLeagueName({ ...leagueName, error: true })
                 alert('League Name already in use, try again')
+            } else {
+                history.push("/home")
             }
         })
     }
