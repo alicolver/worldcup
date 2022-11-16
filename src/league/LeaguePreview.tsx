@@ -3,6 +3,8 @@ import { useState, useEffect, ReactFragment } from "react";
 import { useHistory } from "react-router-dom";
 import { ILeague, IUserData } from "../types/types";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
+import ShareIcon from '@material-ui/icons/Share';
+import { HOST_URL } from "../utils/Constants";
 
 const useStyles = makeStyles({
 
@@ -20,7 +22,7 @@ export default function LeaguePreview() {
                 'Authorization': getJWT()
             }
         }).then(res => res.json())
-        .then(res => setLeagueData(res.data.leagues))
+            .then(res => setLeagueData(res.data.leagues))
     }, [setLeagueData])
 
     function getRows(): ReactFragment {
@@ -28,6 +30,7 @@ export default function LeaguePreview() {
             <TableRow>
                 <TableCell>=1</TableCell>
                 <TableCell onClick={() => history.push('/standings?leagueId=' + data.leagueId)}>{data.leagueName}</TableCell>
+                <TableCell><ShareIcon onClick={() => navigator.clipboard.writeText(`${HOST_URL}league/join?leagueId=${data.leagueId}`)} /></TableCell>
             </ TableRow>
         )))
     }
@@ -39,10 +42,11 @@ export default function LeaguePreview() {
                     <TableRow>
                         <TableCell><b>Rank</b></TableCell>
                         <TableCell><b>League</b></TableCell>
+                        <TableCell><b>Invite</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                {getRows()}
+                    {getRows()}
                 </TableBody>
             </Table>
         </TableContainer>

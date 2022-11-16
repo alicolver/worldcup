@@ -1,6 +1,6 @@
 import { Button, Container, makeStyles, TextField, ThemeProvider, Typography } from "@material-ui/core";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { fontTheme } from "../homepage/Homepage";
 import Header from "../misc/Header";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
@@ -12,7 +12,7 @@ const useStyles = makeStyles({
         textAlign: 'center'
     },
     gradient: {
-      background: 'linear-gradient(to bottom right, rgba(255, 122, 24, 0.2), rgba(175, 0, 45, 0.2), rgba(49, 145, 151, 0.2))',
+        background: 'linear-gradient(to bottom right, rgba(255, 122, 24, 0.2), rgba(175, 0, 45, 0.2), rgba(49, 145, 151, 0.2))',
     },
     heading: {
         fontSize: '10vw',
@@ -41,18 +41,20 @@ const useStyles = makeStyles({
 export default function JoinLeaguePage() {
     const classes = useStyles()
     const history = useHistory()
-    const [leagueName, setLeagueName] = useState({ value: '', error: false });
+    const search = new URLSearchParams(useLocation().search)
+
+    const [leagueName, setLeagueName] = useState({ value: search.get("leagueId") || "", error: false });
 
     const handleLeagueJoin = () => {
         fetch(resolveEndpoint('league/join'), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": getJWT()
-          },
-          body: JSON.stringify({
-            leagueId: leagueName.value
-          })
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": getJWT()
+            },
+            body: JSON.stringify({
+                leagueId: leagueName.value
+            })
         }).then(res => {
             if (res.status === 200) {
                 history.push('/home')
@@ -66,7 +68,7 @@ export default function JoinLeaguePage() {
         <ThemeProvider theme={fontTheme}>
             <Header />
             <Container className={classes.container}>
-                <Typography className={classes.heading}>Join a League</Typography> 
+                <Typography className={classes.heading}>Join a League</Typography>
                 <Typography className={classes.first}>Enter the league code provided to you by the league owner.</Typography>
                 <Typography>If you want to create a league you can create one by clicking the link below:</Typography>
                 <Typography className={classes.link} onClick={() => history.push('/league/create')}>Create a League.</Typography>
@@ -75,12 +77,13 @@ export default function JoinLeaguePage() {
                     label="League Id"
                     helperText="Get your friend to send you the league id :)"
                     className={classes.inputText}
+                    value={leagueName.value}
                     error={leagueName.error}
-                    onChange={(input) => setLeagueName({...leagueName, value: input.target.value })}
+                    onChange={(input) => setLeagueName({ ...leagueName, value: input.target.value })}
                 />
                 <Button className={classes.joinButton} onClick={() => handleLeagueJoin()}>
-                    Join League!    
-                </Button>            
+                    Join League!
+                </Button>
             </Container>
         </ThemeProvider>
     )
