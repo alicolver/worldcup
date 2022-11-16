@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, useLocation } from 'react-router-dom'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const generateSignInLink = (params: URLSearchParams) => {
+  return `/?${params.toString()}`
+}
+
 export default function SignUp() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false)
@@ -51,6 +55,7 @@ export default function SignUp() {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [successfulSingUp, setSuccessfulSignup] = useState(false);
   const [validToken, setValidToken] = useState(false);
+  const search = new URLSearchParams(useLocation().search)
 
   useEffect(() => {
     isTokenValid().then(valid => {
@@ -82,7 +87,7 @@ export default function SignUp() {
         email: email,
         password: password,
         givenName: firstName,
-        familyName:  lastName
+        familyName: lastName
       })
     })
       .then(res => res.json())
@@ -111,7 +116,7 @@ export default function SignUp() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-        <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
+          <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -197,7 +202,7 @@ export default function SignUp() {
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.push('/') }} variant="body2">
+                  <Link onClick={() => { history.push(generateSignInLink(search)) }} variant="body2">
                     Already have an account? Sign in
                   </Link>
                 )} />

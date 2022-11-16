@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { isTokenValid } from "../utils/Utils";
 
 interface ComponentProps {
@@ -11,15 +11,27 @@ interface AuthRedirectProps extends ComponentProps {
     redirectTo: string
 }
 
+const generateRedirectSearchParams = (redirectTo: string) => {
+    const params = new URLSearchParams()
+    params.set("redirect", redirectTo)
+    return params
+}
+
 
 export const AuthRedirect = (props: AuthRedirectProps) => {
     const history = useHistory()
-
+    const search = new URLSearchParams(useLocation().search)
 
     useEffect(() => {
         isTokenValid().then(valid => {
             if (valid === props.expectAuthResult) {
-                history.replace(props.redirectTo)
+
+                const combinedParams = new URLSearchParams({
+                    ...Object.fromEntries(search),
+                    ...Object.fromEntries(generateRedirectSearchParams(history.location.pathname))
+                })
+
+                history.replace(`${props.redirectTo}?${combinedParams.toString()}`)
             }
         })
     })

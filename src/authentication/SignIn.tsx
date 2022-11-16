@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -39,12 +39,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const generateSignUpLink = (params: URLSearchParams) => {
+  return `/signup?${params.toString()}`
+}
+
+const generateHomeLink = (params: URLSearchParams) => {
+  const redirect = params.get("redirect")
+  params.delete("redirect")
+  return `${redirect || "/home"}?${params.toString()}`
+}
+
 export default function SignIn() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState<IUserTextInput>({ value: '', error: false });
   const [password, setPassword] = useState<IUserTextInput>({ value: '', error: false });
   const [validToken, setValidToken] = useState<boolean>(false);
+  const search = new URLSearchParams(useLocation().search)
 
   useEffect(() => {
     isTokenValid().then(valid => {
@@ -90,16 +101,17 @@ export default function SignIn() {
       });
   };
 
+
   if (validToken) {
     return (
-      <Redirect to={'/home'} />
+      <Redirect to={generateHomeLink(search)} />
     )
   } else {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-            <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
+          <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -140,17 +152,17 @@ export default function SignIn() {
                 className={classes.submit}
                 onClick={handleLogin(history)}
               >
-               {isLoading ? (
-                <CircularProgress style={{ padding: "5px" }} color="inherit" />
-              ) : (
-                "Sign In"
-              )}
+                {isLoading ? (
+                  <CircularProgress style={{ padding: "5px" }} color="inherit" />
+                ) : (
+                  "Sign In"
+                )}
               </Button>
             )} />
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.push('/signup') }} variant="body2">
+                  <Link onClick={() => { history.replace(generateSignUpLink(search)) }} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 )} />
