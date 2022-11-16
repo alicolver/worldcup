@@ -20,7 +20,7 @@ export function isTokenValid(): Promise<boolean> {
             console.log('success')
             return true
         } 
-        console.log('error')
+            console.log('error')
             return false
         })
 }

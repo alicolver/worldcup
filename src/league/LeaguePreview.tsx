@@ -21,8 +21,16 @@ export default function LeaguePreview() {
             headers: {
                 'Authorization': getJWT()
             }
-        }).then(res => res.json())
-            .then(res => setLeagueData(res.data.leagues))
+        }).then(res => {
+            if (!res.ok) {
+                return null
+            }
+            return res.json()
+        }).then(res => {
+            if (res !== null) {
+                setLeagueData(res.data.leagues)
+            }
+        })
     }, [setLeagueData])
 
     function getRows(): ReactFragment {
