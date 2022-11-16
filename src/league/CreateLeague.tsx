@@ -1,5 +1,5 @@
 import { ThemeProvider, Container, Typography, TextField, Button, makeStyles } from "@material-ui/core"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { fontTheme } from "../homepage/Homepage"
 import Header from "../misc/Header"
@@ -43,9 +43,14 @@ const useStyles = makeStyles({
 export default function CreateLeaguePage() {
     const classes = useStyles()
     const history = useHistory()
-    const [leagueName, setLeagueName] = useState<IUserTextInput>({ value: '', error: false });
+    const [leagueName, setLeagueName] = useState<IUserTextInput>({ value: '', error: false })
+    const [success, setSuccess] = useState<boolean>(false)
+    const [isWaiting, setIsWaiting] = useState<boolean>(false)
+
+    useEffect(() => { }, [setSuccess, setIsWaiting])
 
     const handleLeagueCreate = () => {
+        setIsWaiting(true)
         fetch(resolveEndpoint('league/create'), {
           method: "POST",
           headers: {
@@ -56,11 +61,14 @@ export default function CreateLeaguePage() {
             leagueName: leagueName.value
           })
         }).then(res => {
+            setIsWaiting(false)
             if (res.status !== 200) {
                 setLeagueName({ ...leagueName, error: true })
                 alert('League Name already in use, try again')
             } else {
                 history.push("/home")
+                setSuccess(true)
+                setTimeout(function() { setSuccess(false) }, 2000)
             }
         })
     }
@@ -77,9 +85,15 @@ export default function CreateLeaguePage() {
                     className={classes.inputText}
                     onChange={(input) => setLeagueName({ ...leagueName, value: input.target.value })}
                     error={leagueName.error}
+                    style={
+                        success ? {
+                            boxShadow: '0 0 5px rgba(20, 219, 96, 1)',
+                            border: '1px solid rgba(20, 219, 96, 1)'
+                        } : {}
+                    }
                 />
                 <Button className={classes.joinButton} onClick={() => handleLeagueCreate()}>
-                    Create League!    
+                    {success ? 'SUCCESS' : isWaiting ? 'creating...' : 'Create League!' }
                 </Button>            
             </Container>
         </ThemeProvider>

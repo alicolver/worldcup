@@ -10,7 +10,7 @@ const useStyles = makeStyles({
       content: "",
       position: 'absolute',
       top: '100%',
-      marginTop: '5vh',
+      marginTop: '2vh',
       marginLeft: '2vw',
       marginRight: '2vw',
       left: '0',
@@ -19,37 +19,45 @@ const useStyles = makeStyles({
       borderRadius: '2vw'
     },
     heading: {
+        marginTop: '3vh',
         paddingTop: '2vh',
-        fontSize: '5vw',
-        paddingBottom: '1vh'
-    },
-    heading2: {
-        fontSize: '4vw',
-        paddingBottom: '1vh'
+        fontSize: '8vw',
+        paddingBottom: '1vh',
+        fontWeight: 'bolder'
     },
     leagueItem: {
         flex: '0 0 50%',
         marginRight: '5px',
         borderRadius: '1vw',
-        fontSize: '0.9rem !important',
         verticalAlign: 'top',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        margin: 'auto'
     },
     leagueConfig: {
         display: 'flex',
         textAlign: 'center',
         width: '100%',
         justifyContent: 'space-around',
-        fontSize: '3vw'
+        fontSize: '3vw',
+        marginTop: '2vh',
+        paddingLeft: '0vw',
+        paddingRight: '0vw'
     },
     iconStyle: {
         verticalAlign: 'bottom'
     },
     leagueContainer: {
         paddingTop: '2vh'
+    },
+    button: {
+        borderRadius: '3vw',
+        minWidth: '40vw',
+        boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+        fontWeight: 'bold',
+        backgroundColor: 'rgb(154,12,52)',
+        color: 'white'
     }
 });
-
 
 export default function League() {
     const classes = useStyles()
@@ -57,19 +65,20 @@ export default function League() {
 
     return (
         <ThemeProvider theme={fontTheme}>
-            <Container className={classes.leagueTopDiv}>
+            <Container>
                 <Typography className={classes.heading}>Leagues</Typography>
                 <Container className={classes.leagueConfig}>
-                    <Button variant="outlined" className={classes.leagueItem} onClick={() => history.push('/league/create')}>
-                        <Typography><SettingsApplicationsIcon className={classes.iconStyle}/>Create League</Typography>
-                    </Button>
-                    <Button variant="outlined" className={classes.leagueItem} onClick={() => history.push('/league/join')}>
-                        <Typography><ControlPointIcon className={classes.iconStyle}/>Join League</Typography>
-                    </Button>
+                        <Button className={classes.button} onClick={() => history.push('/league/create')}>
+                            <Typography><SettingsApplicationsIcon className={classes.iconStyle}/>Create</Typography>
+                        </Button>
+                        <Button className={classes.button} onClick={() => history.push('/league/join')}>
+                            <Typography><ControlPointIcon className={classes.iconStyle}/>Join</Typography>
+                        </Button>
                 </Container>
-                <Container className={classes.leagueContainer}>
-                    <Typography className={classes.heading2}>Your Leagues</Typography>
-                    <LeaguePreview />
+                <Container className={classes.leagueTopDiv}>
+                    <Container className={classes.leagueContainer}>
+                        <LeaguePreview />
+                    </Container>
                 </Container>
             </Container>
         </ThemeProvider>

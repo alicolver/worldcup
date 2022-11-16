@@ -7,7 +7,9 @@ import ShareIcon from '@material-ui/icons/Share';
 import { HOST_URL } from "../utils/Constants";
 
 const useStyles = makeStyles({
-
+    table: {
+        marginBottom: '2vh'
+    }
 });
 
 export default function LeaguePreview() {
@@ -44,7 +46,7 @@ export default function LeaguePreview() {
     }
 
     return (
-        <TableContainer>
+        <TableContainer className={classes.table}>
             <Table size='small'>
                 <TableHead>
                     <TableRow>

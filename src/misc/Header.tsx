@@ -15,7 +15,8 @@ const useStyles = makeStyles({
     width: '100%',
     background: 'linear-gradient(90deg, rgba(154,12,52,1) 0%, rgba(0,0,0,1) 100%)',
     top: 0,
-    zIndex: 10
+    zIndex: 10,
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px'
   }
 });
 
