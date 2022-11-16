@@ -1,5 +1,6 @@
 import { makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import { useState, useEffect, ReactFragment } from "react";
+import { useHistory } from "react-router-dom";
 import { ILeague, IUserData } from "../types/types";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
 
@@ -9,6 +10,7 @@ const useStyles = makeStyles({
 
 export default function LeaguePreview() {
     const classes = useStyles()
+    const history = useHistory()
     const [leagueData, setLeagueData] = useState<ILeague[]>([])
 
     useEffect(() => {
@@ -24,8 +26,8 @@ export default function LeaguePreview() {
     function getRows(): ReactFragment {
         return (leagueData.map((data, index) => (
             <TableRow>
-                <TableCell>{index}</TableCell>
-                <TableCell>{data.leagueName}</TableCell>
+                <TableCell>=1</TableCell>
+                <TableCell onClick={() => history.push('/standings?leagueId=' + data.leagueId)}>{data.leagueName}</TableCell>
             </ TableRow>
         )))
     }
@@ -35,8 +37,8 @@ export default function LeaguePreview() {
             <Table size='small'>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Rank</TableCell>
-                        <TableCell>League</TableCell>
+                        <TableCell><b>Rank</b></TableCell>
+                        <TableCell><b>League</b></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
