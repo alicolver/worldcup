@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +14,7 @@ import { resolveEndpoint, isTokenValid, setAuthToken } from '../utils/Utils';
 import { test } from '../serviceWorkerRegistration'
 import { Copyright } from './Copyright';
 import { IUserTextInput } from '../types/types';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    height: "3rem"
   },
   logo: {
     maxHeight: '30vh'
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState<IUserTextInput>({ value: '', error: false });
   const [password, setPassword] = useState<IUserTextInput>({ value: '', error: false });
   const [validToken, setValidToken] = useState<boolean>(false);
@@ -54,6 +56,7 @@ export default function SignIn() {
   }, [setValidToken])
 
   const handleLogin = (history: any) => () => {
+    setIsLoading(true)
     fetch(resolveEndpoint('auth/login'), {
       method: "POST",
       headers: {
@@ -64,6 +67,7 @@ export default function SignIn() {
         password: password.value
       })
     }).then(res => {
+      setIsLoading(false)
       if (res.status === 307) {
         history.push({
           pathname: '/reset',
@@ -138,7 +142,11 @@ export default function SignIn() {
                 className={classes.submit}
                 onClick={handleLogin(history)}
               >
-                Sign In
+               {isLoading ? (
+                <CircularProgress style={{ padding: "5px" }} color="inherit" />
+              ) : (
+                "Sign In"
+              )}
               </Button>
             )} />
             <Grid container>

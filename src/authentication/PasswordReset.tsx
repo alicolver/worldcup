@@ -1,124 +1,133 @@
-import React, { useEffect, useState } from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { resolveEndpoint, isTokenValid } from '../utils/Utils';
-import { Copyright } from './Copyright';
+import React, { useEffect, useState } from "react";
+import { Redirect, Route } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import Link from "@material-ui/core/Link";
+import logo from '../img/logo.svg';
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { resolveEndpoint, isTokenValid } from "../utils/Utils";
+import { Copyright } from "./Copyright";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    height: "3rem",
   },
+  logo: {
+    maxHeight: '10vh'
+  }
 }));
 
 interface PasswordResetProps {
   location?: {
     state?: {
       email?: {
-        value: string
-      }
-    }
-  }
+        value: string;
+      };
+    };
+  };
 }
 
 export default function PasswordReset(props: PasswordResetProps) {
+  const [otpIsLoading, setOtpIsLoading] = useState(false);
+  const [resetPassIsLoading, setResetPassIsLoading] = useState(false);
   const classes = useStyles();
-  const [email, setEmail] = useState({ value: props.location?.state?.email?.value || '', error: false });
-  const [otp, setOtp] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState({
+    value: props.location?.state?.email?.value || "",
+    error: false,
+  });
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [validToken, setValidToken] = useState(false);
   const [successfulReset, setSuccessfulReset] = useState(false);
 
   useEffect(() => {
-    isTokenValid().then(valid => {
+    isTokenValid().then((valid) => {
       if (valid) {
-        setValidToken(true)
+        setValidToken(true);
       }
-    })
-  }, [setValidToken])
+    });
+  }, [setValidToken]);
 
   function sendOtp(): void {
-    fetch(resolveEndpoint('auth/reset'), {
+    setOtpIsLoading(true);
+    fetch(resolveEndpoint("auth/reset"), {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email.value
-      })
+        email: email.value,
+      }),
+    }).then((result) => {
+      setOtpIsLoading(false);
+      if (result.status !== 200) {
+        alert("Error creating OTP try again later");
+      }
+    }).catch(() => {
+      setOtpIsLoading(false);
+      alert("Error creating OTP try again later")
     })
-      .then(result => {
-        if (result.status !== 200) {
-          alert('Error creating OTP try again later')
-        }
-      });
   }
 
   function resetPassword(): void {
+    setResetPassIsLoading(true);
     if (password !== confirmPassword) {
-      return
+      return;
     }
 
-    fetch(resolveEndpoint('auth/confirm'), {
+    fetch(resolveEndpoint("auth/confirm"), {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: email.value,
         confirmationCode: otp,
-        password: password
-      })
-    })
-      .then(result => {
-        if (result.status === 200) {
-          setSuccessfulReset(true)
-        } else {
-          alert('Error resetting password')
-        }
-      });
+        password: password,
+      }),
+    }).then((result) => {
+      setResetPassIsLoading(false);
+      if (result.status === 200) {
+        setSuccessfulReset(true);
+      } else {
+        alert("Error resetting password");
+      }
+    });
   }
 
   if (validToken) {
-    return (
-      <Redirect to={'/home'} />
-    )
+    return <Redirect to={"/home"} />;
   } else if (successfulReset) {
-    return (
-      <Redirect to={'/'} />
-    )
+    return <Redirect to={"/"} />;
   } else {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+        <img className={classes.logo} src={logo} alt={'qatar 2022 logo'} />
           <Typography component="h1" variant="h5">
             Reset Password
           </Typography>
@@ -135,7 +144,9 @@ export default function PasswordReset(props: PasswordResetProps) {
               autoComplete="email"
               value={email.value}
               autoFocus
-              onChange={(input) => setEmail({ ...email, value: input.target.value })}
+              onChange={(input) =>
+                setEmail({ ...email, value: input.target.value })
+              }
               error={email.error}
             />
             <Button
@@ -146,7 +157,11 @@ export default function PasswordReset(props: PasswordResetProps) {
               className={classes.submit}
               onClick={() => sendOtp()}
             >
-              Request verification code
+              {otpIsLoading ? (
+                <CircularProgress style={{ padding: "5px" }} color="inherit" />
+              ) : (
+                "Request verification code"
+              )}
             </Button>
             <TextField
               variant="outlined"
@@ -193,22 +208,40 @@ export default function PasswordReset(props: PasswordResetProps) {
               className={classes.submit}
               onClick={() => resetPassword()}
             >
-              Reset Password
+              {resetPassIsLoading ? (
+                <CircularProgress style={{ padding: "5px" }} color="inherit" />
+              ) : (
+                "Reset Password"
+              )}
             </Button>
             <Grid container>
               <Grid item>
-                <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.push('/') }} variant="body2">
-                    {"Remembered your password? Sign in"}
-                  </Link>
-                )} />
+                <Route
+                  render={({ history }: { history: any }) => (
+                    <Link
+                      onClick={() => {
+                        history.push("/");
+                      }}
+                      variant="body2"
+                    >
+                      {"Remembered your password? Sign in"}
+                    </Link>
+                  )}
+                />
               </Grid>
               <Grid item>
-                <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.push('/signup') }} variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                )} />
+                <Route
+                  render={({ history }: { history: any }) => (
+                    <Link
+                      onClick={() => {
+                        history.push("/signup");
+                      }}
+                      variant="body2"
+                    >
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  )}
+                />
               </Grid>
             </Grid>
           </div>

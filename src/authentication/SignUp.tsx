@@ -14,6 +14,7 @@ import Container from '@material-ui/core/Container';
 import { resolveEndpoint, isTokenValid, validateEmail } from '../utils/Utils';
 import { SUCCESS } from '../utils/Constants';
 import { Copyright } from './Copyright';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    height: "3rem"
   },
   logo: {
     maxHeight: '10vh'
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -58,12 +61,15 @@ export default function SignUp() {
   }, [setValidToken])
 
   function submitForm() {
+    setIsLoading(true)
     if (!validateEmail(email)) {
+      setIsLoading(false)
       setIsEmailValid(false)
       return
     }
 
     if (password !== confirmPassword) {
+      setIsLoading(false)
       return
     }
 
@@ -81,13 +87,14 @@ export default function SignUp() {
     })
       .then(res => res.json())
       .then(result => {
+        setIsLoading(false)
         console.log(result)
         if (result[SUCCESS] === false) {
           alert('error whilst signing up :(')
         } else {
           setSuccessfulSignup(true)
         }
-      });
+      })
   }
 
   if (validToken) {
@@ -185,7 +192,7 @@ export default function SignUp() {
               className={classes.submit}
               onClick={() => submitForm()}
             >
-              Sign Up
+              {isLoading ? <CircularProgress color="inherit" /> : "Sign Up"}
             </Button>
             <Grid container>
               <Grid item>
