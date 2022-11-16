@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { resolveEndpoint, isTokenValid, setAuthToken } from '../utils/Utils';
-import { test } from '../serviceWorkerRegistration'
 import { Copyright } from './Copyright';
 import { IUserTextInput } from '../types/types';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -87,7 +86,6 @@ export default function SignIn() {
         if (result !== null) {
           setAuthToken(result["token"]);
           setValidToken(true)
-          test()
         }
       });
   };
