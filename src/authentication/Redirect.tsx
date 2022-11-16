@@ -25,6 +25,10 @@ export const AuthRedirect = (props: AuthRedirectProps) => {
     useEffect(() => {
         isTokenValid().then(valid => {
             if (valid === props.expectAuthResult) {
+                if (props.expectAuthResult) {
+                    history.replace(`${props.redirectTo}`)
+                    return
+                }
 
                 const combinedParams = new URLSearchParams({
                     ...Object.fromEntries(search),
