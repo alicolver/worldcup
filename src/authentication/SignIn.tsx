@@ -56,6 +56,7 @@ export default function SignIn() {
   const [password, setPassword] = useState<IUserTextInput>({ value: '', error: false });
   const [validToken, setValidToken] = useState<boolean>(false);
   const search = new URLSearchParams(useLocation().search)
+  const signUpLink = generateSignUpLink(search)
 
   useEffect(() => {
     isTokenValid().then(valid => {
@@ -162,7 +163,7 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 <Route render={({ history }: { history: any }) => (
-                  <Link onClick={() => { history.replace(generateSignUpLink(search)) }} variant="body2">
+                  <Link onClick={() => { history.replace(signUpLink) }} variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 )} />

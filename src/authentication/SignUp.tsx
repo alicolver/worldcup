@@ -109,7 +109,7 @@ export default function SignUp() {
   }
   else if (successfulSingUp) {
     return (
-      <Redirect to={'/'} />
+      <Redirect to={generateSignInLink(search)} />
     )
   } else {
     return (
