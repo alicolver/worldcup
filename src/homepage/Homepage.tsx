@@ -1,18 +1,13 @@
-import { Container, createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core';
-import React from 'react';
+import { Container, createMuiTheme, makeStyles, ThemeProvider, Toolbar } from '@material-ui/core';
 import League from '../league/League';
-import BottomNav from '../misc/BottomNav';
 import Header from '../misc/Header';
-import Prediction from '../predictions/Predictions';
-import { isAdminCheck } from "../utils/Utils";
 
 const useStyles = makeStyles({
   logo: {
     maxHeight: '15vw'
   },
   homepage: {
-    position: 'absolute',
-    top: '15vw',
+    position: 'relative',
     left: 0,
     width: '100%',
     marginBottom: '30vw'
@@ -33,7 +28,8 @@ function Homepage() {
   return (
     <ThemeProvider theme={fontTheme}>
       <Header />
-      <Container className={classes.homepage}>
+      <Toolbar/>
+      <Container className={classes.homepage} maxWidth="xs">
         <League />
       </Container>
     </ThemeProvider>

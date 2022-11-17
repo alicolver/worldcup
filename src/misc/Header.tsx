@@ -1,4 +1,4 @@
-import { Container, makeStyles } from "@material-ui/core";
+import { AppBar, Box, Container, makeStyles, Toolbar } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import qatar from "../img/qatar.png";
 import { deleteJWT } from "../utils/Utils";
@@ -13,11 +13,14 @@ const useStyles = makeStyles({
   },
   headerBar: {
     marginBottom: "5vw",
-    position: "fixed",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "row",
+    padding: "0.5rem",
+    margin: 0,
     width: "100%",
     background:
       "linear-gradient(90deg, rgba(154,12,52,1) 0%, rgba(0,0,0,1) 100%)",
-    top: 0,
     zIndex: 10,
     boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
   },
@@ -33,17 +36,13 @@ export default function Header() {
   }
 
   return (
-    <>
-      <Container
-        className={classes.headerBar}
-        onClick={() => history.push("/home")}
-        style={{ padding: "0.5rem", display: "flex", alignItems: "center" }}
-      >
-        <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} />
+    <Box>
+      <AppBar className={classes.headerBar}>
+        <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")}/>
         <LogoutIcon onClick={() => logout()}
-          sx={{ color: "#FFFFFF", position: "fixed", right: "15px" }}
+          sx={{ color: "#FFFFFF", position: "absolute", right: "15px" }}
         />
-      </Container>
-    </>
+      </AppBar>
+    </Box>
   );
 }

@@ -64,6 +64,7 @@ export default function LeaguePreview() {
         </TableCell>
         <TableCell
           onClick={() => history.push("/standings?leagueId=" + data.leagueId)}
+          style={{paddingTop: "0.7rem", paddingBottom: "0.7rem"}}
         >
           {data.leagueName}
         </TableCell>
