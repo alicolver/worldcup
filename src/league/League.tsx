@@ -1,11 +1,10 @@
 import {
-  ThemeProvider,
+
   Container,
   Typography,
   makeStyles,
   Button,
 } from "@material-ui/core";
-import { fontTheme } from "../homepage/Homepage";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import LeaguePreview from "./LeaguePreview";
@@ -68,7 +67,7 @@ export default function League() {
   const history = useHistory();
 
   return (
-    <ThemeProvider theme={fontTheme}>
+    <>
       <Container>
         <Typography className={classes.heading}>Leagues</Typography>
         <Container className={classes.leagueConfig}>
@@ -93,6 +92,6 @@ export default function League() {
           </Container>
         </Container>
       </Container>
-    </ThemeProvider>
+    </>
   );
 }

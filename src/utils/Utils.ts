@@ -17,10 +17,8 @@ export function isTokenValid(): Promise<boolean> {
         }
     }).then(res => {
         if (res.status === 200) {
-            console.log('success')
             return true
         } 
-            console.log('error')
             return false
         })
 }

@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, makeStyles, Toolbar } from "@material-ui/core";
+import { AppBar, Box, makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import qatar from "../img/qatar.png";
 import { deleteJWT } from "../utils/Utils";

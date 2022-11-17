@@ -1,7 +1,6 @@
-import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { Redirect, useParams } from "react-router-dom";
-import { fontTheme } from "../homepage/Homepage";
 import BottomNav from "../misc/BottomNav";
 import Header from "../misc/Header";
 import HeaderReturn from "../misc/HeaderReturn";
@@ -54,7 +53,7 @@ export default function History() {
         )
     } else {
         return (
-            <ThemeProvider theme={fontTheme}>
+            <>
                 {!params.userid ? <Header /> : <HeaderReturn />}
                 <Container className={classes.historyContainer}>
                     <Typography className={classes.upcomingGames}>{name} Predictions</Typography>
@@ -62,7 +61,7 @@ export default function History() {
                     {matches.map(element => { return (<FixedGame {...element} />) })}
                 </Container>
                 {!params.userid ? <BottomNav value={'/history'} admin={isAdminCheck()} /> : <></>}
-            </ThemeProvider>
+            </>
         )
     }
 

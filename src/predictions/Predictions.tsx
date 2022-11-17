@@ -1,5 +1,5 @@
 import Game from "./Game";
-import { Container, makeStyles, ThemeProvider, Typography } from "@material-ui/core";
+import { Container, makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
 import { Redirect } from "react-router";
@@ -67,7 +67,7 @@ export default function Prediction() {
         )
     } else {
         return (
-            <ThemeProvider theme={fontTheme}>
+            <>
                 <Container className={classes.gameContainer}>
                     <Typography className={classes.upcomingGames}>{hidden ? "Games coming soon" : "Upcoming Games"}</Typography>
                     {matches.map(element => {
@@ -78,7 +78,7 @@ export default function Prediction() {
                         }
                     })}
                 </Container>
-            </ThemeProvider>
+            </>
         )
     }
 

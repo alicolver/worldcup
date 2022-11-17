@@ -4,13 +4,11 @@ import {
   CssBaseline,
   makeStyles,
   TextField,
-  ThemeProvider,
   Toolbar,
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { fontTheme } from "../homepage/Homepage";
 import Header from "../misc/Header";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
 
@@ -47,7 +45,7 @@ export const useStylesLeague = makeStyles({
     color: "white",
     fontWeight: "bold",
   },
-});
+})
 
 export default function JoinLeaguePage() {
   const classes = useStylesLeague();
@@ -81,7 +79,6 @@ export default function JoinLeaguePage() {
   return (
     <Container component="main">
       <CssBaseline />
-      <ThemeProvider theme={fontTheme}>
         <Header />
         <Toolbar />
         <Container className={classes.container} maxWidth="xs">
@@ -109,6 +106,7 @@ export default function JoinLeaguePage() {
             onChange={(input) =>
               setLeagueName({ ...leagueName, value: input.target.value })
             }
+            color="primary"
           />
           <Button
             className={classes.button}
@@ -117,7 +115,6 @@ export default function JoinLeaguePage() {
             Join League!
           </Button>
         </Container>
-      </ThemeProvider>
     </Container>
   );
 }

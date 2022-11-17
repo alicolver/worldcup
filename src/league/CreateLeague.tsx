@@ -1,7 +1,6 @@
-import { ThemeProvider, Container, Typography, TextField, Button, makeStyles, Toolbar } from "@material-ui/core"
+import { Container, Typography, Button, Toolbar, TextField, makeStyles } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
-import { fontTheme } from "../homepage/Homepage"
 import Header from "../misc/Header"
 import { IUserTextInput } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
@@ -41,7 +40,7 @@ export default function CreateLeaguePage() {
     }
 
     return (
-        <ThemeProvider theme={fontTheme}>
+        <>
             <Header />
             <Toolbar/>
             <Container className={classes.container} maxWidth='xs'>
@@ -64,6 +63,6 @@ export default function CreateLeaguePage() {
                     {success ? 'SUCCESS' : isWaiting ? 'creating...' : 'Create League!' }
                 </Button>            
             </Container>
-        </ThemeProvider>
+        </>
     )
 }

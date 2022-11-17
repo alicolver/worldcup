@@ -1,4 +1,4 @@
-import { Container, createMuiTheme, makeStyles, ThemeProvider, Toolbar } from '@material-ui/core';
+import { Container, createMuiTheme, makeStyles, Toolbar } from '@material-ui/core';
 import PointsCard from '../leaderboard/PointCard';
 import League from '../league/League';
 import Header from '../misc/Header';
@@ -26,14 +26,14 @@ export const fontTheme = createMuiTheme({
 function Homepage() {
   const classes = useStyles();
   return (
-    <ThemeProvider theme={fontTheme}>
+    <>
       <Header />
       <Toolbar/>
       <Container className={classes.homepage} maxWidth="xs">
         {/* <PointsCard /> */}
         <League />
       </Container>
-    </ThemeProvider>
+    </>
   )
 }
 

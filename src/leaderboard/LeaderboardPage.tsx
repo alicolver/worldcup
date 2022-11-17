@@ -1,9 +1,8 @@
 import LeaderBoard from "./Leaderboard";
 import React from "react";
-import { makeStyles, ThemeProvider, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import Header from "../misc/Header";
 import BottomNav from "../misc/BottomNav";
-import { fontTheme } from "../homepage/Homepage";
 import { isAdminCheck } from "../utils/Utils";
 
 const useStyles = makeStyles({
@@ -30,13 +29,13 @@ export default function LeaderboardPage() {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={fontTheme}>
+    <>
       <Header />
       <div className={classes.leaderboard}>
         <Typography className={classes.upcomingGames}>Standings</Typography>
         <LeaderBoard />
       </div>
       <BottomNav value={'/standings'} admin={isAdminCheck()} />
-    </ThemeProvider>
+    </>
   )
 }

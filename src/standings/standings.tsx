@@ -1,5 +1,4 @@
 import {
-  CircularProgress,
   Container,
   createMuiTheme,
   makeStyles,
@@ -7,12 +6,11 @@ import {
   TableBody,
   TableHead,
   TableRow,
-  ThemeProvider,
   Toolbar,
   Typography,
   TableCell,
 } from "@material-ui/core";
-import { Key, ReactFragment, useEffect, useState } from "react";
+import { ReactFragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../misc/Header";
 import { capitalizeFirstLetter, getJWT, resolveEndpoint } from "../utils/Utils";
@@ -82,9 +80,6 @@ export const Standings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const search = new URLSearchParams(useLocation().search);
   const leagueId = search.get("leagueId");
-  console.log({
-    leagueId: leagueId,
-  });
   const leagueName = leagueData === undefined ? "" : leagueData.leagueName;
 
   useEffect(() => {
@@ -108,7 +103,6 @@ export const Standings = () => {
       .then((res) => {
         setIsLoading(false);
         if (res !== null) {
-          console.log(res);
           setLeagueData(res.data);
         }
       });
@@ -136,11 +130,11 @@ export const Standings = () => {
   }
 
   return (
-    <ThemeProvider theme={fontTheme}>
+    <>
       <Header />
       <Toolbar />
       <Container className={classes.standings} maxWidth="xs">
-        <ThemeProvider theme={fontTheme}>
+
           <Container>
             <Typography className={classes.heading}>Standings</Typography>
             <Typography className={classes.subHeading}>
@@ -178,8 +172,7 @@ export const Standings = () => {
               </Container>
             </Container>
           </Container>
-        </ThemeProvider>
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
