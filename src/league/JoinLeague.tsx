@@ -41,7 +41,7 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
   joinButton: {
-    top: "2vh",
+    top: "15px",
     width: "100%",
     background:
       "linear-gradient(90deg, rgba(154,12,52,1) 0%, rgba(0,0,0,1) 100%)",

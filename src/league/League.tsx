@@ -60,7 +60,7 @@ const useStyles = makeStyles({
     fontWeight: "bold",
     backgroundColor: "rgb(154,12,52)",
     color: "white",
-  },
+  }
 });
 
 export default function League() {

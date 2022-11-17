@@ -6,13 +6,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 const useStyles = makeStyles({
   logo: {
-    height: "6vh",
+    height: "20px",
     display: "block",
     marginLeft: "auto",
     marginRight: "auto",
   },
   headerBar: {
-    marginBottom: "5vw",
+    marginBottom: "10px",
     display: "flex",
     alignItems: "center",
     flexDirection: "row",

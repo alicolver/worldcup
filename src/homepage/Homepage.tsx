@@ -1,4 +1,5 @@
 import { Container, createMuiTheme, makeStyles, ThemeProvider, Toolbar } from '@material-ui/core';
+import PointsCard from '../leaderboard/PointCard';
 import League from '../league/League';
 import Header from '../misc/Header';
 
@@ -29,6 +30,7 @@ function Homepage() {
       <Header />
       <Toolbar/>
       <Container className={classes.homepage} maxWidth="xs">
+        <PointsCard />
         <League />
       </Container>
     </ThemeProvider>
