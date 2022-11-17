@@ -131,3 +131,5 @@ export function getJWT(): string {
 export function deleteJWT() {
     document.cookie = 'authtoken=';
 }
+
+export const capitalizeFirstLetter = (input: string) => input.charAt(0).toUpperCase() + input.slice(1);
