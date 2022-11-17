@@ -7,6 +7,7 @@ import PasswordReset from './authentication/PasswordReset'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import { AuthRedirect } from './authentication/Redirect'
 import SignIn from './authentication/SignIn'
+import { Standings } from './standings/standings'
 
 const theme = createMuiTheme({
   palette: {
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="/home" exact><AuthRedirect expectAuthResult={false} redirectTo="/"><Homepage /></AuthRedirect></Route>
         <Route path="/league/join" exact><AuthRedirect expectAuthResult={false} redirectTo="/"><JoinLeaguePage /></AuthRedirect></Route>
         <Route path="/league/create" exact><AuthRedirect expectAuthResult={false} redirectTo="/"><CreateLeaguePage /></AuthRedirect></Route>
+        <Route path="/standings" exact><AuthRedirect expectAuthResult={false} redirectTo="/"><Standings /></AuthRedirect></Route>
       </Router>
     </ThemeProvider>
   )
