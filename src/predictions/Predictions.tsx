@@ -27,12 +27,14 @@ export default function Predictions(props: IPredictionsProps) {
         return (matchData.map(match => <PredictionCard matchData={match}/>))
     }
 
-    return (
-        <Box m={-2}>
+    return props.matchData.length > 0 
+        ? (
+            <Box m={-2}>
             <Container className={classes.header}>
                 <Typography className={classes.heading}>{props.heading}</Typography>
                 {getPredictionCards(props.matchData)}
             </ Container>
-        </Box>
-    )
+            </Box>
+        ) 
+        : (<></>)
 }

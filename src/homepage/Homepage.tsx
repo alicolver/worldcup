@@ -49,10 +49,8 @@ function Homepage() {
       }
       return res.json()
     }).then(res => {
-      setMatchData({
-        imminentMatches: [mockMatchData, mockMatchData, mockMatchData],
-        nextMatches: [mockMatchData, mockMatchData, mockMatchData]
-      })
+      console.log(res.data)
+      setMatchData(res.data)
     })
   }, [setMatchData])
 
@@ -63,7 +61,7 @@ function Homepage() {
       <Container className={classes.homepage} maxWidth="xs">
         <PointsCard />
         <Predictions heading="Next Games" matchData={matchData.imminentMatches}/>
-        {/* <League /> */}
+        <League />
         <Predictions heading="Upcoming Games" matchData={matchData.nextMatches}/>
       </Container>
     </>
