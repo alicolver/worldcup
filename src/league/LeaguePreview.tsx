@@ -27,10 +27,10 @@ export default function LeaguePreview() {
   const history = useHistory();
   const [leagueData, setLeagueData] = useState<ILeague[]>([]);
   const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     fetch(resolveEndpoint("user/get-leagues"), {
       method: "POST",
       headers: {
@@ -44,7 +44,7 @@ export default function LeaguePreview() {
         return res.json();
       })
       .then((res) => {
-          setIsLoading(false)
+        setIsLoading(false);
         if (res !== null) {
           setLeagueData(res.data.leagues);
         }
@@ -67,7 +67,7 @@ export default function LeaguePreview() {
         </TableCell>
         <TableCell
           onClick={() => history.push("/standings?leagueId=" + data.leagueId)}
-          style={{paddingTop: "0.7rem", paddingBottom: "0.7rem"}}
+          style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}
         >
           {data.leagueName}
         </TableCell>
@@ -116,16 +116,20 @@ export default function LeaguePreview() {
               <b>League</b>
             </TableCell>
             <TableCell>
-
+              <b>Invite</b>
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{isLoading && <TableRow>
-                  <TableCell colSpan={3}>
-                    <LinearProgress color="inherit" />
-                  </TableCell>
-                </TableRow>}
-                {!isLoading && getRows()}</TableBody>
+        <TableBody>
+          {isLoading && (
+            <TableRow>
+              <TableCell colSpan={3}>
+                <LinearProgress color="inherit" />
+              </TableCell>
+            </TableRow>
+          )}
+          {!isLoading && getRows()}
+        </TableBody>
       </Table>
     </TableContainer>
   );
