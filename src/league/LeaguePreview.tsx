@@ -116,7 +116,6 @@ export default function LeaguePreview() {
               <b>League</b>
             </TableCell>
             <TableCell>
-              <b>Invite</b>
             </TableCell>
           </TableRow>
         </TableHead>
