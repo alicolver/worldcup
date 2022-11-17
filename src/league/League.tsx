@@ -84,7 +84,7 @@ export default function League() {
             onClick={() => history.push("/league/join")}
           >
             <ControlPointIcon className={classes.iconStyle} />
-            <Typography style={{paddingLeft: "1rem"}}>Join</Typography>
+            <Typography style={{paddingLeft: "0.1rem"}}>Join</Typography>
           </Button>
         </Container>
         <Container className={classes.leagueTopDiv}>

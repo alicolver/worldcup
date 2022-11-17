@@ -3,6 +3,7 @@ import './styles/card.css'
 
 const useStyles = makeStyles({
     container: {
+        paddingTop: '30px',
         display: 'flex',                
         flexDirection: 'row',            /* default value; can be omitted */
         flexWrap: 'nowrap',              /* default value; can be omitted */
@@ -42,11 +43,11 @@ export default function PointsCard() {
             </Container>
             <Container className={classes.middle}>
                 <Typography className={classes.title}>Today</Typography>
-                <Typography className={classes.score}>9</Typography>
+                <Typography className={classes.score}>0</Typography>
             </Container>
             <Container>
                 <Typography className={classes.title}>Rank</Typography>
-                <Typography className={classes.score}>9</Typography>
+                <Typography className={classes.score}>=1</Typography>
             </Container>
         </Container>
     )

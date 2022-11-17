@@ -6,7 +6,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 const useStyles = makeStyles({
   logo: {
-    height: "20px",
+    height: "40px",
     display: "block",
     marginLeft: "auto",
     marginRight: "auto",
