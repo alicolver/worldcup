@@ -118,10 +118,13 @@ export const Standings = () => {
     if (leagueData === undefined) {
       return [];
     }
-    return leagueData.users.map((user) => {
+    return leagueData.users.sort((a, b) => a.rank - b.rank).map((user) => {
       return (
         <TableRow key={user.userId}>
-          <TableCell>{user.rank}</TableCell>
+          <TableCell>{leagueData.users.filter((u) => u.rank === user.rank)
+            .length === 1
+            ? user.rank
+            : "=" + user.rank}</TableCell>
           <TableCell style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}>
             {capitalizeFirstLetter(user.givenName)}{" "}
             {capitalizeFirstLetter(user.familyName)}
