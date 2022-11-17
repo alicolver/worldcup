@@ -19,6 +19,7 @@ import { Alert, LinearProgress } from "@mui/material";
 const useStyles = makeStyles({
   table: {
     marginBottom: "2rem",
+    position: 'relative'
   },
 });
 

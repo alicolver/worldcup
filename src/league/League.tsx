@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   leagueTopDiv: {
     content: "",
-    position: "absolute",
+    position: "relative",
     top: "100%",
     marginTop: "1.5rem",
     marginLeft: "2.5%",
@@ -25,7 +25,6 @@ const useStyles = makeStyles({
   },
   heading: {
     marginTop: "1.75rem",
-    paddingTop: "1rem",
     fontSize: "2rem",
     paddingBottom: "1rem",
   },
@@ -67,7 +66,6 @@ export default function League() {
   const history = useHistory();
 
   return (
-    <>
       <Container>
         <Typography className={classes.heading}>Leagues</Typography>
         <Container className={classes.leagueConfig}>
@@ -92,6 +90,5 @@ export default function League() {
           </Container>
         </Container>
       </Container>
-    </>
   );
 }
