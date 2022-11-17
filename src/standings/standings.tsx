@@ -1,20 +1,22 @@
 import {
+  CircularProgress,
   Container,
   createMuiTheme,
   makeStyles,
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableRow,
   ThemeProvider,
   Toolbar,
   Typography,
+  TableCell,
 } from "@material-ui/core";
 import { Key, ReactFragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "../misc/Header";
 import { capitalizeFirstLetter, getJWT, resolveEndpoint } from "../utils/Utils";
+import { LinearProgress } from "@mui/material";
 
 export const fontTheme = createMuiTheme({
   typography: {
@@ -22,17 +24,19 @@ export const fontTheme = createMuiTheme({
   },
 });
 
-interface userData {
+interface userDataInLeague {
   familyName: string;
   userId: string;
   leagueIds: string[];
   givenName: string;
+  totalPoints: number;
+  rank: number;
 }
 
 interface getLeagueData {
   leagueId: string;
   leagueName: string;
-  users: userData[];
+  users: userDataInLeague[];
 }
 
 const useStyles = makeStyles({
@@ -50,7 +54,10 @@ const useStyles = makeStyles({
     left: 0,
     width: "100%",
   },
-  tableContainer: {
+  leagueContainer: {
+    paddingTop: "1rem",
+  },
+  leagueTopDiv: {
     content: "",
     position: "absolute",
     top: "100%",
@@ -62,6 +69,9 @@ const useStyles = makeStyles({
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     borderRadius: "2vw",
   },
+  table: {
+    marginBottom: "2rem",
+  },
 });
 
 export const Standings = () => {
@@ -69,6 +79,7 @@ export const Standings = () => {
   const [leagueData, setLeagueData] = useState<getLeagueData | undefined>(
     undefined
   );
+  const [isLoading, setIsLoading] = useState(false);
   const search = new URLSearchParams(useLocation().search);
   const leagueId = search.get("leagueId");
   console.log({
@@ -77,6 +88,7 @@ export const Standings = () => {
   const leagueName = leagueData === undefined ? "" : leagueData.leagueName;
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(resolveEndpoint("league/get"), {
       method: "POST",
       headers: {
@@ -94,6 +106,7 @@ export const Standings = () => {
         return res.json();
       })
       .then((res) => {
+        setIsLoading(false);
         if (res !== null) {
           console.log(res);
           setLeagueData(res.data);
@@ -108,12 +121,12 @@ export const Standings = () => {
     return leagueData.users.map((user) => {
       return (
         <TableRow key={user.userId}>
-          <TableCell>=1</TableCell>
-          <TableCell>
+          <TableCell>{user.rank}</TableCell>
+          <TableCell style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}>
             {capitalizeFirstLetter(user.givenName)}{" "}
             {capitalizeFirstLetter(user.familyName)}
           </TableCell>
-          <TableCell>0</TableCell>
+          <TableCell>{user.totalPoints}</TableCell>
         </TableRow>
       );
     });
@@ -131,23 +144,36 @@ export const Standings = () => {
               League - {leagueName}
             </Typography>
           </Container>
-          <Container className={classes.tableContainer}>
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <b>Rank</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Name</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>Score</b>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>{getRows()}</TableBody>
-            </Table>
+          <Container className={classes.leagueTopDiv}>
+            <Container className={classes.leagueContainer}>
+              <Container className={classes.table}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        <b>Rank</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Name</b>
+                      </TableCell>
+                      <TableCell>
+                        <b>Score</b>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {isLoading && (
+                      <TableRow>
+                        <TableCell colSpan={3}>
+                          <LinearProgress color="inherit" />
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    {!isLoading && getRows()}
+                  </TableBody>
+                </Table>
+              </Container>
+            </Container>
           </Container>
         </ThemeProvider>
       </Container>

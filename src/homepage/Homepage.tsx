@@ -30,7 +30,7 @@ function Homepage() {
       <Header />
       <Toolbar/>
       <Container className={classes.homepage} maxWidth="xs">
-        <PointsCard />
+        {/* <PointsCard /> */}
         <League />
       </Container>
     </ThemeProvider>

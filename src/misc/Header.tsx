@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import qatar from "../img/qatar.png";
 import { deleteJWT } from "../utils/Utils";
 import LogoutIcon from "@mui/icons-material/Logout";
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 const useStyles = makeStyles({
   logo: {
@@ -38,6 +39,9 @@ export default function Header() {
   return (
     <Box>
       <AppBar className={classes.headerBar}>
+      <HomeOutlinedIcon onClick={() => history.push("/home")}
+          sx={{ color: "#FFFFFF", position: "absolute", left: "15px" }}
+        />
         <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")}/>
         <LogoutIcon onClick={() => logout()}
           sx={{ color: "#FFFFFF", position: "absolute", right: "15px" }}

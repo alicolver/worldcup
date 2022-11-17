@@ -14,11 +14,11 @@ import { ILeague } from "../types/types";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
 import ShareIcon from "@material-ui/icons/Share";
 import { HOST_URL } from "../utils/Constants";
-import { Alert } from "@mui/material";
+import { Alert, LinearProgress } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
-    marginBottom: "2vh",
+    marginBottom: "2rem",
   },
 });
 
@@ -27,8 +27,10 @@ export default function LeaguePreview() {
   const history = useHistory();
   const [leagueData, setLeagueData] = useState<ILeague[]>([]);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     fetch(resolveEndpoint("user/get-leagues"), {
       method: "POST",
       headers: {
@@ -42,6 +44,7 @@ export default function LeaguePreview() {
         return res.json();
       })
       .then((res) => {
+          setIsLoading(false)
         if (res !== null) {
           setLeagueData(res.data.leagues);
         }
@@ -117,7 +120,12 @@ export default function LeaguePreview() {
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>{getRows()}</TableBody>
+        <TableBody>{isLoading && <TableRow>
+                  <TableCell colSpan={3}>
+                    <LinearProgress color="inherit" />
+                  </TableCell>
+                </TableRow>}
+                {!isLoading && getRows()}</TableBody>
       </Table>
     </TableContainer>
   );

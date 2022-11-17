@@ -23,7 +23,6 @@ export const useStylesLeague = makeStyles({
       "linear-gradient(to bottom right, rgba(255, 122, 24, 0.2), rgba(175, 0, 45, 0.2), rgba(49, 145, 151, 0.2))",
   },
   heading: {
-    marginTop: "1.75rem",
     paddingTop: "2rem",
     fontSize: "2rem",
     paddingBottom: "1rem",

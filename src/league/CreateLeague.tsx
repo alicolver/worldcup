@@ -1,4 +1,4 @@
-import { ThemeProvider, Container, Typography, TextField, Button, makeStyles } from "@material-ui/core"
+import { ThemeProvider, Container, Typography, TextField, Button, makeStyles, Toolbar } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { fontTheme } from "../homepage/Homepage"
@@ -43,6 +43,7 @@ export default function CreateLeaguePage() {
     return (
         <ThemeProvider theme={fontTheme}>
             <Header />
+            <Toolbar/>
             <Container className={classes.container} maxWidth='xs'>
                 <Typography className={classes.heading}>Create a League</Typography> 
                 <Typography className={classes.first}>Enter your league name to create a private league for you and friends.</Typography>
