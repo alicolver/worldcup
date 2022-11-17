@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/worldcup/static/css/main.791b6f46.chunk.css",
-    "main.js": "/worldcup/static/js/main.35410605.chunk.js",
-    "main.js.map": "/worldcup/static/js/main.35410605.chunk.js.map",
+    "main.js": "/worldcup/static/js/main.d71a92cb.chunk.js",
+    "main.js.map": "/worldcup/static/js/main.d71a92cb.chunk.js.map",
     "runtime-main.js": "/worldcup/static/js/runtime-main.c0dec1fb.js",
     "runtime-main.js.map": "/worldcup/static/js/runtime-main.c0dec1fb.js.map",
     "static/js/2.8e423d4e.chunk.js": "/worldcup/static/js/2.8e423d4e.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.c0dec1fb.js",
     "static/js/2.8e423d4e.chunk.js",
     "static/css/main.791b6f46.chunk.css",
-    "static/js/main.35410605.chunk.js"
+    "static/js/main.d71a92cb.chunk.js"
   ]
 }
