@@ -5,46 +5,10 @@ import { fontTheme } from "../homepage/Homepage"
 import Header from "../misc/Header"
 import { IUserTextInput } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
-
-const useStyles = makeStyles({
-    container: {
-        position: 'absolute',
-        top: '10%',
-        textAlign: 'center'
-    },
-    gradient: {
-      background: 'linear-gradient(to bottom right, rgba(255, 122, 24, 0.2), rgba(175, 0, 45, 0.2), rgba(49, 145, 151, 0.2))',
-    },
-    heading: {
-        fontSize: '40px',
-        paddingBottom: '60px'
-    },
-    first: {
-        fontWeight: 'bold'
-    },
-    link: {
-        color: '#A30E36',
-        textDecoration: 'underline'
-    },
-    inputText: {
-        width: '100%',
-        maxWidth: '500px',
-        textAlign: 'center',
-        paddingBottom: '15px'
-    },
-    joinButton: {
-        top: '10%',
-        width: '100%',
-        maxWidth: '500px',
-        background: 'linear-gradient(90deg, rgba(154,12,52,1) 0%, rgba(0,0,0,1) 100%)',
-        color: 'white',
-        fontWeight: 'bold'
-    }
-})
-
+import { useStylesLeague } from "./JoinLeague"
 
 export default function CreateLeaguePage() {
-    const classes = useStyles()
+    const classes = useStylesLeague()
     const history = useHistory()
     const [leagueName, setLeagueName] = useState<IUserTextInput>({ value: '', error: false })
     const [success, setSuccess] = useState<boolean>(false)
@@ -79,7 +43,7 @@ export default function CreateLeaguePage() {
     return (
         <ThemeProvider theme={fontTheme}>
             <Header />
-            <Container className={classes.container}>
+            <Container className={classes.container} maxWidth='xs'>
                 <Typography className={classes.heading}>Create a League</Typography> 
                 <Typography className={classes.first}>Enter your league name to create a private league for you and friends.</Typography>
                 <TextField
@@ -95,7 +59,7 @@ export default function CreateLeaguePage() {
                         } : {}
                     }
                 />
-                <Button className={classes.joinButton} onClick={() => handleLeagueCreate()}>
+                <Button className={classes.button} onClick={() => handleLeagueCreate()}>
                     {success ? 'SUCCESS' : isWaiting ? 'creating...' : 'Create League!' }
                 </Button>            
             </Container>

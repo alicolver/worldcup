@@ -14,7 +14,7 @@ import { fontTheme } from "../homepage/Homepage";
 import Header from "../misc/Header";
 import { getJWT, resolveEndpoint } from "../utils/Utils";
 
-const useStyles = makeStyles({
+export const useStylesLeague = makeStyles({
   container: {
     textAlign: "center",
   },
@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
   heading: {
     marginTop: "1.75rem",
-    paddingTop: "1rem",
+    paddingTop: "2rem",
     fontSize: "2rem",
     paddingBottom: "1rem",
   },
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     width: "100%",
     textAlign: "center",
   },
-  joinButton: {
+  button: {
     top: "15px",
     width: "100%",
     background:
@@ -51,7 +51,7 @@ const useStyles = makeStyles({
 });
 
 export default function JoinLeaguePage() {
-  const classes = useStyles();
+  const classes = useStylesLeague();
   const history = useHistory();
   const search = new URLSearchParams(useLocation().search);
 
@@ -112,7 +112,7 @@ export default function JoinLeaguePage() {
             }
           />
           <Button
-            className={classes.joinButton}
+            className={classes.button}
             onClick={() => handleLeagueJoin()}
           >
             Join League!
