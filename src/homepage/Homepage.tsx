@@ -9,8 +9,7 @@ const useStyles = makeStyles({
   homepage: {
     position: 'relative',
     left: 0,
-    width: '100%',
-    marginBottom: '30vw'
+    width: '100%'
   }
 });
 
