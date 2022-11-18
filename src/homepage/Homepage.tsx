@@ -4,7 +4,7 @@ import PointsCard from "../leaderboard/PointCard"
 import League from "../league/League"
 import Header from "../misc/Header"
 import Predictions from "../predictions/Predictions"
-import { IMatchData } from "../types/Types"
+import { IMatchData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import React from "react"
 
@@ -29,13 +29,13 @@ export const fontTheme = createMuiTheme({
 })
 
 interface IGetMatches {
-  imminentMatches: IMatchData[],
-  nextMatches: IMatchData[]
+    imminentMatches: IMatchData[],
+    nextMatches: IMatchData[]
 }
 
 function Homepage(): JSX.Element {
     const classes = useStyles()
-    const [matchData, setMatchData] = useState<IGetMatches>({ imminentMatches: [], nextMatches: []})
+    const [matchData, setMatchData] = useState<IGetMatches>({ imminentMatches: [], nextMatches: [] })
 
     useEffect(() => {
         fetch(resolveEndpoint("match/get-upcoming"), {
@@ -57,12 +57,12 @@ function Homepage(): JSX.Element {
     return (
         <>
             <Header />
-            <Toolbar/>
+            <Toolbar />
             <Container className={classes.homepage} maxWidth="xs">
                 <PointsCard />
-                {matchData.imminentMatches.length > 0 ? <Predictions heading="Next Games" matchData={matchData.imminentMatches}/> : <></>}
+                {matchData.imminentMatches.length > 0 ? <Predictions heading="Next Games" matchData={matchData.imminentMatches} /> : <></>}
                 <League />
-                {matchData.nextMatches.length > 0 ? <Predictions heading="Upcoming Games" matchData={matchData.nextMatches}/> : <></>}
+                {matchData.nextMatches.length > 0 ? <Predictions heading="Upcoming Games" matchData={matchData.nextMatches} /> : <></>}
             </Container>
         </>
     )

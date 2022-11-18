@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import { resolveEndpoint, isTokenValid, setAuthToken, RESPONSE_AUTH_HEADER, setRefreshToken, RESPONSE_REFRESH_HEADER } from "../utils/Utils"
 import { Copyright } from "./Copyright"
-import { IUserTextInput } from "../types/Types"
+import { IUserTextInput } from "../types/types"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { History } from "history"
 
@@ -111,7 +111,7 @@ export default function SignIn(): JSX.Element {
                 <div className={classes.paper}>
                     <img className={classes.logo} src={logo} alt={"qatar 2022 logo"} />
                     <Typography component="h1" variant="h5">
-            Sign in
+                        Sign in
                     </Typography>
                     <div className={classes.form}>
                         <TextField

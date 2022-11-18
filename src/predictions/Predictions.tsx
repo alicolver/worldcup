@@ -1,6 +1,6 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import { IMatchData, IPredictionData } from "../types/Types"
+import { IMatchData, IPredictionData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import { EMPTY_PREDICTION } from "./Constants"
 import Prediction from "./Prediction"
@@ -35,8 +35,8 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
             const res = predictionData.get(match.matchId)
             const predData: IPredictionData = res !== undefined ? res : EMPTY_PREDICTION
             // TODO: this is such a hack but I couldn't get the callback to work
-            return hasFetched 
-                ? <Prediction key={match.matchId} matchData={match} predictionData={predData}/>
+            return hasFetched
+                ? <Prediction key={match.matchId} matchData={match} predictionData={predData} />
                 : <></>
         }))
     }
@@ -64,7 +64,7 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
         })
     }, [setPredictionData, setHasFetched, props.matchData])
 
-    return props.matchData.length > 0 
+    return props.matchData.length > 0
         ? (
             <Box m={-2}>
                 <Container className={classes.header}>
@@ -72,6 +72,6 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
                     {getPredictionCards(props.matchData)}
                 </ Container>
             </Box>
-        ) 
+        )
         : (<></>)
 }

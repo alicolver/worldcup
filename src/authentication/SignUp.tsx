@@ -10,7 +10,7 @@ import logo from "../img/logo.png"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import { resolveEndpoint, isTokenValid, validateEmail } from "../utils/Utils"
+import { resolveEndpoint, isTokenValid, validateEmail, validatePassword, PasswordValidation } from "../utils/Utils"
 import { Copyright } from "./Copyright"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { History } from "history"
@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     },
     logo: {
         maxHeight: "10vh"
+    },
+    requirement: {
+        marginRight: "1rem"
     }
 }))
 
@@ -54,7 +57,35 @@ export default function SignUp(): JSX.Element {
     const [isEmailValid, setIsEmailValid] = useState(true)
     const [successfulSingUp, setSuccessfulSignup] = useState(false)
     const [validToken, setValidToken] = useState(false)
+    const [passwordValidation, setPasswordValidation] = useState<PasswordValidation>()
     const search = new URLSearchParams(useLocation().search)
+    const isPasswordValid = passwordValidation === undefined || (
+        passwordValidation?.validLength && passwordValidation?.validLowercase && passwordValidation?.validDigits
+    )
+
+    const handleEmailChange = (input: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setEmail(input.target.value)
+        setIsEmailValid(validateEmail(email))
+    }
+
+    const handlePasswordChange = (input: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setPassword(input.target.value)
+        setPasswordValidation(validatePassword(input.target.value))
+    }
+
+    const passwordValidationHelper = (
+        passwordValidation && <>
+            <span className={classes.requirement}>
+                Length (min 6): {passwordValidation.validLength ? "✓" : "✖"}
+            </span>
+            <span className={classes.requirement}>
+                Lowercase: {passwordValidation.validLowercase ? "✓" : "✖"}
+            </span>
+            <span className={classes.requirement}>
+                Number: {passwordValidation.validDigits ? "✓" : "✖"}
+            </span>
+        </>
+    )
 
     useEffect(() => {
         isTokenValid().then(valid => {
@@ -115,7 +146,7 @@ export default function SignUp(): JSX.Element {
                 <div className={classes.paper}>
                     <img className={classes.logo} src={logo} alt={"qatar 2022 logo"} />
                     <Typography component="h1" variant="h5">
-            Sign up
+                        Sign up
                     </Typography>
                     <div className={classes.form}>
                         <Grid container spacing={2}>
@@ -154,7 +185,8 @@ export default function SignUp(): JSX.Element {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
-                                    onChange={(input) => setEmail(input.target.value)}
+                                    onChange={handleEmailChange}
+                                    helperText={!isEmailValid && "Email is invalid"}
                                     error={!isEmailValid}
                                 />
                             </Grid>
@@ -168,7 +200,9 @@ export default function SignUp(): JSX.Element {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
-                                    onChange={(input) => setPassword(input.target.value)}
+                                    helperText={passwordValidationHelper}
+                                    onChange={handlePasswordChange}
+                                    error={!isPasswordValid}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -182,7 +216,7 @@ export default function SignUp(): JSX.Element {
                                     id="password"
                                     autoComplete="current-password"
                                     onChange={(input) => setConfirmPassword(input.target.value)}
-                                    error={password !== confirmPassword}
+                                    error={confirmPassword.length > 0 && password !== confirmPassword}
                                 />
                             </Grid>
                         </Grid>
@@ -200,7 +234,7 @@ export default function SignUp(): JSX.Element {
                             <Grid item>
                                 <Route render={({ history }: { history: History }) => (
                                     <Link onClick={() => { history.push(generateSignInLink(search)) }} variant="body2">
-                    Already have an account? Sign in
+                                        Already have an account? Sign in
                                     </Link>
                                 )} />
                             </Grid>

@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core"
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
-import { ILeague } from "../types/Types"
+import { ILeague } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import ShareIcon from "@material-ui/icons/Share"
 import { HOST_URL } from "../utils/Constants"
@@ -106,7 +106,7 @@ export default function LeaguePreview(): JSX.Element {
                         "& .MuiAlert-message": { textAlign: "center", width: "inherit" },
                     }}
                 >
-          League link copied to clipboard!
+                    League link copied to clipboard!
                 </Alert>
             </Snackbar>
             <Table size="small">

@@ -1,6 +1,6 @@
 import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import { IMatchData, IPredictionData } from "../types/Types"
+import { IMatchData, IPredictionData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
@@ -66,13 +66,13 @@ const defaultWasSent = { success: false, error: false }
 
 export default function PredictionCard(props: IPredictionProps): JSX.Element {
     const classes = useStyles()
-    const [teamOneScore, setTeamOneScore] = useState({ 
-        score: props.predictionData.homeScore == null ? "" : props.predictionData.homeScore.toString(), 
-        error: false 
+    const [teamOneScore, setTeamOneScore] = useState({
+        score: props.predictionData.homeScore == null ? "" : props.predictionData.homeScore.toString(),
+        error: false
     })
-    const [teamTwoScore, setTeamTwoScore] = useState({ 
-        score: props.predictionData.awayScore == null ? "" : props.predictionData.awayScore.toString(), 
-        error: false 
+    const [teamTwoScore, setTeamTwoScore] = useState({
+        score: props.predictionData.awayScore == null ? "" : props.predictionData.awayScore.toString(),
+        error: false
     })
     const [wasSent, setWasSent] = useState(defaultWasSent)
 
@@ -100,7 +100,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             }
             setWasSent({ success: true, error: false })
             return res.json().then(result => {
-                if (result !== null) {                    
+                if (result !== null) {
                     setTimeout(function () {
                         setWasSent(defaultWasSent)
                     }, 500)
@@ -126,7 +126,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         const areBothScoresValid = validateScores(scoreOne, scoreTwo)
 
         if (!areBothScoresValid) return
-        
+
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
@@ -172,7 +172,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         )
     }
 
-    
+
     return (
         <Card className={classes.matchCard}>
             <Box className={classes.date}>

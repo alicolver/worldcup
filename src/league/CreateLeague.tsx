@@ -2,7 +2,7 @@ import { Container, Typography, Button, Toolbar, TextField } from "@material-ui/
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import Header from "../misc/Header"
-import { IUserTextInput } from "../types/Types"
+import { IUserTextInput } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import { useStylesLeague } from "./JoinLeague"
 import React from "react"
@@ -37,7 +37,7 @@ export default function CreateLeaguePage(): JSX.Element {
             } else {
                 history.push("/home")
                 setSuccess(true)
-                setTimeout(function() { setSuccess(false) }, 2000)
+                setTimeout(function () { setSuccess(false) }, 2000)
             }
         })
     }
@@ -45,9 +45,9 @@ export default function CreateLeaguePage(): JSX.Element {
     return (
         <>
             <Header />
-            <Toolbar/>
+            <Toolbar />
             <Container className={classes.container} maxWidth='xs'>
-                <Typography className={classes.heading}>Create a League</Typography> 
+                <Typography className={classes.heading}>Create a League</Typography>
                 <Typography className={classes.first}>Enter your league name to create a private league for you and friends.</Typography>
                 <TextField
                     id="outlined-helperText"
@@ -63,8 +63,8 @@ export default function CreateLeaguePage(): JSX.Element {
                     }
                 />
                 <Button className={classes.button} onClick={() => handleLeagueCreate()}>
-                    {success ? "SUCCESS" : isWaiting ? "creating..." : "Create League!" }
-                </Button>            
+                    {success ? "SUCCESS" : isWaiting ? "creating..." : "Create League!"}
+                </Button>
             </Container>
         </>
     )
