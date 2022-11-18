@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     },
     teamFlag: {
         borderRadius: '5px',
-        boxShadow: 'rgba(0, 0, 0, 0.05) 0px 1px 2px 0px',
+        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
         width: '100px'
     },
     teamName: {
