@@ -1,49 +1,52 @@
-import { Container, makeStyles, Typography } from '@material-ui/core'
-import './styles/card.css'
+import { Container, makeStyles, Typography } from "@material-ui/core"
+import React from "react"
 
 const useStyles = makeStyles({
     container: {
-        paddingTop: '30px',
-        display: 'flex',                
-        flexDirection: 'row',            /* default value; can be omitted */
-        flexWrap: 'nowrap',              /* default value; can be omitted */
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        '& > div': {
-            width: '25%',
-            height: '75px',
-            boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px',
-            borderRadius: '5px',
-            textAlign: 'center',
-            verticalAlign: 'middle',
-            overflow: 'hidden',
-            whiteSpace: 'nowrap'
+        paddingTop: "30px",
+        display: "flex",               
+        justifyContent: "space-between",
+        alignItems: "center",
+        color: "#9a0c34",
+        "& > div": {
+            width: "25%",
+            height: "75px",
+            boxShadow: "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
+            borderRadius: "5px",
+            textAlign: "center",
+            verticalAlign: "middle",
+            overflow: "hidden",
+            whiteSpace: "nowrap"
         }
     },
     middle: {
-        width: '40% !important',
-        height: '150px !important',
+        width: "40% !important",
+        height: "150px !important",
     },
     score: {
-        color: '#9a0c34',
+        fontSize: "30px"
+    },
+    middleScore: {
+        fontSize: "80px"
     },
     title: {
-        color: '#AAAAAA',
+        color: "#AAAAAA",
+        fontWeight: "bold"
     }
 })
 
-export default function PointsCard() {
+export default function PointsCard(): JSX.Element {
     const classes = useStyles()
 
     return (
         <Container className={classes.container}>
             <Container>
                 <Typography className={classes.title}>Total</Typography>
-                <Typography className={classes.score}>109</Typography>
+                <Typography className={classes.score}>0</Typography>
             </Container>
             <Container className={classes.middle}>
                 <Typography className={classes.title}>Today</Typography>
-                <Typography className={classes.score}>0</Typography>
+                <Typography className={classes.middleScore}>0</Typography>
             </Container>
             <Container>
                 <Typography className={classes.title}>Rank</Typography>

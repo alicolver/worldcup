@@ -22,3 +22,22 @@ export interface IUserData {
     familyName: string,
     leagues: ILeague[]
 }
+
+export interface IMatchData {
+    result?: {
+        home: number;
+        away: number;
+    } | undefined;
+    matchId: string;
+    homeTeam: string;
+    awayTeam: string;
+    gameStage: "GROUP" | "FINAL" | "SEMIFINAL" | "QUARTERFINAL" | "OCTOFINAL";
+    matchDay: number;
+    matchDate: string;
+    matchTime: string;
+    isFinished: boolean;
+}
+export interface IPredictionData {
+    homeScore: number | null,
+    awayScore: number | null
+}

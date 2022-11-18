@@ -1,33 +1,33 @@
-import { Box, makeStyles } from "@material-ui/core"
+import { Box, makeStyles, Typography } from "@material-ui/core"
+import React from "react"
 
 interface ITeamProps {
-    emoji: String,
-    name: String
+    flag: string,
+    name: string
 }
 
 const useStyles = makeStyles({
     team: {
-        textAlign: 'center',
-        width: '25vw'
+        textAlign: "center",
     },
-    teamEmoji: {
-        fontSize: '15vw'
+    teamFlag: {
+        borderRadius: "5px",
+        boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px",
+        width: "100px"
     },
     teamName: {
-        fontSize: '4vw'
+        fontSize: "4vw"
     }
 })
 
-export default function Team(props: ITeamProps) {
+export default function Team(props: ITeamProps): JSX.Element {
     const classes = useStyles()
 
     return (
         <Box className={classes.team}>
-            <div className={classes.teamEmoji}>
-                {props.emoji}
-            </div>
+            <img alt={props.name} className={classes.teamFlag} src={props.flag} />
             <div className={classes.teamName}>
-                {props.name}
+                <Typography>{props.name}</Typography>
             </div>
         </Box>
     )
