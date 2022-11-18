@@ -1,26 +1,18 @@
 {
   "files": {
-    "main.css": "/worldcup/static/css/main.791b6f46.chunk.css",
-    "main.js": "/worldcup/static/js/main.5d8b0750.chunk.js",
-    "main.js.map": "/worldcup/static/js/main.5d8b0750.chunk.js.map",
-    "runtime-main.js": "/worldcup/static/js/runtime-main.87376750.js",
-    "runtime-main.js.map": "/worldcup/static/js/runtime-main.87376750.js.map",
-    "static/js/2.1bd9ed63.chunk.js": "/worldcup/static/js/2.1bd9ed63.chunk.js",
-    "static/js/2.1bd9ed63.chunk.js.map": "/worldcup/static/js/2.1bd9ed63.chunk.js.map",
-    "static/js/3.03e0bd33.chunk.js": "/worldcup/static/js/3.03e0bd33.chunk.js",
-    "static/js/3.03e0bd33.chunk.js.map": "/worldcup/static/js/3.03e0bd33.chunk.js.map",
-    "index.html": "/worldcup/index.html",
+    "main.css": "/worldcup/static/css/main.13500d92.css",
+    "main.js": "/worldcup/static/js/main.ee3a0970.js",
+    "static/js/787.d3f70c04.chunk.js": "/worldcup/static/js/787.d3f70c04.chunk.js",
+    "static/media/qatar.png": "/worldcup/static/media/qatar.a111b206ef9a59534f01.png",
     "service-worker.js": "/worldcup/service-worker.js",
-    "service-worker.js.map": "/worldcup/service-worker.js.map",
-    "static/css/main.791b6f46.chunk.css.map": "/worldcup/static/css/main.791b6f46.chunk.css.map",
-    "static/js/2.1bd9ed63.chunk.js.LICENSE.txt": "/worldcup/static/js/2.1bd9ed63.chunk.js.LICENSE.txt",
-    "static/media/logo.2e437646.svg": "/worldcup/static/media/logo.2e437646.svg",
-    "static/media/qatar.a111b206.png": "/worldcup/static/media/qatar.a111b206.png"
+    "static/media/logo.png": "/worldcup/static/media/logo.165cd143d5d97680e949.png",
+    "index.html": "/worldcup/index.html",
+    "main.13500d92.css.map": "/worldcup/static/css/main.13500d92.css.map",
+    "main.ee3a0970.js.map": "/worldcup/static/js/main.ee3a0970.js.map",
+    "787.d3f70c04.chunk.js.map": "/worldcup/static/js/787.d3f70c04.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.87376750.js",
-    "static/js/2.1bd9ed63.chunk.js",
-    "static/css/main.791b6f46.chunk.css",
-    "static/js/main.5d8b0750.chunk.js"
+    "static/css/main.13500d92.css",
+    "static/js/main.ee3a0970.js"
   ]
 }
