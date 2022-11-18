@@ -1,12 +1,13 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography"
+import React from "react"
 
-export const Copyright = () => {
+export const Copyright = (): JSX.Element => {
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-          Ali Colver, Luke Ely & Simon Archer{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+        <Typography variant="body2" color="textSecondary" align="center">
+            {"Copyright © "}
+          Ali Colver, Luke Ely & Simon Archer{" "}
+            {new Date().getFullYear()}
+            {"."}
+        </Typography>
+    )
+}

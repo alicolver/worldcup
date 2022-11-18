@@ -1,6 +1,7 @@
 import { useEffect } from "react"
-import { useHistory, useLocation } from "react-router-dom";
-import { isTokenValid } from "../utils/Utils";
+import { useHistory, useLocation } from "react-router-dom"
+import { isTokenValid } from "../utils/Utils"
+import React from "react"
 
 interface ComponentProps {
     children?: React.ReactNode
@@ -18,7 +19,7 @@ const generateRedirectSearchParams = (redirectTo: string) => {
 }
 
 
-export const AuthRedirect = (props: AuthRedirectProps) => {
+export const AuthRedirect = (props: AuthRedirectProps): JSX.Element => {
     const history = useHistory()
     const search = new URLSearchParams(useLocation().search)
 

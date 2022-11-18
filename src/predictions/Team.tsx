@@ -1,4 +1,5 @@
 import { Box, makeStyles, Typography } from "@material-ui/core"
+import React from "react"
 
 interface ITeamProps {
     flag: string,
@@ -7,19 +8,19 @@ interface ITeamProps {
 
 const useStyles = makeStyles({
     team: {
-        textAlign: 'center',
+        textAlign: "center",
     },
     teamFlag: {
-        borderRadius: '5px',
-        boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
-        width: '100px'
+        borderRadius: "5px",
+        boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px",
+        width: "100px"
     },
     teamName: {
-        fontSize: '4vw'
+        fontSize: "4vw"
     }
 })
 
-export default function Team(props: ITeamProps) {
+export default function Team(props: ITeamProps): JSX.Element {
     const classes = useStyles()
 
     return (

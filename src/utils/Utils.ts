@@ -1,4 +1,4 @@
-import { PROXY } from './Constants'
+import { PROXY } from "./Constants"
 import jwtDecode from "jwt-decode"
 
 interface IDecodedUser {
@@ -7,15 +7,15 @@ interface IDecodedUser {
 }
 
 export function isTokenValid(): Promise<boolean> {
-    const jwt = getJWT();
+    const jwt = getJWT()
     const refresh = getRefreshToken()
     return fetch(PROXY + "auth/check", {
-        method: 'GET',
+        method: "GET",
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': jwt,
-            'Refresh': refresh,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": jwt,
+            "Refresh": refresh,
         },
         mode: "cors"
     }).then(res => {
@@ -28,38 +28,42 @@ export function isTokenValid(): Promise<boolean> {
 }
 
 export function isAdminCheck(): boolean {
-    const jwt = getJWT();
+    const jwt = getJWT()
     try {
         const decoded = jwtDecode<IDecodedUser>(jwt)
         if (decoded.isAdmin) {
             return decoded.isAdmin
         }
-    } catch { }
+    } catch { 
+        // intentionally blank
+    }
     return false
 }
 
 export function getUserid(): number {
-    const jwt = getJWT();
+    const jwt = getJWT()
     try {
         const decoded = jwtDecode<IDecodedUser>(jwt)
         return decoded.userid
-    } catch { }
+    } catch {
+        // intentionally blank
+    }
     return 0
 }
 
 
-export function validateEmail(email: String): boolean {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+export function validateEmail(email: string): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(String(email).toLowerCase())
 }
 
-export function dateToOrdinal(day: number) {
-    if (day > 3 && day < 21) return 'th';
+export function dateToOrdinal(day: number): string {
+    if (day > 3 && day < 21) return "th"
     switch (day % 10) {
-        case 1: return "st";
-        case 2: return "nd";
-        case 3: return "rd";
-        default: return "th";
+    case 1: return "st"
+    case 2: return "nd"
+    case 3: return "rd"
+    default: return "th"
     }
 }
 
@@ -116,29 +120,29 @@ export function resolveEndpoint(endpoint: string): string {
     return PROXY + endpoint
 }
 
-export const RESPONSE_AUTH_HEADER: string = "x-amzn-remapped-authorization"
+export const RESPONSE_AUTH_HEADER = "x-amzn-remapped-authorization"
 export const RESPONSE_REFRESH_HEADER = "refresh"
 
-export function setAuthToken(token: string | null) {
+export function setAuthToken(token: string | null): void {
     if (token) {
-        document.cookie = "authtoken=" + token;
+        document.cookie = "authtoken=" + token
     }
 }
 
-export function setRefreshToken(token: string | null) {
+export function setRefreshToken(token: string | null): void {
     if (token) {
-        document.cookie = "refreshtoken=" + token;
+        document.cookie = "refreshtoken=" + token
     }
 }
 
 const extractToken = (name: string) => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
     if (parts.length === 2) {
-        const jwt = parts.pop()!.split(';').shift()
-        return (typeof jwt === 'undefined') ? '' : jwt;
+        const jwt = parts.pop()?.split(";").shift()
+        return (typeof jwt === "undefined") ? "" : jwt
     }
-    return '';
+    return ""
 }
 
 export function getJWT(): string {
@@ -149,12 +153,12 @@ export function getRefreshToken(): string {
     return extractToken("refreshtoken")
 }
 
-export function deleteJWT() {
-    document.cookie = 'authtoken=';
+export function deleteJWT(): void {
+    document.cookie = "authtoken="
 }
 
-export function deleteRefreshToken() {
-    document.cookie = 'refreshtoken=';
+export function deleteRefreshToken(): void {
+    document.cookie = "refreshtoken="
 }
 
-export const capitalizeFirstLetter = (input: string) => input.charAt(0).toUpperCase() + input.slice(1);
+export const capitalizeFirstLetter = (input: string): string => input.charAt(0).toUpperCase() + input.slice(1)
