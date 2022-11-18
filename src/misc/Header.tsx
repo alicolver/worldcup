@@ -1,4 +1,4 @@
-import { AppBar, Box, makeStyles } from "@material-ui/core"
+import { AppBar, Box, Container, makeStyles } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 import qatar from "../img/qatar.png"
 import { deleteJWT, deleteRefreshToken } from "../utils/Utils"
@@ -15,10 +15,6 @@ const useStyles = makeStyles({
     },
     headerBar: {
         marginBottom: "10px",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "row",
-        padding: "0.5rem",
         margin: 0,
         width: "100%",
         background:
@@ -26,6 +22,14 @@ const useStyles = makeStyles({
         zIndex: 10,
         boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
     },
+    headerContainer: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        padding: "0.5rem",
+        maxWidth: "1080px",
+        margin: "auto",
+    }
 })
 
 export default function Header(): JSX.Element {
@@ -41,13 +45,15 @@ export default function Header(): JSX.Element {
     return (
         <Box>
             <AppBar className={classes.headerBar}>
-                <HomeOutlinedIcon onClick={() => history.push("/home")}
-                    sx={{ color: "#FFFFFF", position: "absolute", left: "15px" }}
-                />
-                <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")} />
-                <LogoutIcon onClick={() => logout()}
-                    sx={{ color: "#FFFFFF", position: "absolute", right: "15px" }}
-                />
+                <Container className={classes.headerContainer}>
+                    <HomeOutlinedIcon onClick={() => history.push("/home")}
+                        sx={{ color: "#FFFFFF", position: "relative", left: "15px" }}
+                    />
+                    <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")} />
+                    <LogoutIcon onClick={() => logout()}
+                        sx={{ color: "#FFFFFF", position: "relative", right: "15px" }}
+                    />
+                </Container>
             </AppBar>
         </Box>
     )
