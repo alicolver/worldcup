@@ -61,7 +61,6 @@ const useStyles = makeStyles({
     },
     leagueTopDiv: {
         content: "",
-        position: "absolute",
         top: "100%",
         marginTop: "1.5rem",
         marginLeft: "2.5%",
