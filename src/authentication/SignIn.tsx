@@ -10,7 +10,7 @@ import logo from '../img/logo.png';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { resolveEndpoint, isTokenValid, setAuthToken } from '../utils/Utils';
+import { resolveEndpoint, isTokenValid, setAuthToken, RESPONSE_AUTH_HEADER, setRefreshToken, RESPONSE_REFRESH_HEADER } from '../utils/Utils';
 import { Copyright } from './Copyright';
 import { IUserTextInput } from '../types/types';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -84,22 +84,18 @@ export default function SignIn() {
           pathname: '/reset',
           state: { email: email },
         })
-        return null
+        return
       }
 
-      if (res.status >= 400) {
+      if (!res.ok) {
         setPassword({ ...password, error: true });
         setEmail({ ...email, error: true });
-        return null;
+        return
       }
-      return res.json()
+      setValidToken(true)
+      setAuthToken(res.headers.get(RESPONSE_AUTH_HEADER))
+      setRefreshToken(res.headers.get(RESPONSE_REFRESH_HEADER))
     })
-      .then(result => {
-        if (result !== null) {
-          setAuthToken(result["token"]);
-          setValidToken(true)
-        }
-      });
   };
 
 

@@ -1,7 +1,7 @@
 import { AppBar, Box, makeStyles } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import qatar from "../img/qatar.png";
-import { deleteJWT } from "../utils/Utils";
+import { deleteJWT, deleteRefreshToken } from "../utils/Utils";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
@@ -33,16 +33,17 @@ export default function Header() {
 
   function logout() {
     deleteJWT()
-    window.location.reload();
+    deleteRefreshToken()
+    history.push("/")
   }
 
   return (
     <Box>
       <AppBar className={classes.headerBar}>
-      <HomeOutlinedIcon onClick={() => history.push("/home")}
+        <HomeOutlinedIcon onClick={() => history.push("/home")}
           sx={{ color: "#FFFFFF", position: "absolute", left: "15px" }}
         />
-        <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")}/>
+        <img className={classes.logo} src={qatar} alt={"qatar 2022 logo"} onClick={() => history.push("/home")} />
         <LogoutIcon onClick={() => logout()}
           sx={{ color: "#FFFFFF", position: "absolute", right: "15px" }}
         />

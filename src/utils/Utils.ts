@@ -8,19 +8,23 @@ interface IDecodedUser {
 
 export function isTokenValid(): Promise<boolean> {
     const jwt = getJWT();
+    const refresh = getRefreshToken()
     return fetch(PROXY + "auth/check", {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': jwt
-        }
+            'Authorization': jwt,
+            'Refresh': refresh,
+        },
+        mode: "cors"
     }).then(res => {
         if (res.status === 200) {
+            setAuthToken(res.headers.get(RESPONSE_AUTH_HEADER))
             return true
-        } 
-            return false
-        })
+        }
+        return false
+    })
 }
 
 export function isAdminCheck(): boolean {
@@ -112,13 +116,24 @@ export function resolveEndpoint(endpoint: string): string {
     return PROXY + endpoint
 }
 
-export function setAuthToken(token: string) {
-    document.cookie = "authtoken=" + token;
+export const RESPONSE_AUTH_HEADER: string = "x-amzn-remapped-authorization"
+export const RESPONSE_REFRESH_HEADER = "refresh"
+
+export function setAuthToken(token: string | null) {
+    if (token) {
+        document.cookie = "authtoken=" + token;
+    }
 }
 
-export function getJWT(): string {
+export function setRefreshToken(token: string | null) {
+    if (token) {
+        document.cookie = "refreshtoken=" + token;
+    }
+}
+
+const extractToken = (name: string) => {
     const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${'authtoken'}=`);
+    const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
         const jwt = parts.pop()!.split(';').shift()
         return (typeof jwt === 'undefined') ? '' : jwt;
@@ -126,8 +141,20 @@ export function getJWT(): string {
     return '';
 }
 
+export function getJWT(): string {
+    return extractToken("authtoken")
+}
+
+export function getRefreshToken(): string {
+    return extractToken("refreshtoken")
+}
+
 export function deleteJWT() {
     document.cookie = 'authtoken=';
+}
+
+export function deleteRefreshToken() {
+    document.cookie = 'refreshtoken=';
 }
 
 export const capitalizeFirstLetter = (input: string) => input.charAt(0).toUpperCase() + input.slice(1);
