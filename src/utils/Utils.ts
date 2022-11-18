@@ -190,3 +190,21 @@ export function deleteRefreshToken(): void {
 }
 
 export const capitalizeFirstLetter = (input: string): string => input.charAt(0).toUpperCase() + input.slice(1)
+
+export const parseDate = (date: string): string => {
+    const humanReadableDate = new Date(date).toDateString().split(" ")
+    const day = humanReadableDate[0]
+    const calendarDate = humanReadableDate[1]
+    const month = humanReadableDate[2]
+    return `${day} ${calendarDate} ${month}`
+}
+
+export function parseMatchKickOff(matchDay: string, matchTime: string): Date {
+    // matchDay fomrmat is YYYY-MM-DD
+    // matchTime fromat is HH:MM
+    return new Date(Date.parse(matchDay + "T" + matchTime + ":00"))
+}
+
+export function hasMatchKickedOff(matchDay: string, matchTime: string, date: Date): boolean {
+    return date > parseMatchKickOff(matchDay, matchTime)
+}

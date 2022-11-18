@@ -1,7 +1,7 @@
 import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { getJWT, hasMatchKickedOff, parseDate, resolveEndpoint } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getImageUrl } from "../utils/s3"
@@ -148,7 +148,8 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         return areBothScoresValid
     }
 
-    function renderUnpredictedScore() {
+    function renderScore() {
+        const hasKickedOff: boolean = hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
         return (
             <>
                 <OutlinedInput
@@ -158,7 +159,9 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     value={teamOneScore.score}
                     onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
-                    error={teamOneScore.error} />
+                    error={teamOneScore.error}
+                    disabled={hasKickedOff} 
+                />
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
@@ -167,19 +170,11 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
                     error={teamTwoScore.error}
+                    disabled={hasKickedOff}
                 />
             </>
         )
     }
-
-    const parseDate = (date: string): string => {
-        const humanReadableDate = new Date(date).toDateString().split(" ")
-        const day = humanReadableDate[0]
-        const calendarDate = humanReadableDate[1]
-        const month = humanReadableDate[2]
-        return `${day} ${calendarDate} ${month}`
-    }
-
 
     return (
         <Card className={classes.matchCard}>
@@ -190,7 +185,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                 <Box>
                     <Team name={props.matchData.homeTeam} flag={getImageUrl(props.matchData.homeTeam)} />
                 </Box>
-                {renderUnpredictedScore()}
+                {renderScore()}
                 <Box>
                     <Team name={props.matchData.awayTeam} flag={getImageUrl(props.matchData.awayTeam)} />
                 </Box>
