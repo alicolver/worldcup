@@ -1,10 +1,9 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import { IMatchData, IPredictionData } from "../types/Types"
+import { IMatchData, IPredictionData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import { EMPTY_PREDICTION } from "./Constants"
 import Prediction from "./Prediction"
-import React from "react"
 
 interface IPredictionsProps {
     heading: string,
@@ -13,9 +12,9 @@ interface IPredictionsProps {
 
 const useStyles = makeStyles({
     header: {
-        paddingTop: "10px",
-        paddingBottom: "20px",
-        position: "relative"
+        paddingTop: '10px',
+        paddingBottom: '20px',
+        position: 'relative'
     },
     heading: {
         marginTop: "1rem",
@@ -25,15 +24,17 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Predictions(props: IPredictionsProps): JSX.Element {
+export default function Predictions(props: IPredictionsProps) {
     const classes = useStyles()
     const [predictionData, setPredictionData] = useState<Map<string, IPredictionData>>(new Map())
     const [hasFetched, setHasFetched] = useState<boolean>(false)
 
     function getPredictionCards(matchData: IMatchData[]) {
         return (matchData.map(match => {
-            const res = predictionData.get(match.matchId)
-            const predData: IPredictionData = res !== undefined ? res : EMPTY_PREDICTION
+            const predData: IPredictionData = predictionData.has(match.matchId) 
+                ? predictionData.get(match.matchId)!
+                : EMPTY_PREDICTION;
+            
             // TODO: this is such a hack but I couldn't get the callback to work
             return hasFetched 
                 ? <Prediction key={match.matchId} matchData={match} predictionData={predData}/>
@@ -42,11 +43,11 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
     }
 
     useEffect(() => {
-        fetch(resolveEndpoint("predictions/fetch"), {
-            method: "POST",
+        fetch(resolveEndpoint('predictions/fetch'), {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": getJWT()
+                'Authorization': getJWT()
             },
             body: JSON.stringify({
                 matchIds: props.matchData.map(data => data.matchId)
