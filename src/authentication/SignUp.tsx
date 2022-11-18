@@ -65,7 +65,7 @@ export default function SignUp(): JSX.Element {
 
     const handleEmailChange = (input: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setEmail(input.target.value)
-        setIsEmailValid(validateEmail(email))
+        setIsEmailValid(validateEmail(input.target.value))
     }
 
     const handlePasswordChange = (input: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
