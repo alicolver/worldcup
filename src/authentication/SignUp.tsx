@@ -89,14 +89,12 @@ export default function SignUp() {
         familyName: lastName
       })
     })
-      .then(res => res.json())
-      .then(result => {
+      .then(res => {
         setIsLoading(false)
-        console.log(result)
-        if (result[SUCCESS] === false) {
-          alert('error whilst signing up :(')
-        } else {
+        if (res.ok) {
           setSuccessfulSignup(true)
+        } else {
+          alert('Failed to create account')
         }
       })
   }
