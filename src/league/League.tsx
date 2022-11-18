@@ -1,9 +1,9 @@
 import {
-
   Container,
   Typography,
   makeStyles,
   Button,
+  Grid,
 } from "@material-ui/core";
 import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
@@ -54,12 +54,12 @@ const useStyles = makeStyles({
   },
   button: {
     borderRadius: "1rem",
-    minWidth: "9rem",
+    minWidth: "100%",
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
     fontWeight: "bold",
     backgroundColor: "rgb(154,12,52)",
     color: "white",
-  }
+  },
 });
 
 export default function League() {
@@ -71,20 +71,26 @@ export default function League() {
       <Container>
         <Typography className={classes.heading}>Leagues</Typography>
         <Container className={classes.leagueConfig}>
-          <Button
-            className={classes.button}
-            onClick={() => history.push("/league/create")}
-          >
-            <SettingsApplicationsIcon className={classes.iconStyle} />
-            <Typography style={{paddingLeft: "1rem"}}>Create</Typography>
-          </Button>
-          <Button
-            className={classes.button}
-            onClick={() => history.push("/league/join")}
-          >
-            <ControlPointIcon className={classes.iconStyle} />
-            <Typography style={{paddingLeft: "0.1rem"}}>Join</Typography>
-          </Button>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Button
+                className={classes.button}
+                onClick={() => history.push("/league/create")}
+              >
+                <SettingsApplicationsIcon className={classes.iconStyle} />
+                <Typography style={{ paddingLeft: "1rem" }}>Create</Typography>
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                className={classes.button}
+                onClick={() => history.push("/league/join")}
+              >
+                <ControlPointIcon className={classes.iconStyle} />
+                <Typography style={{ paddingLeft: "0.1rem" }}>Join</Typography>
+              </Button>
+            </Grid>
+          </Grid>
         </Container>
         <Container className={classes.leagueTopDiv}>
           <Container className={classes.leagueContainer}>

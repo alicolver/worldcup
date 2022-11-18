@@ -1,4 +1,5 @@
 import {
+  Container,
   makeStyles,
   Snackbar,
   Table,
@@ -15,6 +16,7 @@ import { getJWT, resolveEndpoint } from "../utils/Utils";
 import ShareIcon from "@material-ui/icons/Share";
 import { HOST_URL } from "../utils/Constants";
 import { Alert, LinearProgress } from "@mui/material";
+import { getMovement } from "../utils/LeaderboardMovement";
 
 const useStyles = makeStyles({
   table: {
@@ -60,10 +62,23 @@ export default function LeaguePreview() {
     return leagueData.map((data, index) => (
       <TableRow key={data.leagueId}>
         <TableCell>
-          {data.users.filter((user) => user.rank === data.currentRanking)
-            .length === 1
-            ? data.currentRanking
-            : "=" + data.currentRanking}
+          <Container
+            style={{
+              display: "flex",
+              justifyContent: "left",
+              width: "100%",
+              textAlign: "left",
+              padding: "0",
+            }}
+          >
+            {getMovement(data.currentRanking, data.previousRanking)}
+            <div style={{ paddingLeft: "0.6rem" }}>
+              {data.users.filter((user) => user.rank === data.currentRanking)
+                .length === 1
+                ? data.currentRanking
+                : "=" + data.currentRanking}
+            </div>
+          </Container>
         </TableCell>
         <TableCell
           onClick={() => history.push("/standings?leagueId=" + data.leagueId)}
@@ -115,8 +130,7 @@ export default function LeaguePreview() {
             <TableCell>
               <b>League</b>
             </TableCell>
-            <TableCell>
-            </TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

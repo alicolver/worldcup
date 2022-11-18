@@ -13,6 +13,7 @@ export interface ILeague {
         rank: number
     }[];
     currentRanking: number,
+    previousRanking: number
 }
 
 export interface IUserData {

@@ -15,6 +15,8 @@ import { useLocation } from "react-router-dom";
 import Header from "../misc/Header";
 import { capitalizeFirstLetter, getJWT, resolveEndpoint } from "../utils/Utils";
 import { LinearProgress } from "@mui/material";
+import { getMovement } from "../utils/LeaderboardMovement";
+
 
 export const fontTheme = createMuiTheme({
   typography: {
@@ -29,6 +31,8 @@ interface userDataInLeague {
   givenName: string;
   totalPoints: number;
   rank: number;
+  previousTotalPoints: number;
+  yesterdayRank: number;
 }
 
 interface getLeagueData {
@@ -112,21 +116,41 @@ export const Standings = () => {
     if (leagueData === undefined) {
       return [];
     }
-    return leagueData.users.sort((a, b) => a.rank - b.rank).map((user) => {
-      return (
-        <TableRow key={user.userId}>
-          <TableCell>{leagueData.users.filter((u) => u.rank === user.rank)
-            .length === 1
-            ? user.rank
-            : "=" + user.rank}</TableCell>
-          <TableCell style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}>
-            {capitalizeFirstLetter(user.givenName)}{" "}
-            {capitalizeFirstLetter(user.familyName)}
-          </TableCell>
-          <TableCell>{user.totalPoints}</TableCell>
-        </TableRow>
-      );
-    });
+    return leagueData.users
+      .sort((a, b) => a.rank - b.rank)
+      .map((user, index) => {
+        return (
+          <TableRow key={user.userId}>
+            <TableCell>
+              <Container
+                style={{
+                  display: "flex",
+                  justifyContent: "left",
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "0",
+                }}
+              >
+                {getMovement(user.rank, user.yesterdayRank)}
+                <div style={{ paddingLeft: "0.6rem" }}>
+                  {index === 0
+                    ? index + 1
+                    : leagueData.users[index - 1].rank === user.rank
+                    ? "="
+                    : index + 1}
+                </div>
+              </Container>
+            </TableCell>
+            <TableCell
+              style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}
+            >
+              {capitalizeFirstLetter(user.givenName)}{" "}
+              {capitalizeFirstLetter(user.familyName)}
+            </TableCell>
+            <TableCell>{user.totalPoints}</TableCell>
+          </TableRow>
+        );
+      });
   }
 
   return (
@@ -134,44 +158,43 @@ export const Standings = () => {
       <Header />
       <Toolbar />
       <Container className={classes.standings} maxWidth="xs">
-
-          <Container>
-            <Typography className={classes.heading}>Standings</Typography>
-            <Typography className={classes.subHeading}>
-              League - {leagueName}
-            </Typography>
-          </Container>
-          <Container className={classes.leagueTopDiv}>
-            <Container className={classes.leagueContainer}>
-              <Container className={classes.table}>
-                <Table size="small">
-                  <TableHead>
+        <Container>
+          <Typography className={classes.heading}>Standings</Typography>
+          <Typography className={classes.subHeading}>
+            League - {leagueName}
+          </Typography>
+        </Container>
+        <Container className={classes.leagueTopDiv}>
+          <Container className={classes.leagueContainer}>
+            <Container className={classes.table}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <b>Rank</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Name</b>
+                    </TableCell>
+                    <TableCell>
+                      <b>Score</b>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {isLoading && (
                     <TableRow>
-                      <TableCell>
-                        <b>Rank</b>
-                      </TableCell>
-                      <TableCell>
-                        <b>Name</b>
-                      </TableCell>
-                      <TableCell>
-                        <b>Score</b>
+                      <TableCell colSpan={3}>
+                        <LinearProgress color="inherit" />
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {isLoading && (
-                      <TableRow>
-                        <TableCell colSpan={3}>
-                          <LinearProgress color="inherit" />
-                        </TableCell>
-                      </TableRow>
-                    )}
-                    {!isLoading && getRows()}
-                  </TableBody>
-                </Table>
-              </Container>
+                  )}
+                  {!isLoading && getRows()}
+                </TableBody>
+              </Table>
             </Container>
           </Container>
+        </Container>
       </Container>
     </>
   );
