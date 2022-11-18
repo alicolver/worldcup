@@ -18,8 +18,9 @@ import { Alert, LinearProgress } from "@mui/material";
 
 const useStyles = makeStyles({
   table: {
-    marginBottom: "2rem",
-    position: 'relative'
+    marginBottom: "1rem",
+    position: 'relative',
+    paddingBottom: '5px'
   },
 });
 
@@ -117,7 +118,6 @@ export default function LeaguePreview() {
               <b>League</b>
             </TableCell>
             <TableCell>
-              <b>Invite</b>
             </TableCell>
           </TableRow>
         </TableHead>

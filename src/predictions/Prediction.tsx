@@ -1,23 +1,24 @@
-import { Box, Card, Container, makeStyles, OutlinedInput, TextField, Typography } from "@material-ui/core";
-import { useState } from "react";
-import { IMatchData } from "../types/types";
+import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { IMatchData, IPredictionData } from "../types/types";
 import { getImageUrl } from "../utils/s3";
+import { getJWT, resolveEndpoint } from "../utils/Utils";
 import Team from "./Team";
 
 interface IPredictionProps {
-    matchData: IMatchData
+    matchData: IMatchData,
+    predictionData: IPredictionData
 }
 
 export const useStyles = makeStyles({
     match: {
-        width: '80vw',
+        width: '90%',
         margin: '0 auto',
         display: 'flex',
         justifyContent: 'space-between',
-        paddingBottom: '3vw'
     },
     game: {
-        width: '80vw',
+        width: '95%',
         margin: '0 auto',
         display: 'flex',
         justifyContent: 'space-between',
@@ -29,30 +30,12 @@ export const useStyles = makeStyles({
         height: '50px',
         fontSize: '40px',
         textAlign: 'center',
-        marginTop: '4vw'
-    },
-    fixedTeaminput: {
-        width: '50px',
-        height: '50px',
-        fontSize: '40px',
-        textAlign: 'center',
-        marginTop: '1vw'
-    },
-    fixedTeaminputPreds: {
-        width: '50px',
-        height: '50px',
-        fontSize: '40px',
-        textAlign: 'center',
-        marginTop: '7vw'
-    },
-    dash: {
-        fontSize: '8vw',
-        marginTop: '4vw'
+        marginTop: '15px'
     },
     date: {
-        fontSize: '4vw',
-        marginBottom: '0.5vh',
-        maringTop: '0.5vh',
+        fontSize: '8px',
+        marginBottom: '2px',
+        maringTop: '2px',
         verticalAlign: 'center',
         position: 'relative',
         color: 'grey'
@@ -61,23 +44,6 @@ export const useStyles = makeStyles({
         marginBottom: '15px',
         textAlign: 'center',
         borderRadius: '10px',
-    },
-    endGameButton: {
-        marginBottom: '3vw'
-    },
-    yourScore: {
-        marginTop: '3vw',
-    },
-    yourScoreText: {
-        padding: '4px',
-        borderRadius: '3px',
-        color: 'white'
-    },
-    fixedGameTeamName: {
-        marginTop: '7vw'
-    },
-    predictionHistoryTeamName: {
-        marginTop: '3vw'
     },
     penaltyWinner: {
         fontSize: '16px',
@@ -89,24 +55,65 @@ export const useStyles = makeStyles({
         color: 'white'
     },
     allPredictionContainer: {
-        marginTop: '25vw',
-        marginBottom: '19vw',
+        marginTop: '15px',
+        marginBottom: '10px',
         position: 'fixed'
     }
 })
 
+const defaultWasSent = { success: false, error: false }
+
 export default function PredictionCard(props: IPredictionProps) {
     const classes = useStyles()
-    const [teamOneScore, setTeamOneScore] = useState({ score: '', error: false });
-    const [teamTwoScore, setTeamTwoScore] = useState({ score: '', error: false });
-    const [wasSent, setWasSent] = useState<boolean>(false)
+    const [teamOneScore, setTeamOneScore] = useState({ 
+        score: props.predictionData.homeScore == null ? '' : props.predictionData.homeScore.toString(), 
+        error: false 
+    });
+    const [teamTwoScore, setTeamTwoScore] = useState({ 
+        score: props.predictionData.awayScore == null ? '' : props.predictionData.awayScore.toString(), 
+        error: false 
+    });
+    const [wasSent, setWasSent] = useState(defaultWasSent)
+
+    useEffect(() => {
+        setWasSent({ success: false, error: false })
+    }, [setTeamOneScore, setTeamTwoScore])
+
+    function sendPrediction(homeScore: number, awayScore: number) {
+        console.log(props.matchData.matchId)
+        fetch(resolveEndpoint('predictions/make'), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': getJWT()
+            },
+            body: JSON.stringify({
+                homeScore: homeScore,
+                awayScore: awayScore,
+                matchId: props.matchData.matchId
+            })
+        }).then(res => {
+            if (!res.ok) {
+                setWasSent({ success: false, error: true })
+                return
+            }
+            setWasSent({ success: true, error: false })
+            return res.json().then(result => {
+                if (result !== null) {                    
+                    setTimeout(function () {
+                        setWasSent(defaultWasSent);
+                    }, 500)
+                }
+            });
+        })
+    }
 
     function getResponseGlow(): React.CSSProperties | undefined {
-        return wasSent ?
+        return wasSent.success ?
             {
                 border: '1px solid rgb(86, 180, 89)',
                 boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)'
-            } : wasSent ? {
+            } : wasSent.error ? {
                 border: '1px solid rgb(199, 18, 49)',
                 boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(160, 30, 60, 0.6)'
             } : {};
@@ -117,12 +124,12 @@ export default function PredictionCard(props: IPredictionProps) {
         const scoreTwo = parseInt(teamTwoScore.score)
         var areBothScoresValid = validateScores(scoreOne, scoreTwo);
 
-        if (!areBothScoresValid) {
-            return
-        }
-
+        if (!areBothScoresValid) return
+        
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
+
+        sendPrediction(scoreOne, scoreTwo)
     }
 
     function validateScores(scoreOne: number, scoreTwo: number) {

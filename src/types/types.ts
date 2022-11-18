@@ -36,3 +36,7 @@ export interface IMatchData {
     matchTime: string;
     isFinished: boolean;
 }
+export interface IPredictionData {
+    homeScore: number | null,
+    awayScore: number | null
+}

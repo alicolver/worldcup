@@ -5,7 +5,6 @@ import League from '../league/League';
 import Header from '../misc/Header';
 import Predictions from '../predictions/Predictions';
 import { IMatchData } from '../types/types';
-import { mockMatchData } from '../utils/Constants';
 import { getJWT, resolveEndpoint } from '../utils/Utils';
 
 const useStyles = makeStyles({
@@ -60,9 +59,9 @@ function Homepage() {
       <Toolbar/>
       <Container className={classes.homepage} maxWidth="xs">
         <PointsCard />
-        <Predictions heading="Next Games" matchData={matchData.imminentMatches}/>
+        {matchData.imminentMatches.length > 0 ? <Predictions heading="Next Games" matchData={matchData.imminentMatches}/> : <></>}
         <League />
-        <Predictions heading="Upcoming Games" matchData={matchData.nextMatches}/>
+        {matchData.nextMatches.length > 0 ? <Predictions heading="Upcoming Games" matchData={matchData.nextMatches}/> : <></>}
       </Container>
     </>
   )
