@@ -1,5 +1,6 @@
 import { PROXY } from './Constants'
 import jwtDecode from "jwt-decode"
+import passwordValidator from "password-validator"
 
 interface IDecodedUser {
     userid: number
@@ -48,9 +49,36 @@ export function getUserid(): number {
 }
 
 
-export function validateEmail(email: String): boolean {
+export function validateEmail(email: string): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+}
+
+export interface PasswordValidation {
+    validLength: boolean
+    validLowercase: boolean
+    validDigits: boolean
+}
+
+const passwordSchema = new passwordValidator().is().min(6).has().lowercase().has().digits()
+
+export function validatePassword(password: string): PasswordValidation {
+    return convertPasswordValidation(passwordSchema.validate(password, {
+        details: true
+    }) as any[])
+}
+
+function validationContainsField(result: any[], field: string): boolean {
+    return result.find(x => x?.validation === field) !== undefined
+}
+
+function convertPasswordValidation(result: any[]): PasswordValidation {
+    return {
+        validLength: !validationContainsField(result, "min"),
+        validLowercase: !validationContainsField(result, "lowercase"),
+        validDigits: !validationContainsField(result, "digits")
+    }
+
 }
 
 export function dateToOrdinal(day: number) {
