@@ -9,10 +9,9 @@ import {
     TableHead,
     TableRow,
 } from "@material-ui/core"
-import { useState, useEffect, ReactFragment } from "react"
+import { useState, ReactFragment } from "react"
 import { useHistory } from "react-router-dom"
 import { ILeague } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
 import ShareIcon from "@material-ui/icons/Share"
 import { HOST_URL } from "../utils/Constants"
 import { Alert, LinearProgress } from "@mui/material"
@@ -38,7 +37,7 @@ export default function LeaguePreview(props: {leagueData: ILeague[], leagueDataI
     }
 
     function getRows(): ReactFragment {
-        return props.leagueData.map((data, index) => (
+        return props.leagueData.map((data) => (
             <TableRow key={data.leagueId}>
                 <TableCell>
                     <Container

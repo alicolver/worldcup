@@ -5,7 +5,7 @@ import {
     Typography,
 } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
-import { ILeague, IPointsData } from "../types/types"
+import { IPointsData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import { MAIN_COLOR } from "../utils/Constants"
 

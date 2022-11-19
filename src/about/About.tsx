@@ -1,7 +1,7 @@
-import { Modal, Box, Typography, Button, makeStyles, Dialog, Grow, Slide, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
+import { Box, Typography, Button, makeStyles, Dialog, Slide, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@material-ui/core"
 import InfoIcon from "@mui/icons-material/Info"
 import { TransitionProps } from "@mui/material/transitions"
-import React, { FunctionComponent, useState } from "react"
+import React, { useState } from "react"
 import { MAIN_COLOR } from "../utils/Constants"
 
 const useStyles = makeStyles({
