@@ -74,10 +74,9 @@ function Homepage(): JSX.Element {
         }).then((res) => {
             if (res !== null) {
                 setLeagueData(res.data.leagues)
-                setGlobalRank(
-                    leagueData.filter((league) => league.leagueId === "global")[0]
-                        .currentRanking
-                )
+                const globalRank = (res.data.leagues as any[])
+                    .filter((league) => league.leagueId === "global")[0].currentRanking || 0
+                setGlobalRank(globalRank)
             }
         })
     }, [setMatchData, setLeagueData, setLeagueDataIsLoading])
