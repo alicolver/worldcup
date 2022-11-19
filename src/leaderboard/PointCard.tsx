@@ -18,8 +18,7 @@ const useStyles = makeStyles({
         "& > div": {
             width: "25%",
             height: "75px",
-            boxShadow:
-                "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
+            boxShadow: "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px",
             borderRadius: "5px",
             textAlign: "center",
             verticalAlign: "middle",
@@ -55,18 +54,16 @@ export default function PointsCard(props: { globalRank: number, globalRankIsLoad
             headers: {
                 Authorization: getJWT(),
             },
+        }).then((res) => {
+            setPointsDataIsLoading(false)
+            if (!res.ok) {
+                return
+            }
+            return res.json()
+        }).then((res) => {
+            console.log(res.data[0])
+            setPointsData(res.data[0])
         })
-            .then((res) => {
-                setPointsDataIsLoading(false)
-                if (!res.ok) {
-                    return
-                }
-                return res.json()
-            })
-            .then((res) => {
-                console.log(res.data[0])
-                setPointsData(res.data[0])
-            })
     }, [setPointsData])
 
     return (

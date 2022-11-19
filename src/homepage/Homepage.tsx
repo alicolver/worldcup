@@ -31,8 +31,8 @@ export const fontTheme = createMuiTheme({
 })
 
 interface IGetMatches {
-    imminentMatches: IMatchData[];
-    nextMatches: IMatchData[];
+  imminentMatches: IMatchData[];
+  nextMatches: IMatchData[];
 }
 
 function Homepage(): JSX.Element {
@@ -51,39 +51,35 @@ function Homepage(): JSX.Element {
             headers: {
                 Authorization: getJWT(),
             },
+        }).then((res) => {
+            if (!res.ok) {
+                return
+            }
+            return res.json()
+        }).then((res) => {
+            setMatchData(res.data)
         })
-            .then((res) => {
-                if (!res.ok) {
-                    return
-                }
-                return res.json()
-            })
-            .then((res) => {
-                setMatchData(res.data)
-            })
         setLeagueDataIsLoading(true)
         fetch(resolveEndpoint("user/get-leagues"), {
             method: "POST",
             headers: {
                 Authorization: getJWT(),
             },
+        }).then((res) => {
+            setLeagueDataIsLoading(false)
+            if (!res.ok) {
+                return null
+            }
+            return res.json()
+        }).then((res) => {
+            if (res !== null) {
+                setLeagueData(res.data.leagues)
+                setGlobalRank(
+                    leagueData.filter((league) => league.leagueId === "global")[0]
+                        .currentRanking
+                )
+            }
         })
-            .then((res) => {
-                setLeagueDataIsLoading(false)
-                if (!res.ok) {
-                    return null
-                }
-                return res.json()
-            })
-            .then((res) => {
-                if (res !== null) {
-                    setLeagueData(res.data.leagues)
-                    setGlobalRank(
-                        leagueData.filter((league) => league.leagueId === "global")[0]
-                            .currentRanking
-                    )
-                }
-            })
     }, [setMatchData, setLeagueData, setLeagueDataIsLoading])
 
     return (
