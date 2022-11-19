@@ -1,33 +1,35 @@
 export interface IUserTextInput {
-    value: string,
-    error: boolean
+    value: string;
+    error: boolean;
 }
 
 export interface ILeague {
-    leagueId: string,
-    leagueName: string,
-    userIds: string[],
+    leagueId: string;
+    leagueName: string;
+    userIds: string[];
     users: {
         userId: string;
         totalPoints: number;
-        rank: number
+        rank: number;
     }[];
-    currentRanking: number,
-    previousRanking: number
+    currentRanking: number;
+    previousRanking: number;
 }
 
 export interface IUserData {
-    userId: string,
-    givenName: string,
-    familyName: string,
-    leagues: ILeague[]
+    userId: string;
+    givenName: string;
+    familyName: string;
+    leagues: ILeague[];
 }
 
 export interface IMatchData {
-    result?: {
+    result?:
+    | {
         home: number;
         away: number;
-    } | undefined;
+    }
+    | undefined;
     matchId: string;
     homeTeam: string;
     awayTeam: string;
@@ -38,6 +40,14 @@ export interface IMatchData {
     isFinished: boolean;
 }
 export interface IPredictionData {
-    homeScore: number | null,
-    awayScore: number | null
+    homeScore: number | null;
+    awayScore: number | null;
+}
+
+export interface IPointsData {
+    userId: string;
+    pointsHistory: number[];
+    totalPoints: number;
+    livePoints: number;
+    todaysPoints: number;
 }
