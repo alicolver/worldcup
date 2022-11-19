@@ -9,13 +9,14 @@ import { AuthRedirect } from "./authentication/Redirect"
 import SignIn from "./authentication/SignIn"
 import React from "react"
 import { Standings } from "./standings/standings"
+import { MAIN_COLOR } from "./utils/Constants"
 
 
 const theme = createMuiTheme({
     palette: {
         primary: {
             light: "#f5938c",
-            main: "#9a0c34",
+            main: MAIN_COLOR,
             dark: "#840033",
             contrastText: "#fff",
         },
