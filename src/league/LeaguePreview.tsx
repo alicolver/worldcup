@@ -27,34 +27,10 @@ const useStyles = makeStyles({
     },
 })
 
-export default function LeaguePreview(): JSX.Element {
+export default function LeaguePreview(props: {leagueData: ILeague[], leagueDataIsLoading: boolean}): JSX.Element {
     const classes = useStyles()
     const history = useHistory()
-    const [leagueData, setLeagueData] = useState<ILeague[]>([])
     const [open, setOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-
-    useEffect(() => {
-        setIsLoading(true)
-        fetch(resolveEndpoint("user/get-leagues"), {
-            method: "POST",
-            headers: {
-                Authorization: getJWT(),
-            },
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    return null
-                }
-                return res.json()
-            })
-            .then((res) => {
-                setIsLoading(false)
-                if (res !== null) {
-                    setLeagueData(res.data.leagues)
-                }
-            })
-    }, [setLeagueData])
 
     const handleShareClick = (link: string) => {
         setOpen(true)
@@ -62,7 +38,7 @@ export default function LeaguePreview(): JSX.Element {
     }
 
     function getRows(): ReactFragment {
-        return leagueData.map((data, index) => (
+        return props.leagueData.map((data, index) => (
             <TableRow key={data.leagueId}>
                 <TableCell>
                     <Container
@@ -137,7 +113,7 @@ export default function LeaguePreview(): JSX.Element {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {isLoading && (
+                    {props.leagueDataIsLoading && (
                         <TableRow>
                             <TableCell colSpan={3}>
                                 <LinearProgress color="inherit" />
@@ -146,7 +122,7 @@ export default function LeaguePreview(): JSX.Element {
                     )
                     }
 
-                    {!isLoading && getRows()}
+                    {!props.leagueDataIsLoading && getRows()}
                 </TableBody>
             </Table>
         </TableContainer>

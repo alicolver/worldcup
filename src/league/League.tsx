@@ -4,6 +4,7 @@ import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications"
 import LeaguePreview from "./LeaguePreview"
 import { useHistory } from "react-router-dom"
 import React from "react"
+import { ILeague } from "../types/types"
 
 const useStyles = makeStyles({
     leagueTopDiv: {
@@ -56,7 +57,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default function League(): JSX.Element {
+export default function League(props: {leagueData: ILeague[], leagueDataIsLoading: boolean}): JSX.Element {
     const classes = useStyles()
     const history = useHistory()
 
@@ -87,7 +88,7 @@ export default function League(): JSX.Element {
             </Container>
             <Container className={classes.leagueTopDiv}>
                 <Container className={classes.leagueContainer}>
-                    <LeaguePreview />
+                    <LeaguePreview leagueData={props.leagueData} leagueDataIsLoading={props.leagueDataIsLoading} />
                 </Container>
             </Container>
         </Container>

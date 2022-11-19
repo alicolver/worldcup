@@ -1,10 +1,17 @@
-import { Container, makeStyles, Typography } from "@material-ui/core"
-import React from "react"
+import {
+    CircularProgress,
+    Container,
+    makeStyles,
+    Typography,
+} from "@material-ui/core"
+import React, { useEffect, useState } from "react"
+import { ILeague, IPointsData } from "../types/types"
+import { getJWT, resolveEndpoint } from "../utils/Utils"
 
 const useStyles = makeStyles({
     container: {
         paddingTop: "30px",
-        display: "flex",               
+        display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         color: "#9a0c34",
@@ -16,41 +23,83 @@ const useStyles = makeStyles({
             textAlign: "center",
             verticalAlign: "middle",
             overflow: "hidden",
-            whiteSpace: "nowrap"
-        }
+            whiteSpace: "nowrap",
+        },
     },
     middle: {
         width: "40% !important",
         height: "150px !important",
     },
     score: {
-        fontSize: "30px"
+        fontSize: "30px",
     },
     middleScore: {
-        fontSize: "80px"
+        fontSize: "80px",
     },
     title: {
         color: "#AAAAAA",
-        fontWeight: "bold"
-    }
+        fontWeight: "bold",
+    },
 })
 
-export default function PointsCard(): JSX.Element {
+export default function PointsCard(props: { globalRank: number, globalRankIsLoading: boolean }): JSX.Element {
+    const [pointsData, setPointsData] = useState<IPointsData | null>()
+    const [pointsDataIsLoading, setPointsDataIsLoading] = useState(true)
     const classes = useStyles()
+
+    useEffect(() => {
+        setPointsDataIsLoading(true)
+        fetch(resolveEndpoint("points"), {
+            method: "GET",
+            headers: {
+                Authorization: getJWT(),
+            },
+        }).then((res) => {
+            setPointsDataIsLoading(false)
+            if (!res.ok) {
+                return
+            }
+            return res.json()
+        }).then((res) => {
+            console.log(res.data[0])
+            setPointsData(res.data[0])
+        })
+    }, [setPointsData])
 
     return (
         <Container className={classes.container}>
             <Container>
                 <Typography className={classes.title}>Total</Typography>
-                <Typography className={classes.score}>0</Typography>
+                <Typography className={classes.score}>
+                    {pointsDataIsLoading ? (
+                        <CircularProgress />
+                    ) : pointsData?.totalPoints ? (
+                        pointsData.totalPoints
+                    ) : (
+                        0
+                    )}
+                </Typography>
             </Container>
             <Container className={classes.middle}>
                 <Typography className={classes.title}>Today</Typography>
-                <Typography className={classes.middleScore}>0</Typography>
+                <Typography className={classes.middleScore}>
+                    {pointsDataIsLoading ? (
+                        <CircularProgress />
+                    ) : pointsData?.todaysPoints ? (
+                        pointsData.todaysPoints
+                    ) : (
+                        0
+                    )}
+                    
+                </Typography>
             </Container>
             <Container>
                 <Typography className={classes.title}>Rank</Typography>
-                <Typography className={classes.score}>=1</Typography>
+                <Typography className={classes.score}>
+                    {props.globalRankIsLoading ? (
+                        <CircularProgress />
+                    ) : props.globalRank}
+                </Typography>
             </Container>
         </Container>
     )
