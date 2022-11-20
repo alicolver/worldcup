@@ -89,7 +89,12 @@ export const useStyles = makeStyles({
         verticalAlign: "middle",
         fontWeight: "bold",
         bottom: "5px",
-        fontSize: "12px"
+        fontSize: "12px",
+        "@media (max-width: 380px)": {
+            width: "20px",
+            height: "20px",
+            bottom: "3px",
+        },
     }
 })
 
