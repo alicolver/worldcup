@@ -5,7 +5,7 @@ import { IMatchData, IPredictionData } from "../types/types"
 import { calculateScore, getJWT, hasMatchKickedOff, parseDate, resolveEndpoint } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
-import { getImageUrl } from "../utils/s3"
+import { getFlagEmoji, getImageUrl } from "../utils/s3"
 import { MAIN_COLOR } from "../utils/Constants"
 
 interface IPredictionProps {
@@ -192,11 +192,22 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         return areBothScoresValid
     }
 
+    function getResultString(): string {
+        if (!props.matchData.result) return ""
+        const homeFlag = getFlagEmoji(props.matchData.homeTeam)
+        const awayFlag = getFlagEmoji(props.matchData.awayTeam)
+        const homeScore = props.matchData.result.home
+        const awayScore = props.matchData.result.away
+        return ": " + homeFlag + " " + homeScore + ":" + awayScore + " " + awayFlag
+    }
+
     function renderLiveTab(): JSX.Element {
         return (
             <div className={classes.liveTab}>
                 <CircleIcon htmlColor={MAIN_COLOR} className={classes.iconStyle} />
-                <Typography style={{ paddingLeft: "0.1rem" }}>LIVE</Typography>
+                <Typography style={{ paddingLeft: "0.1rem" }}>
+                    LIVE{getResultString()}
+                </Typography>
             </div>
         )
     }
