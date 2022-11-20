@@ -72,7 +72,7 @@ export default function League(props: { leagueData: ILeague[], leagueDataIsLoadi
                             onClick={() => history.push("/league/create")}
                         >
                             <SettingsApplicationsIcon className={classes.iconStyle} />
-                            <Typography style={{ paddingLeft: "1rem" }}>Create</Typography>
+                            <Typography style={{ paddingLeft: "0.1rem" }}>Create</Typography>
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
