@@ -94,7 +94,7 @@ function Homepage(): JSX.Element {
                 />
                 {matchData.imminentMatches.length > 0 ? (
                     <Predictions
-                        heading="Next Games"
+                        heading={"Next Game" + (matchData.imminentMatches.length > 0 ? "s" : "")}
                         matchData={matchData.imminentMatches}
                     />
                 ) : (
@@ -106,7 +106,7 @@ function Homepage(): JSX.Element {
                 />
                 {matchData.nextMatches.length > 0 ? (
                     <Predictions
-                        heading="Upcoming Games"
+                        heading={"Upcoming Game" + (matchData.nextMatches.length > 0 ? "s" : "")}
                         matchData={matchData.nextMatches}
                     />
                 ) : (
