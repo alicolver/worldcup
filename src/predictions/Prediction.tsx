@@ -248,6 +248,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     onBlur={() => handlePrediction()}
                     error={teamOneScore.error}
                     disabled={hasKickedOff}
+                    inputProps={{ maxLength: 1 }}
                 />
                 <OutlinedInput
                     className={classes.teaminput}
@@ -258,6 +259,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     onBlur={() => handlePrediction()}
                     error={teamTwoScore.error}
                     disabled={hasKickedOff}
+                    inputProps={{ maxLength: 1 }}
                 />
             </>
         )
