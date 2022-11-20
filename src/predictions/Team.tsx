@@ -13,11 +13,18 @@ const useStyles = makeStyles({
     teamFlag: {
         borderRadius: "5px",
         boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px",
-        width: "100px"
+        width: "100px",
+        "@media (max-width: 380px)": {
+            width: "60px"
+        },
+        "@media (max-width: 310px)": {
+            width: "40px"
+        }
     },
     teamName: {
         fontSize: "4vw"
     }
+
 })
 
 export default function Team(props: ITeamProps): JSX.Element {

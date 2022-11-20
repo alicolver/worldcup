@@ -31,9 +31,14 @@ export const useStyles = makeStyles({
     teaminput: {
         width: "50px",
         height: "50px",
-        fontSize: "40px",
         textAlign: "center",
-        marginTop: "15px"
+        marginTop: "15px",
+        fontSize: "40px",
+        "@media (max-width: 380px)": {
+            fontSize: "25px",
+            width: "40px",
+            height: "40px",
+        },
     },
     date: {
         fontSize: "8px",
@@ -72,10 +77,10 @@ export const useStyles = makeStyles({
     },
     points: {
         position: "absolute",
-        left: 0, 
+        left: 0,
         right: 0,
         marginLeft: "auto",
-        marginRight: "auto", 
+        marginRight: "auto",
         width: "25px",
         height: "25px",
         borderRadius: "50%",
@@ -103,8 +108,8 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     const [wasSent, setWasSent] = useState(defaultWasSent)
     const [hasKickedOff, setHasKickedOff] = useState<boolean>(
         hasMatchKickedOff(
-            props.matchData.matchDate, 
-            props.matchData.matchTime, 
+            props.matchData.matchDate,
+            props.matchData.matchTime,
             new Date()
         )
     )
@@ -226,7 +231,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
                     error={teamOneScore.error}
-                    disabled={hasKickedOff} 
+                    disabled={hasKickedOff}
                 />
                 <OutlinedInput
                     className={classes.teaminput}
@@ -243,7 +248,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function renderLiveTabIfShould(): JSX.Element {
-        return hasKickedOff && !props.matchData.isFinished 
+        return hasKickedOff && !props.matchData.isFinished
             ? renderLiveTab()
             : <></>
     }
