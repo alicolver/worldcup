@@ -49,7 +49,7 @@ const useStyles = makeStyles({
     },
     button: {
         borderRadius: "1rem",
-        minWidth: "9rem",
+        width: "100%",
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
         fontWeight: "bold",
         backgroundColor: "rgb(154,12,52)",
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
     },
 })
 
-export default function League(props: {leagueData: ILeague[], leagueDataIsLoading: boolean}): JSX.Element {
+export default function League(props: { leagueData: ILeague[], leagueDataIsLoading: boolean }): JSX.Element {
     const classes = useStyles()
     const history = useHistory()
 
