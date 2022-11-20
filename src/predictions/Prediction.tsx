@@ -1,8 +1,8 @@
 import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/core"
 import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
-import { IMatchData, IPredictionData } from "../types/types"
-import { calculateScore, getJWT, hasMatchKickedOff, parseDate, resolveEndpoint } from "../utils/Utils"
+import { IMatchData, IPredictionData, IScore, IWasSent } from "../types/types"
+import { calculateScore, getResponseGlow, hasMatchKickedOff, parseDate, sendScore, validateScores } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getFlagEmoji, getImageUrl } from "../utils/s3"
@@ -13,7 +13,7 @@ interface IPredictionProps {
     predictionData: IPredictionData
 }
 
-export const useStyles = makeStyles({
+export const matchCardUseStyles = makeStyles({
     match: {
         width: "90%",
         margin: "0 auto",
@@ -95,22 +95,31 @@ export const useStyles = makeStyles({
             height: "20px",
             bottom: "3px",
         },
+    },
+    endMatch: {
+        left: 0,
+        right: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        backgroundColor: MAIN_COLOR,
+        color: "white",
+        marginBottom: "5px"
     }
 })
 
-const defaultWasSent = { success: false, error: false }
+export const defaultWasSent = { success: false, error: false }
 
 export default function PredictionCard(props: IPredictionProps): JSX.Element {
-    const classes = useStyles()
-    const [teamOneScore, setTeamOneScore] = useState({
+    const classes = matchCardUseStyles()
+    const [teamOneScore, setTeamOneScore] = useState<IScore>({
         score: props.predictionData.homeScore == null ? "" : props.predictionData.homeScore.toString(),
         error: false
     })
-    const [teamTwoScore, setTeamTwoScore] = useState({
+    const [teamTwoScore, setTeamTwoScore] = useState<IScore>({
         score: props.predictionData.awayScore == null ? "" : props.predictionData.awayScore.toString(),
         error: false
     })
-    const [wasSent, setWasSent] = useState(defaultWasSent)
+    const [wasSent, setWasSent] = useState<IWasSent>(defaultWasSent)
     const [hasKickedOff, setHasKickedOff] = useState<boolean>(
         hasMatchKickedOff(
             props.matchData.matchDate,
@@ -124,72 +133,24 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
     }, [setTeamOneScore, setTeamTwoScore, setHasKickedOff])
 
-    function sendPrediction(homeScore: number, awayScore: number) {
-        console.log(props.matchData.matchId)
-        fetch(resolveEndpoint("predictions/make"), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": getJWT()
-            },
-            body: JSON.stringify({
-                homeScore: homeScore,
-                awayScore: awayScore,
-                matchId: props.matchData.matchId
-            })
-        }).then(res => {
-            if (!res.ok) {
-                setWasSent({ success: false, error: true })
-                return
-            }
-            setWasSent({ success: true, error: false })
-            return res.json().then(result => {
-                if (result !== null) {
-                    setTimeout(function () {
-                        setWasSent(defaultWasSent)
-                    }, 500)
-                }
-            })
-        })
-    }
-
-    function getResponseGlow(): React.CSSProperties | undefined {
-        return wasSent.success ?
-            {
-                border: "1px solid rgb(86, 180, 89)",
-                boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)"
-            } : wasSent.error ? {
-                border: "1px solid rgb(199, 18, 49)",
-                boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(160, 30, 60, 0.6)"
-            } : {}
-    }
-
     function handlePrediction(): void {
         const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
-        const areBothScoresValid = validateScores(scoreOne, scoreTwo)
+        const areBothScoresValid = validateScores(
+            scoreOne, 
+            scoreTwo,
+            teamOneScore,
+            teamTwoScore,
+            setTeamOneScore,
+            setTeamTwoScore
+        )
 
         if (!areBothScoresValid) return
 
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        sendPrediction(scoreOne, scoreTwo)
-    }
-
-    function validateScores(scoreOne: number, scoreTwo: number): boolean {
-        let areBothScoresValid = true
-        if (isNaN(scoreOne) || scoreOne < 0) {
-            setTeamOneScore({ ...teamOneScore, error: true })
-            areBothScoresValid = false
-        }
-
-        if (isNaN(scoreTwo) || scoreTwo < 0) {
-            setTeamTwoScore({ ...teamTwoScore, error: true })
-            areBothScoresValid = false
-        }
-
-        return areBothScoresValid
+        sendScore(scoreOne, scoreTwo, props.matchData.matchId, "predictions/make", setWasSent)
     }
 
     function getResultString(): string {
@@ -241,7 +202,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             <>
                 <OutlinedInput
                     className={classes.teaminput}
-                    style={getResponseGlow()}
+                    style={getResponseGlow(wasSent)}
                     id="outlined-basic"
                     value={teamOneScore.score}
                     onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
@@ -253,7 +214,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                 <OutlinedInput
                     className={classes.teaminput}
                     id="outlined-basic"
-                    style={getResponseGlow()}
+                    style={getResponseGlow(wasSent)}
                     value={teamTwoScore.score}
                     onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}

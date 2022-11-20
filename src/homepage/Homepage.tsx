@@ -10,9 +10,10 @@ import League from "../league/League"
 import Header from "../misc/Header"
 import Predictions from "../predictions/Predictions"
 import { ILeague, IMatchData } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { getJWT, getRefreshToken, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
 import React from "react"
 import AboutModal from "../about/About"
+import Games from "../predictions/Games"
 
 const useStyles = makeStyles({
     logo: {
@@ -45,6 +46,7 @@ function Homepage(): JSX.Element {
     const [leagueData, setLeagueData] = useState<ILeague[]>([])
     const [leagueDataIsLoading, setLeagueDataIsLoading] = useState(false)
     const [globalRank, setGlobalRank] = useState<number>(0)
+    const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
     useEffect(() => {
         fetch(resolveEndpoint("match/get-upcoming"), {
@@ -80,7 +82,28 @@ function Homepage(): JSX.Element {
                 setGlobalRank(globalRank)
             }
         })
-    }, [setMatchData, setLeagueData, setLeagueDataIsLoading])
+        const jwt = getJWT()
+        const refresh = getRefreshToken()
+        fetch(resolveEndpoint("auth/check-admin"), {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": jwt,
+                "Refresh": refresh,
+            },
+            mode: "cors"
+        }).then(res => { setIsAdmin(res.status === 200) })
+    }, [setMatchData, setLeagueData, setLeagueDataIsLoading, setIsAdmin])
+
+    function renderLiveGamesIfAdmin(): JSX.Element {
+        const liveMatches = matchData.imminentMatches.filter(data => hasMatchKickedOff(data.matchDate, data.matchTime, new Date()) && !data.isFinished)
+        console.log(isAdmin)
+        console.log(liveMatches.length)
+        return isAdmin && liveMatches.length > 0
+            ? <Games heading="LIVE SCORE" matchData={liveMatches}/>
+            : <></>
+    }
 
     return (
         <>
@@ -88,6 +111,7 @@ function Homepage(): JSX.Element {
             <Toolbar />
             <Container className={classes.homepage} maxWidth="xs">
                 <AboutModal />
+                {renderLiveGamesIfAdmin()}
                 <PointsCard
                     globalRank={globalRank}
                     globalRankIsLoading={leagueDataIsLoading}
