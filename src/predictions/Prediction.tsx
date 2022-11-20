@@ -1,10 +1,12 @@
 import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/core"
+import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData } from "../types/types"
-import { getJWT, hasMatchKickedOff, parseDate, resolveEndpoint } from "../utils/Utils"
+import { calculateScore, getJWT, hasMatchKickedOff, parseDate, resolveEndpoint } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getImageUrl } from "../utils/s3"
+import { MAIN_COLOR } from "../utils/Constants"
 
 interface IPredictionProps {
     matchData: IMatchData,
@@ -45,6 +47,7 @@ export const useStyles = makeStyles({
         marginBottom: "15px",
         textAlign: "center",
         borderRadius: "10px",
+        position: "relative"
     },
     penaltyWinner: {
         fontSize: "16px",
@@ -59,6 +62,29 @@ export const useStyles = makeStyles({
         marginTop: "15px",
         marginBottom: "10px",
         position: "fixed"
+    },
+    iconStyle: {
+        verticalAlign: "bottom",
+    },
+    liveTab: {
+        display: "inline-flex",
+        marginLeft: "3px"
+    },
+    points: {
+        position: "absolute",
+        left: 0, 
+        right: 0,
+        marginLeft: "auto",
+        marginRight: "auto", 
+        width: "25px",
+        height: "25px",
+        borderRadius: "50%",
+        backgroundColor: MAIN_COLOR,
+        color: "white",
+        verticalAlign: "middle",
+        fontWeight: "bold",
+        bottom: "5px",
+        fontSize: "12px"
     }
 })
 
@@ -75,10 +101,18 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         error: false
     })
     const [wasSent, setWasSent] = useState(defaultWasSent)
+    const [hasKickedOff, setHasKickedOff] = useState<boolean>(
+        hasMatchKickedOff(
+            props.matchData.matchDate, 
+            props.matchData.matchTime, 
+            new Date()
+        )
+    )
 
     useEffect(() => {
         setWasSent({ success: false, error: false })
-    }, [setTeamOneScore, setTeamTwoScore])
+        hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
+    }, [setTeamOneScore, setTeamTwoScore, setHasKickedOff])
 
     function sendPrediction(homeScore: number, awayScore: number) {
         console.log(props.matchData.matchId)
@@ -120,7 +154,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             } : {}
     }
 
-    function handlePrediction() {
+    function handlePrediction(): void {
         const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
         const areBothScoresValid = validateScores(scoreOne, scoreTwo)
@@ -133,14 +167,14 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         sendPrediction(scoreOne, scoreTwo)
     }
 
-    function validateScores(scoreOne: number, scoreTwo: number) {
+    function validateScores(scoreOne: number, scoreTwo: number): boolean {
         let areBothScoresValid = true
-        if (isNaN(scoreOne)) {
+        if (isNaN(scoreOne) || scoreOne < 0) {
             setTeamOneScore({ ...teamOneScore, error: true })
             areBothScoresValid = false
         }
 
-        if (isNaN(scoreTwo)) {
+        if (isNaN(scoreTwo) || scoreTwo < 0) {
             setTeamTwoScore({ ...teamTwoScore, error: true })
             areBothScoresValid = false
         }
@@ -148,8 +182,40 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         return areBothScoresValid
     }
 
-    function renderScore() {
-        const hasKickedOff: boolean = hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
+    function renderLiveTab(): JSX.Element {
+        return (
+            <div className={classes.liveTab}>
+                <CircleIcon htmlColor={MAIN_COLOR} className={classes.iconStyle} />
+                <Typography style={{ paddingLeft: "0.1rem" }}>LIVE</Typography>
+            </div>
+        )
+    }
+
+    function getPoints(): number {
+        if (!props.matchData.result) return calculateScore(
+            props.predictionData.homeScore,
+            props.predictionData.awayScore,
+            0,
+            0
+        )
+
+        return calculateScore(
+            props.predictionData.homeScore,
+            props.predictionData.awayScore,
+            props.matchData.result.home,
+            props.matchData.result.away
+        )
+    }
+
+    function renderPoints(): JSX.Element {
+        return (
+            <div className={classes.points}>
+                <Typography>{getPoints()}</Typography>
+            </div>
+        )
+    }
+
+    function renderScore(): JSX.Element {
         return (
             <>
                 <OutlinedInput
@@ -176,20 +242,31 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         )
     }
 
+    function renderLiveTabIfShould(): JSX.Element {
+        return hasKickedOff && !props.matchData.isFinished 
+            ? renderLiveTab()
+            : <></>
+    }
+
     return (
-        <Card className={classes.matchCard}>
-            <Box className={classes.date}>
-                <Typography>{parseDate(props.matchData.matchDate) + " - " + props.matchData.matchTime}</Typography>
-            </Box>
-            <Box className={classes.match}>
-                <Box>
-                    <Team name={props.matchData.homeTeam} flag={getImageUrl(props.matchData.homeTeam)} />
+        <div>
+            {renderLiveTabIfShould()}
+            <Card className={classes.matchCard}>
+                <Box className={classes.date}>
+                    <Typography>{parseDate(props.matchData.matchDate) + " - " + props.matchData.matchTime}</Typography>
                 </Box>
-                {renderScore()}
-                <Box>
-                    <Team name={props.matchData.awayTeam} flag={getImageUrl(props.matchData.awayTeam)} />
+                <Box className={classes.match}>
+                    <Box>
+                        <Team name={props.matchData.homeTeam} flag={getImageUrl(props.matchData.homeTeam)} />
+                    </Box>
+                    {renderScore()}
+                    <Box>
+                        <Team name={props.matchData.awayTeam} flag={getImageUrl(props.matchData.awayTeam)} />
+                    </Box>
+                    {hasKickedOff ? renderPoints() : <></>}
                 </Box>
-            </Box>
-        </Card>
+            </Card>
+        </div>
+
     )
 }

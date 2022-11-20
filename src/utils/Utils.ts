@@ -95,28 +95,30 @@ export function dateToOrdinal(day: number): string {
     }
 }
 
-export function calculateScore(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): number {
-    if (pred_one_goals === undefined || pred_two_goals === undefined) {
+export function calculateScore(
+    predictedHomeGoals: number | null, 
+    predictedAwayGoals: number | null, 
+    actualHomeGoals: number, 
+    actualAwayGoals: number
+): number {
+    if (predictedHomeGoals === null || predictedAwayGoals === null) {
         return 0
     }
 
-    const pred_one = parseInt(pred_one_goals)
-    const pred_two = parseInt(pred_two_goals)
-
-    if (pred_one === act_one_goals && pred_two === act_two_goals) {
-        return 3
+    if (predictedHomeGoals === actualHomeGoals && predictedAwayGoals === actualAwayGoals) {
+        return 5
     }
 
-    if (act_one_goals > act_two_goals && pred_one > pred_two) {
-        return 1
+    if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
+        return 2
     }
 
-    if (act_one_goals < act_two_goals && pred_one < pred_two) {
-        return 1
+    if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
+        return 2
     }
 
-    if (act_one_goals === act_two_goals && pred_one === pred_two) {
-        return 1
+    if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
+        return 2
     }
 
     return 0
