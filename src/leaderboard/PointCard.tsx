@@ -62,7 +62,6 @@ export default function PointsCard(props: { globalRank: number, globalRankIsLoad
             }
             return res.json()
         }).then((res) => {
-            console.log(res.data[0])
             setPointsData(res.data[0])
         })
     }, [setPointsData])
