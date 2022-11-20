@@ -23,3 +23,5 @@ export const mockMatchData: IMatchData = {
     matchTime: "15:00",
     isFinished: false,
 }
+
+export const MAIN_COLOR = "#9a0c34"

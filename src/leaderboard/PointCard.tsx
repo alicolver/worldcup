@@ -5,8 +5,9 @@ import {
     Typography,
 } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
-import { ILeague, IPointsData } from "../types/types"
+import { IPointsData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { MAIN_COLOR } from "../utils/Constants"
 
 const useStyles = makeStyles({
     container: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        color: "#9a0c34",
+        color: MAIN_COLOR,
         "& > div": {
             width: "25%",
             height: "75px",

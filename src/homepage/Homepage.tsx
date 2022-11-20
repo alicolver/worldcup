@@ -12,6 +12,7 @@ import Predictions from "../predictions/Predictions"
 import { ILeague, IMatchData } from "../types/types"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 import React from "react"
+import AboutModal from "../about/About"
 
 const useStyles = makeStyles({
     logo: {
@@ -86,6 +87,7 @@ function Homepage(): JSX.Element {
             <Header />
             <Toolbar />
             <Container className={classes.homepage} maxWidth="xs">
+                <AboutModal />
                 <PointsCard
                     globalRank={globalRank}
                     globalRankIsLoading={leagueDataIsLoading}
