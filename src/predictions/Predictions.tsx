@@ -31,14 +31,16 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
     const [hasFetched, setHasFetched] = useState<boolean>(false)
 
     function getPredictionCards(matchData: IMatchData[]) {
-        return (matchData.map(match => {
-            const res = predictionData.get(match.matchId)
-            const predData: IPredictionData = res !== undefined ? res : EMPTY_PREDICTION
-            // TODO: this is such a hack but I couldn't get the callback to work
-            return hasFetched
-                ? <Prediction key={match.matchId} matchData={match} predictionData={predData} />
-                : <></>
-        }))
+        return (matchData
+            .sort((a, b) => +a.matchTime.slice(0, 2) - +b.matchTime.slice(0, 2))
+            .map(match => {
+                const res = predictionData.get(match.matchId)
+                const predData: IPredictionData = res !== undefined ? res : EMPTY_PREDICTION
+                // TODO: this is such a hack but I couldn't get the callback to work
+                return hasFetched
+                    ? <Prediction key={match.matchId} matchData={match} predictionData={predData} />
+                    : <></>
+            }))
     }
 
     useEffect(() => {

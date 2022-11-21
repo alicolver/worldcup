@@ -91,6 +91,7 @@ export default function Game(props: IPredictionProps): JSX.Element {
             if (!res.ok) {
                 alert("uhoh, error ending game")
             }
+            alert("Successfully ended match")
         })
     }
 
