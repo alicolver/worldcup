@@ -1,6 +1,8 @@
 import { PROXY } from "./Constants"
 import jwtDecode from "jwt-decode"
 import passwordValidator from "password-validator"
+import { IScore, IWasSent } from "../types/types"
+import { defaultWasSent } from "../predictions/Prediction"
 
 interface IDecodedUser {
     userid: number
@@ -209,4 +211,71 @@ export function parseMatchKickOff(matchDay: string, matchTime: string): Date {
 
 export function hasMatchKickedOff(matchDay: string, matchTime: string, date: Date): boolean {
     return date > parseMatchKickOff(matchDay, matchTime)
+}
+
+export function getResponseGlow(wasSent: IWasSent): React.CSSProperties | undefined {
+    return wasSent.success ?
+        {
+            border: "1px solid rgb(86, 180, 89)",
+            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(82, 168, 100, 0.6)"
+        } : wasSent.error ? {
+            border: "1px solid rgb(199, 18, 49)",
+            boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.05)inset, 0px 0px 8px rgba(160, 30, 60, 0.6)"
+        } : {}
+}
+
+export function validateScores(
+    scoreOne: number, 
+    scoreTwo: number, 
+    teamOneScore: IScore, 
+    teamTwoScore: IScore,
+    setTeamOneScore: React.Dispatch<React.SetStateAction<IScore>>,
+    setTeamTwoScore: React.Dispatch<React.SetStateAction<IScore>>
+): boolean {
+    let areBothScoresValid = true
+    if (isNaN(scoreOne) || scoreOne < 0) {
+        setTeamOneScore({ ...teamOneScore, error: true })
+        areBothScoresValid = false
+    }
+
+    if (isNaN(scoreTwo) || scoreTwo < 0) {
+        setTeamTwoScore({ ...teamTwoScore, error: true })
+        areBothScoresValid = false
+    }
+
+    return areBothScoresValid
+}
+
+export function sendScore(
+    homeScore: number, 
+    awayScore: number, 
+    matchId: string, 
+    endpoint: string,
+    setWasSent: React.Dispatch<React.SetStateAction<IWasSent>>
+): void {
+    fetch(resolveEndpoint(endpoint), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": getJWT()
+        },
+        body: JSON.stringify({
+            homeScore: homeScore,
+            awayScore: awayScore,
+            matchId: matchId
+        })
+    }).then(res => {
+        if (!res.ok) {
+            setWasSent({ success: false, error: true })
+            return
+        }
+        setWasSent({ success: true, error: false })
+        return res.json().then(result => {
+            if (result !== null) {
+                setTimeout(function () {
+                    setWasSent(defaultWasSent)
+                }, 500)
+            }
+        })
+    })
 }

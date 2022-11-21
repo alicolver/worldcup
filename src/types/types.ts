@@ -51,3 +51,13 @@ export interface IPointsData {
     livePoints: number;
     todaysPoints: number;
 }
+
+export interface IWasSent {
+    success: boolean;
+    error: boolean;
+}
+
+export interface IScore {
+    score: string;
+    error: boolean
+}
