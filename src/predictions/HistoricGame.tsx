@@ -35,7 +35,7 @@ export default function HistoricGame(props: IHistoricGameProps): JSX.Element {
         <div>
             <Card className={classes.matchCardHistoric}>
                 <Box className={classes.date}>
-                    <Typography>{"LIVE SCORE"}</Typography>
+                    <Typography>{props.matchData.isFinished ? "MATCH RESULT" : "LIVE SCORE"}</Typography>
                 </Box>
                 <Box className={classes.match}>
                     <Box>

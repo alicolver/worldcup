@@ -61,9 +61,7 @@ interface IPreviousPrediction {
 
 export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
     const classes = useStyles()
-    const [previousPredictions, setPreviousPredictions] = useState<
-    IPreviousPrediction[] | null
-  >(null)
+    const [previousPredictions, setPreviousPredictions] = useState<IPreviousPrediction[] | null>(null)
     const [hasFetched, setHasFetched] = useState<boolean>(false)
     const [historyModal, setHistoryModal] = useState<IMatchData | null>(null)
     const handleClose = () => setHistoryModal(null)
@@ -80,11 +78,9 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
             }),
         }).then((res) => {
             if (!res.ok) {
-                console.log(res)
                 return
             }
             return res.json().then((res) => {
-                console.log(res.data)
                 setPreviousPredictions(res.data)
             })
         })
