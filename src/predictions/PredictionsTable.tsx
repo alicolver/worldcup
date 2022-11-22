@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 export default function PredictionsTable(props: IPredictionsTableProps): JSX.Element {
     const classes = useStyles()
     const [currentPage, setCurrentPage] = useState<number>(0)
-    const rowsPerPage = 10
+    const rowsPerPage = 7
 
     useEffect(() => {
         setCurrentPage(0)
