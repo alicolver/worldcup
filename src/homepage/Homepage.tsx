@@ -14,6 +14,7 @@ import { getJWT, getRefreshToken, hasMatchKickedOff, resolveEndpoint } from "../
 import React from "react"
 import AboutModal from "../about/About"
 import Games from "../predictions/Games"
+import Analytics from "../analytics/Analytics"
 
 const useStyles = makeStyles({
     logo: {
@@ -136,6 +137,7 @@ function Homepage(): JSX.Element {
                 ) : (
                     <></>
                 )}
+                <Analytics />
             </Container>
         </>
     )
