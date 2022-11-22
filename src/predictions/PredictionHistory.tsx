@@ -1,14 +1,26 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Container, makeStyles, Typography } from "@material-ui/core"
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Container,
+    makeStyles,
+    Typography,
+} from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
-import { getJWT, getUserid, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
+import {
+    getJWT,
+    getUserid,
+    hasMatchKickedOff,
+    resolveEndpoint,
+} from "../utils/Utils"
 import HistoricGameModal from "./HistoricGameModal"
 import Prediction from "./Prediction"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
-
 interface IPredictionHistoryProps {
-    leagues: ILeague[];
+  leagues: ILeague[];
 }
 
 const useStyles = makeStyles({
@@ -17,76 +29,78 @@ const useStyles = makeStyles({
         paddingBottom: "20px",
         position: "relative",
         paddingLeft: 0,
-        paddingRight: 0
+        paddingRight: 0,
     },
     heading: {
         marginTop: "1rem",
         paddingTop: "1rem",
         fontSize: "2rem",
         paddingBottom: "1rem",
-    }
+    },
 })
 
 interface IPreviousPrediction {
-    matchId: string;
-    homeTeam: string;
-    awayTeam: string;
-    gameStage: "GROUP" | "OCTOFINAL" | "QUARTERFINAL" | "SEMIFINAL" | "FINAL";
-    result: {
-        home: number;
-        away: number;
-    };
-    matchDay: number;
-    matchDate: string;
-    matchTime: string;
-    isFinished: boolean;
-    prediction: {
-        homeScore: number;
-        awayScore: number;
-    };
-    points: number;
+  matchId: string;
+  homeTeam: string;
+  awayTeam: string;
+  gameStage: "GROUP" | "OCTOFINAL" | "QUARTERFINAL" | "SEMIFINAL" | "FINAL";
+  result: {
+    home: number;
+    away: number;
+  };
+  matchDay: number;
+  matchDate: string;
+  matchTime: string;
+  isFinished: boolean;
+  prediction: {
+    homeScore: number;
+    awayScore: number;
+  };
+  points: number;
 }
-
 
 export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
     const classes = useStyles()
-    const [previousPredictions, setPreviousPredictions] = useState<IPreviousPrediction[] | null>(null)
+    const [previousPredictions, setPreviousPredictions] = useState<
+    IPreviousPrediction[] | null
+  >(null)
     const [hasFetched, setHasFetched] = useState<boolean>(false)
     const [historyModal, setHistoryModal] = useState<IMatchData | null>(null)
     const handleClose = () => setHistoryModal(null)
-
 
     useEffect(() => {
         fetch(resolveEndpoint("predictions/get-previous-predictions-for-user"), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": getJWT()
+                Authorization: getJWT(),
             },
             body: JSON.stringify({
-                userId: getUserid()
-            })       
-        }).then(res => {
+                userId: getUserid(),
+            }),
+        }).then((res) => {
             if (!res.ok) {
                 console.log(res)
-                setHasFetched(false)
                 return
             }
-            return res.json().then(res => {
+            return res.json().then((res) => {
                 console.log(res.data)
-                setHasFetched(true)
                 setPreviousPredictions(res.data)
             })
         })
     }, [setPreviousPredictions, setHasFetched])
 
     function getPreviousPredictionCards(matchData: IPreviousPrediction[]) {
-        return (matchData
-            .sort((a, b) => +a.matchTime.slice(0, 2) - +b.matchTime.slice(0, 2))
-            .map(previousPred => {
+        return matchData
+            .sort(
+                (a, b) =>
+                    new Date(`${b.matchDate}T${b.matchTime}`).getTime() -
+          new Date(`${a.matchDate}T${a.matchTime}`).getTime()
+            )
+            .map((previousPred) => {
                 const predData: IPredictionData = {
                     homeScore: previousPred.prediction.homeScore,
-                    awayScore: previousPred.prediction.awayScore
+                    awayScore: previousPred.prediction.awayScore,
                 }
                 const match: IMatchData = {
                     matchId: previousPred.matchId,
@@ -99,54 +113,60 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
                     isFinished: previousPred.isFinished,
                     result: {
                         home: previousPred.result.home,
-                        away: previousPred.result.away
-                    }
+                        away: previousPred.result.away,
+                    },
                 }
-                // TODO: this is such a hack but I couldn't get the callback to work
-                return hasFetched
-                    ? <Prediction 
+                return (
+                    <Prediction
                         key={match.matchId}
-                        matchData={match} 
-                        predictionData={predData} 
+                        matchData={match}
+                        predictionData={predData}
                         callback={toggleModal}
-                    /> : <></>
-            }))
+                    />
+                )
+            })
     }
 
     function toggleModal(matchData: IMatchData): void {
-        if (!hasMatchKickedOff(matchData.matchDate, matchData.matchTime, new Date())) return
+        if (
+            !hasMatchKickedOff(matchData.matchDate, matchData.matchTime, new Date())
+        )
+            return
         setHistoryModal(matchData)
     }
 
     function renderPredictionModalIfShould(): JSX.Element {
         if (historyModal == null) return <></>
-        return <HistoricGameModal 
-            matchData={historyModal}
-            leagueData={props.leagues}
-            handleClose={handleClose}
-        />
+        return (
+            <HistoricGameModal
+                matchData={historyModal}
+                leagueData={props.leagues}
+                handleClose={handleClose}
+            />
+        )
     }
 
     return (
-        <Container style={{paddingBottom: "2rem"}}>
+        <Container style={{ paddingBottom: "2rem" }}>
             <Box m={-3}>
-                <Accordion style={{backgroundColor: "transparent"}} elevation={0}>
+                <Accordion style={{ backgroundColor: "transparent" }} elevation={0}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
-                        style={{padding: 0, border: 0}}
+                        style={{ padding: 0, border: 0 }}
                     >
                         <Typography className={classes.heading}>Match History</Typography>
                     </AccordionSummary>
-                    <AccordionDetails style={{padding: 0, border: 0}}>
+                    <AccordionDetails style={{ padding: 0, border: 0 }}>
                         <Container className={classes.header}>
-                            <>{previousPredictions && getPreviousPredictionCards(previousPredictions)}</>
-                    
+                            <>
+                                {previousPredictions &&
+                  getPreviousPredictionCards(previousPredictions)}
+                            </>
                         </Container>
                     </AccordionDetails>
                 </Accordion>
-                
             </Box>
             {props.leagues.length > 0 ? renderPredictionModalIfShould() : <></>}
         </Container>
