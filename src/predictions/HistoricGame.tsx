@@ -1,4 +1,4 @@
-import { Card, Box, Typography, OutlinedInput } from "@material-ui/core"
+import { Card, Box, Typography, OutlinedInput, withStyles, makeStyles } from "@material-ui/core"
 import React from "react"
 import { IMatchData } from "../types/types"
 import { getImageUrl } from "../utils/s3"
@@ -9,24 +9,38 @@ interface IHistoricGameProps {
     matchData: IMatchData
 }
 
+const useStyles = makeStyles({
+    teamInput: {
+        width: "50px",
+        height: "50px",
+        textAlign: "center",
+        marginTop: "15px",
+        "@media (max-width: 380px)": {
+            fontSize: "25px",
+            width: "40px",
+            height: "40px",
+        },
+        color: "black"
+    }
+})
+
 export default function HistoricGame(props: IHistoricGameProps): JSX.Element {
     const classes = matchCardUseStyles()
+    const scoreClasses = useStyles()
 
     function renderScore(): JSX.Element {
         return (
             <>
-                <OutlinedInput
-                    className={classes.teaminput}
-                    id="outlined-basic"
-                    value={props.matchData.result? props.matchData.result.home : "0"}
-                    disabled
-                />
-                <OutlinedInput
-                    className={classes.teaminput}
-                    id="outlined-basic"
-                    value={props.matchData.result ? props.matchData.result.away : "0"}
-                    disabled
-                />
+                <div className={scoreClasses.teamInput}>
+                    <Typography variant="h3">
+                        {props.matchData.result? props.matchData.result.home : "0"}
+                    </Typography>
+                </div>
+                <div className={scoreClasses.teamInput}>
+                    <Typography variant="h3">
+                        {props.matchData.result? props.matchData.result.away : "0"}
+                    </Typography>
+                </div>
             </>
         )
     }
