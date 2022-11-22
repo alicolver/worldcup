@@ -1,20 +1,21 @@
 import { Box, Card, makeStyles, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { MAIN_COLOR } from "../utils/Constants"
 import { getJWT, resolveEndpoint } from "../utils/Utils"
 
 interface IPoints {
-    userId: string;
+    userId: string
     pointsHistory: number[]
-    totalPoints: number,
-    livePoints: number,
+    totalPoints: number
+    livePoints: number
     todaysPoints: number
 }
 
 interface IGraphEntry {
-    name: string,
-    points: number
+    name: string
+    dailyPoints: number
+    totalPoints: number
 }
 
 const defaultPoints: IPoints = {
@@ -67,14 +68,16 @@ export default function Analytics(): JSX.Element {
     }, [setPoints])
 
     function getGraph(): JSX.Element {
-        const graphEntries: IGraphEntry[] = points.pointsHistory.map((val, index) => ({ name: "Day " + (index + 1).toString(), points: val }))
-        console.log(graphEntries)
+        let totalPoints = 0
+        const data: IGraphEntry[] = points.pointsHistory.map((val, index) => { 
+            totalPoints += val
+            return { name: "Day " + (index + 1).toString(), dailyPoints: val, totalPoints: totalPoints }})
         return (
             <ResponsiveContainer width="100%" height="100%" className={classes.graph}>
-                <LineChart
-                    data={graphEntries}
+                <ComposedChart
                     width={350}
                     height={200}
+                    data={data}
                     style={{  fontFamily: "sans-serif" }}
                     margin={{
                         top: 5,
@@ -88,8 +91,9 @@ export default function Analytics(): JSX.Element {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="points" stroke={MAIN_COLOR} activeDot={{ r: 8 }} />
-                </LineChart>
+                    <Bar dataKey="dailyPoints" barSize={20}  fill="#9A0C34" />
+                    <Line dataKey="totalPoints" type="monotone"  stroke={MAIN_COLOR} />
+                </ComposedChart>
             </ResponsiveContainer>
         )
     }
