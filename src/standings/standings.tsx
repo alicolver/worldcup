@@ -138,9 +138,10 @@ export const Standings = (): JSX.Element => {
                                 <div style={{ paddingLeft: "0.6rem" }}>
                                     {index === 0
                                         ? user.rank
-                                        : leagueData.users[index + (currentPage * rowsPerPage) - 1].rank === user.rank
+                                        : leagueData.users[index + currentPage * rowsPerPage - 1]
+                                            .rank === user.rank
                                             ? "="
-                                            : index + (currentPage * rowsPerPage) + 1}
+                                            : index + currentPage * rowsPerPage + 1}
                                 </div>
                             </Container>
                         </TableCell>
@@ -194,13 +195,15 @@ export const Standings = (): JSX.Element => {
                                     )}
                                     {!isLoading && getRows()}
                                 </TableBody>
-                                <TablePagination
-                                    count={leagueData?.users.length || 0}
-                                    rowsPerPage={rowsPerPage}
-                                    page={currentPage}
-                                    onChangePage={(ignored, page) => setCurrentPage(page)}
-                                    rowsPerPageOptions={[]}
-                                />
+                                {leagueData && leagueData?.users.length > 10 && (
+                                    <TablePagination
+                                        count={leagueData?.users.length || 0}
+                                        rowsPerPage={rowsPerPage}
+                                        page={currentPage}
+                                        onChangePage={(ignored, page) => setCurrentPage(page)}
+                                        rowsPerPageOptions={[]}
+                                    />
+                                )}
                             </Table>
                         </Container>
                     </Container>
