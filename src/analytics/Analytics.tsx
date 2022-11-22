@@ -91,8 +91,8 @@ export default function Analytics(): JSX.Element {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="dailyPoints" barSize={20}  fill="#9A0C34" />
-                    <Line dataKey="totalPoints" type="monotone"  stroke={MAIN_COLOR} />
+                    <Bar dataKey="dailyPoints" barSize={20}  fill={MAIN_COLOR} />
+                    <Line dataKey="totalPoints" type="monotone" isAnimationActive={false} stroke="#000" />
                 </ComposedChart>
             </ResponsiveContainer>
         )
