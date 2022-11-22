@@ -24,7 +24,7 @@ export const fontTheme = createMuiTheme({
     },
 })
 
-interface userDataInLeague {
+interface IUserDataInLeague {
   familyName: string;
   userId: string;
   leagueIds: string[];
@@ -35,10 +35,10 @@ interface userDataInLeague {
   yesterdayRank: number;
 }
 
-interface getLeagueData {
+interface IGetLeagueData {
   leagueId: string;
   leagueName: string;
-  users: userDataInLeague[];
+  users: IUserDataInLeague[];
 }
 
 const useStyles = makeStyles({
@@ -77,7 +77,7 @@ const useStyles = makeStyles({
 
 export const Standings = (): JSX.Element => {
     const classes = useStyles()
-    const [leagueData, setLeagueData] = useState<getLeagueData | undefined>(
+    const [leagueData, setLeagueData] = useState<IGetLeagueData | undefined>(
         undefined
     )
     const [isLoading, setIsLoading] = useState(false)
