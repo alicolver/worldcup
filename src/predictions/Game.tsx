@@ -115,6 +115,5 @@ export default function Game(props: IPredictionProps): JSX.Element {
                 </Button>
             </Card>
         </div>
-
     )
 }

@@ -145,10 +145,10 @@ export const Standings = (): JSX.Element => {
                         {capitalizeFirstLetter(user.familyName)}
                     </TableCell>
                     <TableCell>{user.totalPoints}</TableCell>
-                </TableRow>)}))}
-    
-
-
+                </TableRow>
+            )
+        }))
+    }
 
     return (
         <>
