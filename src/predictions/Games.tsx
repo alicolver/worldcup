@@ -31,7 +31,7 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
 
     return props.matchData.length > 0
         ? (
-            <Box m={-2}>
+            <Box m={-3}>
                 <Container className={classes.header}>
                     <Typography className={classes.heading}>{props.heading}</Typography>
                     {getGameCards(props.matchData)}

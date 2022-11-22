@@ -12,10 +12,7 @@ const useStyles = makeStyles({
         position: "relative",
         top: "100%",
         marginTop: "1.5rem",
-        marginLeft: "2.5%",
-        marginRight: "2.5%",
         left: "0",
-        width: "95%",
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         borderRadius: "2vw",
     },
@@ -62,7 +59,7 @@ export default function League(props: { leagueData: ILeague[], leagueDataIsLoadi
     const history = useHistory()
 
     return (
-        <Container>
+        <>
             <Typography className={classes.heading}>Leagues</Typography>
             <Container className={classes.leagueConfig}>
                 <Grid container spacing={2}>
@@ -91,6 +88,6 @@ export default function League(props: { leagueData: ILeague[], leagueDataIsLoadi
                     <LeaguePreview leagueData={props.leagueData} leagueDataIsLoading={props.leagueDataIsLoading} />
                 </Container>
             </Container>
-        </Container>
+        </>
     )
 }
