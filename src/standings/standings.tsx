@@ -9,6 +9,7 @@ import {
     Toolbar,
     Typography,
     TableCell,
+    TablePagination,
 } from "@material-ui/core"
 import { ReactFragment, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
@@ -84,6 +85,8 @@ export const Standings = (): JSX.Element => {
     const search = new URLSearchParams(useLocation().search)
     const leagueId = search.get("leagueId")
     const leagueName = leagueData === undefined ? "" : leagueData.leagueName
+    const [currentPage, setCurrentPage] = useState<number>(0)
+    const rowsPerPage = 10
 
     useEffect(() => {
         setIsLoading(true)
@@ -115,39 +118,42 @@ export const Standings = (): JSX.Element => {
         if (leagueData === undefined) {
             return []
         }
-        return (leagueData.users.sort((a, b) => a.rank - b.rank).map((user, index) => {
-            return (
-                <TableRow key={user.userId}>
-                    <TableCell>
-                        <Container
-                            style={{
-                                display: "flex",
-                                justifyContent: "left",
-                                width: "100%",
-                                textAlign: "left",
-                                padding: "0",
-                            }}
+        return leagueData.users
+            .sort((a, b) => a.rank - b.rank)
+            .slice(currentPage * rowsPerPage, currentPage * rowsPerPage + rowsPerPage)
+            .map((user, index) => {
+                return (
+                    <TableRow key={user.userId}>
+                        <TableCell>
+                            <Container
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "left",
+                                    width: "100%",
+                                    textAlign: "left",
+                                    padding: "0",
+                                }}
+                            >
+                                {getMovement(user.rank, user.yesterdayRank)}
+                                <div style={{ paddingLeft: "0.6rem" }}>
+                                    {index === 0
+                                        ? user.rank
+                                        : leagueData.users[index + (currentPage * rowsPerPage) - 1].rank === user.rank
+                                            ? "="
+                                            : index + (currentPage * rowsPerPage) + 1}
+                                </div>
+                            </Container>
+                        </TableCell>
+                        <TableCell
+                            style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}
                         >
-                            {getMovement(user.rank, user.yesterdayRank)}
-                            <div style={{ paddingLeft: "0.6rem" }}>
-                                {index === 0
-                                    ? index + 1
-                                    : leagueData.users[index - 1].rank === user.rank
-                                        ? "="
-                                        : index + 1}
-                            </div>
-                        </Container>
-                    </TableCell>
-                    <TableCell
-                        style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}
-                    >
-                        {capitalizeFirstLetter(user.givenName)}{" "}
-                        {capitalizeFirstLetter(user.familyName)}
-                    </TableCell>
-                    <TableCell>{user.totalPoints}</TableCell>
-                </TableRow>
-            )
-        }))
+                            {capitalizeFirstLetter(user.givenName)}{" "}
+                            {capitalizeFirstLetter(user.familyName)}
+                        </TableCell>
+                        <TableCell>{user.totalPoints}</TableCell>
+                    </TableRow>
+                )
+            })
     }
 
     return (
@@ -188,6 +194,13 @@ export const Standings = (): JSX.Element => {
                                     )}
                                     {!isLoading && getRows()}
                                 </TableBody>
+                                <TablePagination
+                                    count={leagueData?.users.length || 0}
+                                    rowsPerPage={rowsPerPage}
+                                    page={currentPage}
+                                    onChangePage={(ignored, page) => setCurrentPage(page)}
+                                    rowsPerPageOptions={[]}
+                                />
                             </Table>
                         </Container>
                     </Container>
