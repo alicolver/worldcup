@@ -15,6 +15,7 @@ import React from "react"
 import AboutModal from "../about/About"
 import Games from "../predictions/Games"
 import Analytics from "../analytics/Analytics"
+import { PredictionHistory } from "../predictions/PredictionHistory"
 
 const useStyles = makeStyles({
     logo: {
@@ -137,6 +138,7 @@ function Homepage(): JSX.Element {
                 ) : (
                     <></>
                 )}
+                <PredictionHistory leagues={leagueData}/>
                 <Analytics />
             </Container>
         </>

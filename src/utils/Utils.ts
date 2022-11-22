@@ -5,7 +5,8 @@ import { IScore, IWasSent } from "../types/types"
 import { defaultWasSent } from "../predictions/Prediction"
 
 interface IDecodedUser {
-    userid: number
+    userid: number,
+    sub: string,
     isAdmin?: boolean,
 }
 
@@ -43,15 +44,15 @@ export function isAdminCheck(): boolean {
     return false
 }
 
-export function getUserid(): number {
+export function getUserid(): string {
     const jwt = getJWT()
     try {
         const decoded = jwtDecode<IDecodedUser>(jwt)
-        return decoded.userid
+        return decoded.sub
     } catch {
         // intentionally blank
     }
-    return 0
+    return ""
 }
 
 
