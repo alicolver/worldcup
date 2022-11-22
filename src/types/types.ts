@@ -61,3 +61,12 @@ export interface IScore {
     score: string;
     error: boolean
 }
+
+export interface IUserPrediction {
+    userId: string;
+    givenName: string;
+    familyName: string;
+    homeScore?: number;
+    awayScore?: number;
+    points?: number
+}

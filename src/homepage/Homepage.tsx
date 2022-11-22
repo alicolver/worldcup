@@ -98,8 +98,6 @@ function Homepage(): JSX.Element {
 
     function renderLiveGamesIfAdmin(): JSX.Element {
         const liveMatches = matchData.imminentMatches.filter(data => hasMatchKickedOff(data.matchDate, data.matchTime, new Date()) && !data.isFinished)
-        console.log(isAdmin)
-        console.log(liveMatches.length)
         return isAdmin && liveMatches.length > 0
             ? <Games heading="Admin Match Updates" matchData={liveMatches}/>
             : <></>
@@ -120,6 +118,7 @@ function Homepage(): JSX.Element {
                     <Predictions
                         heading={"Next Game" + (matchData.imminentMatches.length > 0 ? "s" : "")}
                         matchData={matchData.imminentMatches}
+                        leagues={leagueData}
                     />
                 ) : (
                     <></>
@@ -132,6 +131,7 @@ function Homepage(): JSX.Element {
                     <Predictions
                         heading={"Upcoming Game" + (matchData.nextMatches.length > 0 ? "s" : "")}
                         matchData={matchData.nextMatches}
+                        leagues={leagueData}
                     />
                 ) : (
                     <></>

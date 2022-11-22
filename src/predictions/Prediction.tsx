@@ -10,7 +10,8 @@ import { MAIN_COLOR } from "../utils/Constants"
 
 interface IPredictionProps {
     matchData: IMatchData,
-    predictionData: IPredictionData
+    predictionData: IPredictionData,
+    callback: (matchData: IMatchData) => void
 }
 
 export const matchCardUseStyles = makeStyles({
@@ -53,6 +54,15 @@ export const matchCardUseStyles = makeStyles({
         textAlign: "center",
         borderRadius: "10px",
         position: "relative"
+    },
+    matchCardHistoric: {
+        marginBottom: "15px",
+        textAlign: "center",
+        borderRadius: "10px",
+        position: "relative",
+        marginLeft: "5px",
+        marginRight: "5px",
+        marginTop: "5px"
     },
     penaltyWinner: {
         fontSize: "16px",
@@ -235,7 +245,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     return (
         <div>
             {renderLiveTabIfShould()}
-            <Card className={classes.matchCard}>
+            <Card className={classes.matchCard} onClick={() => props.callback(props.matchData)}>
                 <Box className={classes.date}>
                     <Typography>{parseDate(props.matchData.matchDate) + " - " + props.matchData.matchTime}</Typography>
                 </Box>
@@ -251,6 +261,5 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                 </Box>
             </Card>
         </div>
-
     )
 }

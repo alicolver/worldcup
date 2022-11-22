@@ -53,7 +53,6 @@ export default function LeaderBoard(): JSX.Element {
             }
         }).then(res => res.json()).then(res => {
             if (res.success === true) {
-                console.log(res)
                 setLeaderboardData(res.leaderboard)
             } else {
                 setInvalidResponse(true)
