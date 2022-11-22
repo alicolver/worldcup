@@ -61,7 +61,7 @@ export default function Analytics(): JSX.Element {
         }).then(res => {
             if (!res.ok) return
             res.json().then(res => {
-                setPoints(res.data[0])
+                setPoints(res.data)
             })
         })
     }, [setPoints])
@@ -94,7 +94,7 @@ export default function Analytics(): JSX.Element {
         )
     }
 
-    return points.pointsHistory.length > 0 
+    return typeof points !== "undefined" && points.pointsHistory.length > 0 
         ? (
             <Box>
                 <Typography className={classes.heading}>Analytics</Typography>
