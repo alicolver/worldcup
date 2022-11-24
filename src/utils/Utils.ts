@@ -38,7 +38,7 @@ export function isAdminCheck(): boolean {
         if (decoded.isAdmin) {
             return decoded.isAdmin
         }
-    } catch { 
+    } catch {
         // intentionally blank
     }
     return false
@@ -99,9 +99,9 @@ export function dateToOrdinal(day: number): string {
 }
 
 export function calculateScore(
-    predictedHomeGoals: number | null, 
-    predictedAwayGoals: number | null, 
-    actualHomeGoals: number, 
+    predictedHomeGoals: number | null,
+    predictedAwayGoals: number | null,
+    actualHomeGoals: number,
     actualAwayGoals: number
 ): number {
     if (predictedHomeGoals === null || predictedAwayGoals === null) {
@@ -153,18 +153,41 @@ export function resolveEndpoint(endpoint: string): string {
     return PROXY + endpoint
 }
 
+export function fetchAuthEndpoint(endpoint: string, config: RequestInit): Promise<Response> {
+    return fetch(resolveEndpoint(endpoint), {
+        ...config,
+        headers: {
+            ...config.headers,
+            Authorization: getJWT(),
+            Refresh: getRefreshToken(),
+        }
+    }).then(res => {
+        if (res.status === 200) {
+            setAuthToken(res.headers.get(RESPONSE_AUTH_HEADER))
+        }
+        return res
+    })
+}
+
 export const RESPONSE_AUTH_HEADER = "x-amzn-remapped-authorization"
 export const RESPONSE_REFRESH_HEADER = "refresh"
 
+// expires - number hours until cookie expires
+export function setCookie(name: string, value: string, expires: number): void {
+    const now = new Date()
+    now.setTime(now.getTime() + (1000 * 60 * 60 * expires))
+    document.cookie = `${name}=${value};expires=${now.toUTCString()}`
+}
+
 export function setAuthToken(token: string | null): void {
     if (token) {
-        document.cookie = "authtoken=" + token
+        setCookie("authtoken", token, 2 * 24)
     }
 }
 
 export function setRefreshToken(token: string | null): void {
     if (token) {
-        document.cookie = "refreshtoken=" + token
+        setCookie("refreshtoken", token, 35 * 24)
     }
 }
 
@@ -254,11 +277,10 @@ export function sendScore(
     endpoint: string,
     setWasSent: React.Dispatch<React.SetStateAction<IWasSent>>
 ): void {
-    fetch(resolveEndpoint(endpoint), {
+    fetchAuthEndpoint(endpoint, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": getJWT()
         },
         body: JSON.stringify({
             homeScore: homeScore,

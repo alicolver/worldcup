@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -29,12 +29,12 @@ const StyledTableCell = withStyles(() => ({
 
 
 interface leaderBoardRecord {
-  name: string,
-  correct_results: number,
-  correct_scores: number,
-  score: number,
-  userid: number,
-  is_user: boolean,
+    name: string,
+    correct_results: number,
+    correct_scores: number,
+    score: number,
+    userid: number,
+    is_user: boolean,
 }
 
 export default function LeaderBoard(): JSX.Element {
@@ -46,11 +46,8 @@ export default function LeaderBoard(): JSX.Element {
     const history = useHistory()
 
     useEffect(() => {
-        fetch(resolveEndpoint("leaderboard"), {
+        fetchAuthEndpoint("leaderboard", {
             method: "GET",
-            headers: {
-                "Authenticate": getJWT()
-            }
         }).then(res => res.json()).then(res => {
             if (res.success === true) {
                 setLeaderboardData(res.leaderboard)
@@ -59,11 +56,8 @@ export default function LeaderBoard(): JSX.Element {
             }
         })
 
-        fetch(resolveEndpoint("match/in-progress"), {
+        fetchAuthEndpoint("match/in-progress", {
             method: "GET",
-            headers: {
-                "Authenticate": getJWT()
-            }
         }).then(res => res.json()).then(res => {
             if (res.success) {
                 setIsLive(res.matches.length > 0)

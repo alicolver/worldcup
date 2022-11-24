@@ -2,7 +2,7 @@ import { Box, Card, makeStyles, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { MAIN_COLOR } from "../utils/Constants"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint,  } from "../utils/Utils"
 
 interface IPoints {
     userId: string
@@ -54,11 +54,8 @@ export default function Analytics(): JSX.Element {
     const [points, setPoints] = useState<IPoints>(defaultPoints)
 
     useEffect(() => {
-        fetch(resolveEndpoint("points"), {
+        fetchAuthEndpoint("points", {
             method: "GET",
-            headers: {
-                Authorization: getJWT()
-            }
         }).then(res => {
             if (!res.ok) return
             res.json().then(res => {

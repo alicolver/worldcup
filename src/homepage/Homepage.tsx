@@ -10,7 +10,7 @@ import League from "../league/League"
 import Header from "../misc/Header"
 import Predictions from "../predictions/Predictions"
 import { ILeague, IMatchData } from "../types/types"
-import { getJWT, getRefreshToken, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, hasMatchKickedOff } from "../utils/Utils"
 import React from "react"
 import AboutModal from "../about/About"
 import Games from "../predictions/Games"
@@ -51,11 +51,8 @@ function Homepage(): JSX.Element {
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
     useEffect(() => {
-        fetch(resolveEndpoint("match/get-upcoming"), {
+        fetchAuthEndpoint("match/get-upcoming", {
             method: "GET",
-            headers: {
-                Authorization: getJWT(),
-            },
         }).then((res) => {
             if (!res.ok) {
                 return
@@ -65,11 +62,8 @@ function Homepage(): JSX.Element {
             setMatchData(res.data)
         })
         setLeagueDataIsLoading(true)
-        fetch(resolveEndpoint("user/get-leagues"), {
+        fetchAuthEndpoint("user/get-leagues", {
             method: "POST",
-            headers: {
-                Authorization: getJWT(),
-            },
         }).then((res) => {
             setLeagueDataIsLoading(false)
             if (!res.ok) {
@@ -84,17 +78,12 @@ function Homepage(): JSX.Element {
                 setGlobalRank(globalRank)
             }
         })
-        const jwt = getJWT()
-        const refresh = getRefreshToken()
-        fetch(resolveEndpoint("auth/check-admin"), {
+        fetchAuthEndpoint("auth/check-admin", {
             method: "GET",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "Authorization": jwt,
-                "Refresh": refresh,
             },
-            mode: "cors"
         }).then(res => { setIsAdmin(res.status === 200) })
     }, [setMatchData, setLeagueData, setLeagueDataIsLoading, setIsAdmin])
 

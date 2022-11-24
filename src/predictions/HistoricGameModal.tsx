@@ -1,7 +1,7 @@
 import { Dialog, makeStyles, MenuItem, Select } from "@material-ui/core"
 import React, { ReactFragment, useEffect, useState } from "react"
 import { ILeague, IMatchData, IUserPrediction } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
 import HistoricGame from "./HistoricGame"
 import PredictionsTable from "./PredictionsTable"
 
@@ -36,7 +36,7 @@ export default function HistoricGameModal(props: IHistoricGamePageProps): JSX.El
     const [predictionData, setPredictionData] = useState<IUserPrediction[]>([])
 
     useEffect(() => {
-        fetch(resolveEndpoint("predictions/get-match-predictions-for-league"), {
+        fetchAuthEndpoint("predictions/get-match-predictions-for-league", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

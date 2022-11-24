@@ -14,7 +14,7 @@ import {
 import { ReactFragment, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Header from "../misc/Header"
-import { capitalizeFirstLetter, getJWT, resolveEndpoint } from "../utils/Utils"
+import { capitalizeFirstLetter, fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
 import { LinearProgress } from "@mui/material"
 import React from "react"
 import { getMovement } from "../utils/LeaderboardMovement"
@@ -90,10 +90,9 @@ export const Standings = (): JSX.Element => {
 
     useEffect(() => {
         setIsLoading(true)
-        fetch(resolveEndpoint("league/get"), {
+        fetchAuthEndpoint("league/get", {
             method: "POST",
             headers: {
-                Authorization: getJWT(),
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -165,7 +164,7 @@ export const Standings = (): JSX.Element => {
                 <Container>
                     <Typography className={classes.heading}>Standings</Typography>
                     <Typography className={classes.subHeading}>
-            League - {leagueName}
+                        League - {leagueName}
                     </Typography>
                 </Container>
                 <Container className={classes.leagueTopDiv}>

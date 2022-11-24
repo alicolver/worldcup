@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
 import {
+    fetchAuthEndpoint,
     getJWT,
     getUserid,
     hasMatchKickedOff,
@@ -67,11 +68,10 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
     const handleClose = () => setHistoryModal(null)
 
     useEffect(() => {
-        fetch(resolveEndpoint("predictions/get-previous-predictions-for-user"), {
+        fetchAuthEndpoint("predictions/get-previous-predictions-for-user", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: getJWT(),
             },
             body: JSON.stringify({
                 userId: getUserid(),

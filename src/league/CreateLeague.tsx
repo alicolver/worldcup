@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import Header from "../misc/Header"
 import { IUserTextInput } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint } from "../utils/Utils"
 import { useStylesLeague } from "./JoinLeague"
 import React from "react"
 
@@ -20,11 +20,10 @@ export default function CreateLeaguePage(): JSX.Element {
 
     const handleLeagueCreate = () => {
         setIsWaiting(true)
-        fetch(resolveEndpoint("league/create"), {
+        fetchAuthEndpoint("league/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": getJWT()
             },
             body: JSON.stringify({
                 leagueName: leagueName.value

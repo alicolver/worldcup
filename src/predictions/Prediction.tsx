@@ -2,7 +2,7 @@ import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/c
 import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData, IScore, IWasSent } from "../types/types"
-import { calculateScore, getResponseGlow, hasMatchKickedOff, parseDate, sendScore, validateScores } from "../utils/Utils"
+import { calculateScore, getResponseGlow, hasMatchKickedOff, parseDate, resolveEndpoint, sendScore, validateScores } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getFlagEmoji, getImageUrl } from "../utils/s3"

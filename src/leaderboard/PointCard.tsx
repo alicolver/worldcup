@@ -6,8 +6,8 @@ import {
 } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { IPointsData } from "../types/types"
-import { getJWT, resolveEndpoint } from "../utils/Utils"
 import { MAIN_COLOR } from "../utils/Constants"
+import { fetchAuthEndpoint } from "../utils/Utils"
 
 const useStyles = makeStyles({
     container: {
@@ -50,11 +50,8 @@ export default function PointsCard(props: { globalRank: number, globalRankIsLoad
 
     useEffect(() => {
         setPointsDataIsLoading(true)
-        fetch(resolveEndpoint("points"), {
+        fetchAuthEndpoint("points", {
             method: "GET",
-            headers: {
-                Authorization: getJWT(),
-            },
         }).then((res) => {
             setPointsDataIsLoading(false)
             if (!res.ok) {

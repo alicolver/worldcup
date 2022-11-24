@@ -2,7 +2,7 @@ import { Box, Button, Card, OutlinedInput, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { IMatchData } from "../types/types"
 import { getImageUrl } from "../utils/s3"
-import { parseDate, getResponseGlow, validateScores, sendScore, resolveEndpoint, getJWT } from "../utils/Utils"
+import { parseDate, getResponseGlow, validateScores, sendScore, resolveEndpoint, getJWT, fetchAuthEndpoint } from "../utils/Utils"
 import { defaultWasSent, matchCardUseStyles } from "./Prediction"
 import Team from "./Team"
 
@@ -76,7 +76,7 @@ export default function Game(props: IPredictionProps): JSX.Element {
             + teamOneScore.score + ":" + teamTwoScore.score + " " + props.matchData.awayTeam
         )
         if (!shouldContinue) return
-        fetch(resolveEndpoint("match/end"), {
+        fetchAuthEndpoint("match/end", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

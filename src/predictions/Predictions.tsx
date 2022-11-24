@@ -1,7 +1,7 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
-import { getJWT, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, getJWT, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
 import { EMPTY_PREDICTION } from "./Constants"
 import Prediction from "./Prediction"
 import React from "react"
@@ -35,11 +35,10 @@ export default function Predictions(props: IPredictionsProps): JSX.Element {
     const handleClose = () => setHistoryModal(null)
 
     useEffect(() => {
-        fetch(resolveEndpoint("predictions/fetch"), {
+        fetchAuthEndpoint("predictions/fetch", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": getJWT()
             },
             body: JSON.stringify({
                 matchIds: props.matchData.map(data => data.matchId)
