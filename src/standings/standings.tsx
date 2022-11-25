@@ -14,7 +14,7 @@ import {
 import { ReactFragment, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Header from "../misc/Header"
-import { capitalizeFirstLetter, fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
+import { capitalizeFirstLetter, fetchAuthEndpoint } from "../utils/Utils"
 import { LinearProgress } from "@mui/material"
 import React from "react"
 import { getMovement } from "../utils/LeaderboardMovement"

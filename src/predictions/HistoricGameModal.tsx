@@ -1,7 +1,7 @@
 import { Dialog, makeStyles, MenuItem, Select } from "@material-ui/core"
 import React, { ReactFragment, useEffect, useState } from "react"
 import { ILeague, IMatchData, IUserPrediction } from "../types/types"
-import { fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, getJWT } from "../utils/Utils"
 import HistoricGame from "./HistoricGame"
 import PredictionsTable from "./PredictionsTable"
 

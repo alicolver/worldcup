@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { fetchAuthEndpoint, getJWT, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint } from "../utils/Utils"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"

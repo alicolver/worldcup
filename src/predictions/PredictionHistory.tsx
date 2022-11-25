@@ -11,10 +11,8 @@ import React, { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
 import {
     fetchAuthEndpoint,
-    getJWT,
     getUserid,
-    hasMatchKickedOff,
-    resolveEndpoint,
+    hasMatchKickedOff
 } from "../utils/Utils"
 import HistoricGameModal from "./HistoricGameModal"
 import Prediction from "./Prediction"
@@ -63,7 +61,6 @@ interface IPreviousPrediction {
 export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
     const classes = useStyles()
     const [previousPredictions, setPreviousPredictions] = useState<IPreviousPrediction[] | null>(null)
-    const [hasFetched, setHasFetched] = useState<boolean>(false)
     const [historyModal, setHistoryModal] = useState<IMatchData | null>(null)
     const handleClose = () => setHistoryModal(null)
 
@@ -84,7 +81,7 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
                 setPreviousPredictions(res.data)
             })
         })
-    }, [setPreviousPredictions, setHasFetched])
+    }, [setPreviousPredictions])
 
     function getPreviousPredictionCards(matchData: IPreviousPrediction[]) {
         return matchData

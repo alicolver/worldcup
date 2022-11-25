@@ -1,4 +1,4 @@
-import { Card, Box, Typography, OutlinedInput, withStyles, makeStyles } from "@material-ui/core"
+import { Card, Box, Typography, makeStyles } from "@material-ui/core"
 import React from "react"
 import { IMatchData } from "../types/types"
 import { getImageUrl } from "../utils/s3"

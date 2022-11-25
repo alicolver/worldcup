@@ -1,7 +1,7 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
-import { fetchAuthEndpoint, getJWT, hasMatchKickedOff, resolveEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint, hasMatchKickedOff } from "../utils/Utils"
 import { EMPTY_PREDICTION } from "./Constants"
 import Prediction from "./Prediction"
 import React from "react"
