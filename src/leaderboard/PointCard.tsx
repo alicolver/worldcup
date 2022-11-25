@@ -4,6 +4,7 @@ import {
     makeStyles,
     Typography,
 } from "@material-ui/core"
+import CountUp from "react-countup"
 import React, { useEffect, useState } from "react"
 import { IPointsData } from "../types/types"
 import { MAIN_COLOR } from "../utils/Constants"
@@ -71,7 +72,10 @@ export default function PointsCard(props: { globalRank: number, globalRankIsLoad
                     {pointsDataIsLoading ? (
                         <CircularProgress />
                     ) : pointsData?.totalPoints ? (
-                        pointsData.totalPoints
+                        <CountUp
+                            end={pointsData.totalPoints}
+                            duration={2.5}
+                        />
                     ) : (
                         0
                     )}
@@ -83,7 +87,10 @@ export default function PointsCard(props: { globalRank: number, globalRankIsLoad
                     {pointsDataIsLoading ? (
                         <CircularProgress />
                     ) : pointsData?.todaysPoints ? (
-                        pointsData.todaysPoints
+                        <CountUp
+                            end={pointsData.todaysPoints}
+                            duration={2.5}
+                        />
                     ) : (
                         0
                     )}
