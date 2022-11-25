@@ -18,7 +18,7 @@ const useStyles = makeStyles({
             width: "90px"
         },
         "@media (max-width: 340px)": {
-            width: "60px"
+            width: "80px"
         },
         "@media (max-width: 310px)": {
             width: "40px"
