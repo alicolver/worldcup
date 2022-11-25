@@ -78,18 +78,19 @@ export default function Analytics(): JSX.Element {
                     style={{  fontFamily: "sans-serif" }}
                     margin={{
                         top: 5,
-                        right: 25,
-                        left: -10,
+                        right: -20,
+                        left: -20,
                         bottom: 50
                     }}
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis />
+                    <YAxis yAxisId="left" />
+                    <YAxis yAxisId="right" orientation="right" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="dailyPoints" barSize={20}  fill={MAIN_COLOR} />
-                    <Line dataKey="totalPoints" type="monotone" isAnimationActive={false} stroke="#000" />
+                    <Bar dataKey="dailyPoints" yAxisId="left" barSize={20}  fill={MAIN_COLOR} />
+                    <Line dataKey="totalPoints" yAxisId="right" type="monotone" isAnimationActive={false} stroke="#000" />
                 </ComposedChart>
             </ResponsiveContainer>
         )
