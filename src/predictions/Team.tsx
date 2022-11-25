@@ -15,6 +15,9 @@ const useStyles = makeStyles({
         boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px",
         width: "100px",
         "@media (max-width: 380px)": {
+            width: "90px"
+        },
+        "@media (max-width: 340px)": {
             width: "60px"
         },
         "@media (max-width: 310px)": {
