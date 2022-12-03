@@ -205,6 +205,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             } else {
                 setHomeIcon(null)
                 setAwayIcon(null)
+                setTeamToProgress(homeScore > awayScore ? HomeOrAway.HOME : HomeOrAway.AWAY)
             }
         } else {
             setTeamToProgress(null)
