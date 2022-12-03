@@ -139,11 +139,6 @@ export function calculateScoreKnockouts(
         return 0
     }
 
-    console.log(`predictedHomeGoalds: ${predictedHomeGoals}`)
-    console.log(`predictedAwayGoalds: ${predictedAwayGoals}`)
-    console.log(`actualdHomeGoalds: ${actualHomeGoals}`)
-    console.log(`actualAwayGoalds: ${actualAwayGoals}`)
-
     const bonus = predictedTeamToGoThrough === actualTeamToGoThrough ? 1 : 0
     let score = 0
 
