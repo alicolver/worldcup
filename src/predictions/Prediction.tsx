@@ -174,7 +174,6 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     const [awayIcon, setAwayIcon] = useState<JSX.Element | null>(getIconFromPrediction(HomeOrAway.AWAY))
 
     function getIconFromPrediction(team: HomeOrAway): JSX.Element | null {
-        console.log(props.predictionData)
         if (!props.predictionData.toGoThrough) return null
         return team === HomeOrAway[props.predictionData.toGoThrough] ? selectedIcon : unselectedIcon
     }
@@ -182,9 +181,9 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     useEffect(() => {
         setWasSent({ success: false, error: false })
         hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
-    }, [setTeamOneScore, setTeamTwoScore, setHasKickedOff])
+    }, [setTeamOneScore, setTeamTwoScore, setHasKickedOff, setHomeIcon, setAwayIcon, setTeamToProgress])
 
-    function handlePrediction(): void {
+    function handlePrediction(team?: HomeOrAway): void {
         const scoreOne = parseInt(teamOneScore.score)
         const scoreTwo = parseInt(teamTwoScore.score)
         const areBothScoresValid = validateScores(
@@ -195,13 +194,10 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             setTeamOneScore,
             setTeamTwoScore
         )
-        
-        console.log("handling pred")
-
         if (!areBothScoresValid) return
         if (isKnockout(props.matchData.gameStage)) {
             if (scoreOne === scoreTwo) {
-                if (!homeIcon || !awayIcon || !teamToProgress) {
+                if (!homeIcon || !awayIcon || teamToProgress === null) {
                     setHomeIcon(<HelpIcon fontSize="large" className={classes.icon} />)
                     setAwayIcon(<HelpIcon fontSize="large" className={classes.icon} />)
                     return
@@ -209,20 +205,24 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             } else {
                 setHomeIcon(null)
                 setAwayIcon(null)
-
-                if (scoreOne > scoreTwo) setTeamToProgress(HomeOrAway.HOME)
-                if (scoreTwo > scoreOne) setTeamToProgress(HomeOrAway.AWAY)
             }
         } else {
             setTeamToProgress(null)
         }
 
+        const toGoThrough = team !== null && typeof team !== "undefined"
+            ? team 
+            : scoreOne === scoreTwo 
+                ? teamToProgress 
+                : scoreOne > scoreTwo 
+                    ? HomeOrAway.HOME 
+                    : HomeOrAway.AWAY
+        
+        
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        console.log("SENDING PREDICTION")
-
-        sendScore(scoreOne, scoreTwo, teamToProgress, props.matchData.matchId, "predictions/make", setWasSent)
+        sendScore(scoreOne, scoreTwo, toGoThrough, props.matchData.matchId, "predictions/make", setWasSent)
     }
 
     function getResultString(): string {
@@ -314,6 +314,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function setIcons(team: HomeOrAway): void {
+        console.log(team)
         setTeamToProgress(team)
         if (team === HomeOrAway.HOME) {
             setHomeIcon(selectedIcon)
@@ -322,10 +323,11 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             setAwayIcon(selectedIcon)
             setHomeIcon(unselectedIcon)
         }
-        handlePrediction()
+        handlePrediction(team)
     }
 
     function setIconsHome(): void {
+        console.log("home clicked")
         setIcons(HomeOrAway.HOME)
     }
 
