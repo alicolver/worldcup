@@ -49,6 +49,7 @@ export default function AboutModal(): JSX.Element {
                 <DialogTitle>{"The Scoring System"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
+                        <Typography>All Scores after 90 minutes.</Typography> 
                         <Typography>2 points for a correct result.</Typography> 
                         <Typography>5 points for a correct scoreline.</Typography>
                         <Typography>1 point for correct team to progress.</Typography>
