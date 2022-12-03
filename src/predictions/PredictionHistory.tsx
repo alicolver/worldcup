@@ -43,6 +43,7 @@ interface IPreviousPrediction {
   homeTeam: string;
   awayTeam: string;
   gameStage: "GROUP" | "OCTOFINAL" | "QUARTERFINAL" | "SEMIFINAL" | "FINAL";
+  toGoThrough?: "HOME" | "AWAY" | undefined;
   result: {
     home: number;
     away: number;
@@ -54,6 +55,7 @@ interface IPreviousPrediction {
   prediction: {
     homeScore: number;
     awayScore: number;
+    toGoThrough?: "HOME" | "AWAY" | undefined
   };
   points: number;
 }
@@ -94,6 +96,7 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
                 const predData: IPredictionData = {
                     homeScore: previousPred.prediction.homeScore,
                     awayScore: previousPred.prediction.awayScore,
+                    toGoThrough: previousPred.prediction.toGoThrough
                 }
                 const match: IMatchData = {
                     matchId: previousPred.matchId,
@@ -108,6 +111,7 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
                         home: previousPred.result.home,
                         away: previousPred.result.away,
                     },
+                    toGoThrough: previousPred.toGoThrough
                 }
                 return (
                     <Prediction
