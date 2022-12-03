@@ -1,6 +1,5 @@
-import { Box, Icon, makeStyles, Typography } from "@material-ui/core"
+import { Box, makeStyles, Typography } from "@material-ui/core"
 import React from "react"
-import { isKnockout } from "../utils/Utils"
 
 interface ITeamProps {
     flag: string

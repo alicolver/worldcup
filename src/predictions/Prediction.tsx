@@ -2,13 +2,12 @@ import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/c
 import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData, IScore, IWasSent } from "../types/types"
-import { calculateScore, getResponseGlow, hasMatchKickedOff, isKnockout, parseDate, sendScore, validateScores } from "../utils/Utils"
+import { calculateScore, calculateScoreKnockouts, getResponseGlow, hasMatchKickedOff, isKnockout, parseDate, sendScore, validateScores } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getFlagEmoji, getImageUrl } from "../utils/s3"
 import { MAIN_COLOR } from "../utils/Constants"
 import CheckCircle from "@mui/icons-material/CheckCircle"
-import CancelIcon from "@mui/icons-material/Cancel"
 import HelpIcon from "@mui/icons-material/Help"
 import Cancel from "@mui/icons-material/Cancel"
 
@@ -180,7 +179,8 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
 
     useEffect(() => {
         setWasSent({ success: false, error: false })
-        hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
+        const hasKickedOff = hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
+        setHasKickedOff(hasKickedOff)
     }, [setHomeTeamScore, setAwayTeamScore, setHasKickedOff, setHomeIcon, setAwayIcon, setTeamToProgress])
 
     function handlePrediction(team?: HomeOrAway): void {
@@ -246,6 +246,31 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function getPoints(): number {
+        return isKnockout(props.matchData.gameStage) ? getPointsKnockout() : getPointsGroup()
+    }
+
+    function getPointsKnockout(): number {
+        console.log(props.matchData)
+        if (!props.matchData.result || !props.predictionData.toGoThrough) return calculateScoreKnockouts(
+            props.predictionData.homeScore,
+            props.predictionData.awayScore,
+            props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
+            0,
+            0,
+            null
+        )
+        
+        return calculateScoreKnockouts(
+            props.predictionData.homeScore,
+            props.predictionData.awayScore,
+            props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
+            props.matchData.result.home,
+            props.matchData.result.away,
+            props.matchData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null
+        )
+    }
+
+    function getPointsGroup(): number {
         if (!props.matchData.result) return calculateScore(
             props.predictionData.homeScore,
             props.predictionData.awayScore,

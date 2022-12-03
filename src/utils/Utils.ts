@@ -127,6 +127,41 @@ export function calculateScore(
     return 0
 }
 
+export function calculateScoreKnockouts(
+    predictedHomeGoals: number | null,
+    predictedAwayGoals: number | null,
+    predictedTeamToGoThrough: HomeOrAway | null,
+    actualHomeGoals: number,
+    actualAwayGoals: number,
+    actualTeamToGoThrough: HomeOrAway | null
+): number {
+    console.log(predictedTeamToGoThrough)
+    console.log(actualTeamToGoThrough)
+    if (predictedHomeGoals === null || predictedAwayGoals === null || predictedTeamToGoThrough === null) {
+        return 0
+    }
+
+    const bonus = predictedTeamToGoThrough === actualTeamToGoThrough ? 1 : 0
+
+    if (predictedHomeGoals === actualHomeGoals && predictedAwayGoals === actualAwayGoals) {
+        return 5 + bonus
+    }
+
+    if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
+        return 2 + bonus
+    }
+
+    if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
+        return 2 + bonus
+    }
+
+    if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
+        return 2 + bonus
+    }
+
+    return bonus
+}
+
 export function gotScoreCorrect(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): boolean {
     if (pred_one_goals === undefined || pred_two_goals === undefined) {
         return false
