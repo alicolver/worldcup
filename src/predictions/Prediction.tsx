@@ -210,14 +210,13 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             setTeamToProgress(null)
         }
 
-        const toGoThrough = team !== null && typeof team !== "undefined"
-            ? team 
-            : scoreOne === scoreTwo 
-                ? teamToProgress 
-                : scoreOne > scoreTwo 
-                    ? HomeOrAway.HOME 
-                    : HomeOrAway.AWAY
-        
+        const toGoThrough = scoreOne > scoreTwo 
+            ? HomeOrAway.HOME
+            : scoreTwo > scoreOne 
+                ? HomeOrAway.AWAY
+                : team !== null && typeof team !== "undefined"
+                    ? team
+                    : teamToProgress
         
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
