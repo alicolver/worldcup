@@ -250,7 +250,6 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function getPointsKnockout(): number {
-        console.log(props.matchData)
         if (!props.matchData.result || !props.predictionData.toGoThrough) return calculateScoreKnockouts(
             props.predictionData.homeScore,
             props.predictionData.awayScore,

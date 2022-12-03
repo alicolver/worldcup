@@ -135,31 +135,31 @@ export function calculateScoreKnockouts(
     actualAwayGoals: number,
     actualTeamToGoThrough: HomeOrAway | null
 ): number {
-    console.log(predictedTeamToGoThrough)
-    console.log(actualTeamToGoThrough)
     if (predictedHomeGoals === null || predictedAwayGoals === null || predictedTeamToGoThrough === null) {
         return 0
     }
 
     const bonus = predictedTeamToGoThrough === actualTeamToGoThrough ? 1 : 0
+    let score = 0
 
     if (predictedHomeGoals === actualHomeGoals && predictedAwayGoals === actualAwayGoals) {
-        return 5 + bonus
+        score = 5
     }
 
     if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
-        return 2 + bonus
+        score = 2
     }
 
     if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
-        return 2 + bonus
+        score = 2
     }
 
     if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
-        return 2 + bonus
+        score = 2
     }
 
-    return bonus
+    const total = score + bonus
+    return total
 }
 
 export function gotScoreCorrect(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): boolean {
