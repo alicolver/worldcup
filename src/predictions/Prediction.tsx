@@ -327,11 +327,12 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function setIconsHome(): void {
-        console.log("home clicked")
+        if (hasKickedOff) return
         setIcons(HomeOrAway.HOME)
     }
 
     function setIconsAway(): void {
+        if (hasKickedOff) return
         setIcons(HomeOrAway.AWAY)
     }
 
