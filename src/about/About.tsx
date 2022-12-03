@@ -51,6 +51,10 @@ export default function AboutModal(): JSX.Element {
                     <DialogContentText>
                         <Typography>2 points for a correct result.</Typography> 
                         <Typography>5 points for a correct scoreline.</Typography>
+                        <Typography>1 point for correct team to progress.</Typography>
+                        <Typography>If you pick a draw you will chose this yourself by clicking a flag</Typography>
+                        <Typography>If you pick a win then it will be done for you</Typography>
+                        <Typography>{"p.s. click a game after it's kicked off :)"}</Typography>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

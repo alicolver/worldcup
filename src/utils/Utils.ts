@@ -1,8 +1,8 @@
 import { PROXY } from "./Constants"
 import jwtDecode from "jwt-decode"
 import passwordValidator from "password-validator"
-import { IScore, IWasSent } from "../types/types"
-import { defaultWasSent } from "../predictions/Prediction"
+import { IMatchData, IScore, IWasSent } from "../types/types"
+import { defaultWasSent, HomeOrAway } from "../predictions/Prediction"
 
 interface IDecodedUser {
     userid: number,
@@ -273,6 +273,7 @@ export function validateScores(
 export function sendScore(
     homeScore: number, 
     awayScore: number, 
+    teamToProgress: HomeOrAway | null,
     matchId: string, 
     endpoint: string,
     setWasSent: React.Dispatch<React.SetStateAction<IWasSent>>
@@ -282,9 +283,14 @@ export function sendScore(
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        body: teamToProgress === null ? JSON.stringify({
             homeScore: homeScore,
             awayScore: awayScore,
+            matchId: matchId
+        }) : JSON.stringify({
+            homeScore: homeScore,
+            awayScore: awayScore,
+            toGoThrough: HomeOrAway[teamToProgress],
             matchId: matchId
         })
     }).then(res => {
@@ -301,4 +307,12 @@ export function sendScore(
             }
         })
     })
+}
+
+export function isKnockout(stage: string): boolean {
+    return stage !== "GROUP"
+}
+
+export function isDraw(match: IMatchData): boolean {
+    return match.result?.home === match.result?.away
 }

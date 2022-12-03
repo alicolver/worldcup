@@ -2,8 +2,8 @@ import { Box, Button, Card, OutlinedInput, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { IMatchData } from "../types/types"
 import { getImageUrl } from "../utils/s3"
-import { parseDate, getResponseGlow, validateScores, sendScore, getJWT, fetchAuthEndpoint } from "../utils/Utils"
-import { defaultWasSent, matchCardUseStyles } from "./Prediction"
+import { parseDate, getResponseGlow, validateScores, sendScore, getJWT, fetchAuthEndpoint, isKnockout, isDraw } from "../utils/Utils"
+import { defaultWasSent, HomeOrAway, matchCardUseStyles } from "./Prediction"
 import Team from "./Team"
 
 interface IPredictionProps {
@@ -21,6 +21,10 @@ export default function Game(props: IPredictionProps): JSX.Element {
         error: false
     })
     const [wasSent, setWasSent] = useState(defaultWasSent)
+    const [teamToProgress, setTeamToProgress] = useState<HomeOrAway | null>(null)
+    const [homeIcon, setHomeIcon] = useState<JSX.Element | null>(null)
+    const [awayIcon, setAwayIcon] = useState<JSX.Element | null>(null)
+
 
     useEffect(() => {
         setWasSent({ success: false, error: false })
@@ -43,7 +47,7 @@ export default function Game(props: IPredictionProps): JSX.Element {
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        sendScore(scoreOne, scoreTwo, props.matchData.matchId, "match/update-score", setWasSent)
+        sendScore(scoreOne, scoreTwo, null, props.matchData.matchId, "match/update-score", setWasSent)
     }
 
     function renderScore(): JSX.Element {
@@ -95,6 +99,15 @@ export default function Game(props: IPredictionProps): JSX.Element {
         })
     }
 
+    function getIconIfRequired(team: HomeOrAway): JSX.Element | null {
+        if (!isKnockout(props.matchData.gameStage)) return null
+        const homeScore = parseInt(teamOneScore.score)
+        const awayScore = parseInt(teamTwoScore.score)
+        if (isNaN(homeScore) || isNaN(awayScore)) return null
+        if (homeScore !== awayScore) return null
+        return team === HomeOrAway.HOME ? homeIcon : awayIcon
+    }
+
     return (
         <div>
             <Card className={classes.matchCard}>
@@ -103,11 +116,19 @@ export default function Game(props: IPredictionProps): JSX.Element {
                 </Box>
                 <Box className={classes.match}>
                     <Box>
-                        <Team name={props.matchData.homeTeam} flag={getImageUrl(props.matchData.homeTeam)} />
+                        <Team 
+                            name={props.matchData.homeTeam} 
+                            flag={getImageUrl(props.matchData.homeTeam)} 
+                            iconToRender={getIconIfRequired(HomeOrAway.HOME)}
+                        />
                     </Box>
                     {renderScore()}
                     <Box>
-                        <Team name={props.matchData.awayTeam} flag={getImageUrl(props.matchData.awayTeam)} />
+                        <Team 
+                            name={props.matchData.awayTeam} 
+                            flag={getImageUrl(props.matchData.awayTeam)} 
+                            iconToRender={getIconIfRequired(HomeOrAway.AWAY)}
+                        />
                     </Box>
                 </Box>
                 <Button className={classes.endMatch} onClick={() => handleEndGame()}>

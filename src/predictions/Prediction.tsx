@@ -2,16 +2,25 @@ import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/c
 import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData, IScore, IWasSent } from "../types/types"
-import { calculateScore, getResponseGlow, hasMatchKickedOff, parseDate, sendScore, validateScores } from "../utils/Utils"
+import { calculateScore, getResponseGlow, hasMatchKickedOff, isKnockout, parseDate, sendScore, validateScores } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getFlagEmoji, getImageUrl } from "../utils/s3"
 import { MAIN_COLOR } from "../utils/Constants"
+import CheckCircle from "@mui/icons-material/CheckCircle"
+import CancelIcon from "@mui/icons-material/Cancel"
+import HelpIcon from "@mui/icons-material/Help"
+import Cancel from "@mui/icons-material/Cancel"
 
 interface IPredictionProps {
     matchData: IMatchData,
     predictionData: IPredictionData,
     callback: (matchData: IMatchData) => void
+}
+
+export enum HomeOrAway {
+    HOME,
+    AWAY
 }
 
 export const matchCardUseStyles = makeStyles({
@@ -114,6 +123,25 @@ export const matchCardUseStyles = makeStyles({
         backgroundColor: MAIN_COLOR,
         color: "white",
         marginBottom: "5px"
+    },
+    icon: {
+        position: "absolute",
+        margin: "auto",
+        verticalAlign: "middle",
+        left: "32px",
+        top: "20px",
+        "@media (max-width: 380px)": {
+            fontSize: "16px",
+            left: "28px"
+        },
+        "@media (max-width: 340px)": {
+            fontSize: "12px",
+            left: "22px",
+            top: "15px"
+        },
+        "@media (max-width: 310px)": {
+            fontSize: "8px"
+        },
     }
 })
 
@@ -121,6 +149,8 @@ export const defaultWasSent = { success: false, error: false }
 
 export default function PredictionCard(props: IPredictionProps): JSX.Element {
     const classes = matchCardUseStyles()
+    const selectedIcon: JSX.Element = <CheckCircle color="success" fontSize="large" className={classes.icon} />
+    const unselectedIcon: JSX.Element = <Cancel color="error" fontSize="large" className={classes.icon} />
     const [teamOneScore, setTeamOneScore] = useState<IScore>({
         score: props.predictionData.homeScore == null ? "" : props.predictionData.homeScore.toString(),
         error: false
@@ -137,6 +167,17 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             new Date()
         )
     )
+    const [teamToProgress, setTeamToProgress] = useState<HomeOrAway | null>(
+        props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null
+    )
+    const [homeIcon, setHomeIcon] = useState<JSX.Element | null>(getIconFromPrediction(HomeOrAway.HOME))
+    const [awayIcon, setAwayIcon] = useState<JSX.Element | null>(getIconFromPrediction(HomeOrAway.AWAY))
+
+    function getIconFromPrediction(team: HomeOrAway): JSX.Element | null {
+        console.log(props.predictionData)
+        if (!props.predictionData.toGoThrough) return null
+        return team === HomeOrAway[props.predictionData.toGoThrough] ? selectedIcon : unselectedIcon
+    }
 
     useEffect(() => {
         setWasSent({ success: false, error: false })
@@ -154,13 +195,34 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             setTeamOneScore,
             setTeamTwoScore
         )
+        
+        console.log("handling pred")
 
         if (!areBothScoresValid) return
+        if (isKnockout(props.matchData.gameStage)) {
+            if (scoreOne === scoreTwo) {
+                if (!homeIcon || !awayIcon || !teamToProgress) {
+                    setHomeIcon(<HelpIcon fontSize="large" className={classes.icon} />)
+                    setAwayIcon(<HelpIcon fontSize="large" className={classes.icon} />)
+                    return
+                }
+            } else {
+                setHomeIcon(null)
+                setAwayIcon(null)
+
+                if (scoreOne > scoreTwo) setTeamToProgress(HomeOrAway.HOME)
+                if (scoreTwo > scoreOne) setTeamToProgress(HomeOrAway.AWAY)
+            }
+        } else {
+            setTeamToProgress(null)
+        }
 
         setTeamOneScore({ ...teamOneScore, error: false })
         setTeamTwoScore({ ...teamTwoScore, error: false })
 
-        sendScore(scoreOne, scoreTwo, props.matchData.matchId, "predictions/make", setWasSent)
+        console.log("SENDING PREDICTION")
+
+        sendScore(scoreOne, scoreTwo, teamToProgress, props.matchData.matchId, "predictions/make", setWasSent)
     }
 
     function getResultString(): string {
@@ -241,6 +303,35 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             ? renderLiveTab()
             : <></>
     }
+    
+    function getIconIfRequired(team: HomeOrAway): JSX.Element | null {
+        if (!isKnockout(props.matchData.gameStage)) return null
+        const homeScore = parseInt(teamOneScore.score)
+        const awayScore = parseInt(teamTwoScore.score)
+        if (isNaN(homeScore) || isNaN(awayScore)) return null
+        if (homeScore !== awayScore) return null
+        return team === HomeOrAway.HOME ? homeIcon : awayIcon
+    }
+
+    function setIcons(team: HomeOrAway): void {
+        setTeamToProgress(team)
+        if (team === HomeOrAway.HOME) {
+            setHomeIcon(selectedIcon)
+            setAwayIcon(unselectedIcon)
+        } else {
+            setAwayIcon(selectedIcon)
+            setHomeIcon(unselectedIcon)
+        }
+        handlePrediction()
+    }
+
+    function setIconsHome(): void {
+        setIcons(HomeOrAway.HOME)
+    }
+
+    function setIconsAway(): void {
+        setIcons(HomeOrAway.AWAY)
+    }
 
     return (
         <div>
@@ -251,11 +342,21 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                 </Box>
                 <Box className={classes.match}>
                     <Box>
-                        <Team name={props.matchData.homeTeam} flag={getImageUrl(props.matchData.homeTeam)} />
+                        <Team 
+                            name={props.matchData.homeTeam} 
+                            flag={getImageUrl(props.matchData.homeTeam)} 
+                            iconToRender={getIconIfRequired(HomeOrAway.HOME)}
+                            callback={setIconsHome}
+                        />
                     </Box>
                     {renderScore()}
                     <Box>
-                        <Team name={props.matchData.awayTeam} flag={getImageUrl(props.matchData.awayTeam)} />
+                        <Team 
+                            name={props.matchData.awayTeam} 
+                            flag={getImageUrl(props.matchData.awayTeam)} 
+                            iconToRender={getIconIfRequired(HomeOrAway.AWAY)}
+                            callback={setIconsAway}
+                        />
                     </Box>
                     {hasKickedOff ? renderPoints() : <></>}
                 </Box>

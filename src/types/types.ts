@@ -30,6 +30,7 @@ export interface IMatchData {
         away: number;
     }
     | undefined;
+    toGoThrough?: | "HOME" | "AWAY" | undefined;
     matchId: string;
     homeTeam: string;
     awayTeam: string;
@@ -42,6 +43,7 @@ export interface IMatchData {
 export interface IPredictionData {
     homeScore: number | null;
     awayScore: number | null;
+    toGoThrough?: | "HOME" | "AWAY" | undefined; 
 }
 
 export interface IPointsData {
