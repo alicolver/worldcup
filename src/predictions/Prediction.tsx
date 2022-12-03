@@ -151,11 +151,11 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     const classes = matchCardUseStyles()
     const selectedIcon: JSX.Element = <CheckCircle color="success" fontSize="large" className={classes.icon} />
     const unselectedIcon: JSX.Element = <Cancel color="error" fontSize="large" className={classes.icon} />
-    const [teamOneScore, setTeamOneScore] = useState<IScore>({
+    const [homeTeamScore, setHomeTeamScore] = useState<IScore>({
         score: props.predictionData.homeScore == null ? "" : props.predictionData.homeScore.toString(),
         error: false
     })
-    const [teamTwoScore, setTeamTwoScore] = useState<IScore>({
+    const [awayTeamScore, setAwayTeamScore] = useState<IScore>({
         score: props.predictionData.awayScore == null ? "" : props.predictionData.awayScore.toString(),
         error: false
     })
@@ -181,22 +181,22 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     useEffect(() => {
         setWasSent({ success: false, error: false })
         hasMatchKickedOff(props.matchData.matchDate, props.matchData.matchTime, new Date())
-    }, [setTeamOneScore, setTeamTwoScore, setHasKickedOff, setHomeIcon, setAwayIcon, setTeamToProgress])
+    }, [setHomeTeamScore, setAwayTeamScore, setHasKickedOff, setHomeIcon, setAwayIcon, setTeamToProgress])
 
     function handlePrediction(team?: HomeOrAway): void {
-        const scoreOne = parseInt(teamOneScore.score)
-        const scoreTwo = parseInt(teamTwoScore.score)
+        const homeScore = parseInt(homeTeamScore.score)
+        const awayScore = parseInt(awayTeamScore.score)
         const areBothScoresValid = validateScores(
-            scoreOne, 
-            scoreTwo,
-            teamOneScore,
-            teamTwoScore,
-            setTeamOneScore,
-            setTeamTwoScore
+            homeScore, 
+            awayScore,
+            homeTeamScore,
+            awayTeamScore,
+            setHomeTeamScore,
+            setAwayTeamScore
         )
         if (!areBothScoresValid) return
         if (isKnockout(props.matchData.gameStage)) {
-            if (scoreOne === scoreTwo) {
+            if (homeScore === awayScore) {
                 if (!homeIcon || !awayIcon || teamToProgress === null) {
                     setHomeIcon(<HelpIcon fontSize="large" className={classes.icon} />)
                     setAwayIcon(<HelpIcon fontSize="large" className={classes.icon} />)
@@ -210,18 +210,18 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             setTeamToProgress(null)
         }
 
-        const toGoThrough = scoreOne > scoreTwo 
+        const toGoThrough = homeScore > awayScore 
             ? HomeOrAway.HOME
-            : scoreTwo > scoreOne 
+            : awayScore > homeScore 
                 ? HomeOrAway.AWAY
                 : team !== null && typeof team !== "undefined"
                     ? team
                     : teamToProgress
         
-        setTeamOneScore({ ...teamOneScore, error: false })
-        setTeamTwoScore({ ...teamTwoScore, error: false })
+        setHomeTeamScore({ ...homeTeamScore, error: false })
+        setAwayTeamScore({ ...awayTeamScore, error: false })
 
-        sendScore(scoreOne, scoreTwo, toGoThrough, props.matchData.matchId, "predictions/make", setWasSent)
+        sendScore(homeScore, awayScore, toGoThrough, props.matchData.matchId, "predictions/make", setWasSent)
     }
 
     function getResultString(): string {
@@ -275,10 +275,10 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     className={classes.teaminput}
                     style={getResponseGlow(wasSent)}
                     id="outlined-basic"
-                    value={teamOneScore.score}
-                    onChange={(input) => setTeamOneScore({ ...teamOneScore, score: input.target.value })}
+                    value={homeTeamScore.score}
+                    onChange={(input) => setHomeTeamScore({ ...homeTeamScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
-                    error={teamOneScore.error}
+                    error={homeTeamScore.error}
                     disabled={hasKickedOff}
                     inputProps={{ maxLength: 1 }}
                 />
@@ -286,10 +286,10 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                     className={classes.teaminput}
                     id="outlined-basic"
                     style={getResponseGlow(wasSent)}
-                    value={teamTwoScore.score}
-                    onChange={(input) => setTeamTwoScore({ ...teamTwoScore, score: input.target.value })}
+                    value={awayTeamScore.score}
+                    onChange={(input) => setAwayTeamScore({ ...awayTeamScore, score: input.target.value })}
                     onBlur={() => handlePrediction()}
-                    error={teamTwoScore.error}
+                    error={awayTeamScore.error}
                     disabled={hasKickedOff}
                     inputProps={{ maxLength: 1 }}
                 />
@@ -305,16 +305,16 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     
     function getIconIfRequired(team: HomeOrAway): JSX.Element | null {
         if (!isKnockout(props.matchData.gameStage)) return null
-        const homeScore = parseInt(teamOneScore.score)
-        const awayScore = parseInt(teamTwoScore.score)
+        const homeScore = parseInt(homeTeamScore.score)
+        const awayScore = parseInt(awayTeamScore.score)
         if (isNaN(homeScore) || isNaN(awayScore)) return null
         if (homeScore !== awayScore) return null
         return team === HomeOrAway.HOME ? homeIcon : awayIcon
     }
 
     function setIcons(team: HomeOrAway): void {
-        const homeScore = parseInt(teamOneScore.score)
-        const awayScore = parseInt(teamTwoScore.score)
+        const homeScore = parseInt(homeTeamScore.score)
+        const awayScore = parseInt(awayTeamScore.score)
         if (isNaN(homeScore) || isNaN(awayScore)) return
         if (homeScore !== awayScore) return
 
