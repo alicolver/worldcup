@@ -2,8 +2,9 @@
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
+import { getJWT } from "./utils/Auth"
 import { pub } from "./utils/Constants"
-import { getJWT, resolveEndpoint } from "./utils/Utils"
+import { resolveEndpoint } from "./utils/Utils"
 
 // This lets the app load faster on subsequent visits in production, and gives
 // it offline capabilities. However, it also means that developers (and users)

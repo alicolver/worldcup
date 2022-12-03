@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import Header from "../misc/Header"
 import { IUserTextInput } from "../types/types"
-import { fetchAuthEndpoint } from "../utils/Utils"
 import { useStylesLeague } from "./JoinLeague"
 import React from "react"
+import { fetchAuthEndpoint } from "../utils/Auth"
 
 export default function CreateLeaguePage(): JSX.Element {
     const classes = useStylesLeague()

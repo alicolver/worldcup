@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useHistory, useLocation } from "react-router-dom"
-import { isTokenValid } from "../utils/Utils"
 import React from "react"
+import { isTokenValid } from "../utils/Auth"
 
 interface ComponentProps {
     children?: React.ReactNode

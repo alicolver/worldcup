@@ -1,10 +1,10 @@
 import { AppBar, Box, Container, makeStyles } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 import qatar from "../img/qatar.png"
-import { deleteJWT, deleteRefreshToken } from "../utils/Utils"
 import LogoutIcon from "@mui/icons-material/Logout"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
 import React from "react"
+import { deleteJWT, deleteRefreshToken } from "../utils/Auth"
 
 const useStyles = makeStyles({
     logo: {

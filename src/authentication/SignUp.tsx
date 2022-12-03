@@ -10,10 +10,11 @@ import logo from "../img/logo.png"
 import Typography from "@material-ui/core/Typography"
 import { makeStyles } from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
-import { resolveEndpoint, isTokenValid, validateEmail, validatePassword, PasswordValidation } from "../utils/Utils"
+import { resolveEndpoint } from "../utils/Utils"
 import { Copyright } from "./Copyright"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { History } from "history"
+import { isTokenValid, PasswordValidation, validateEmail, validatePassword } from "../utils/Auth"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
