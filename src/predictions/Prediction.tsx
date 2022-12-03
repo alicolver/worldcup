@@ -314,7 +314,11 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function setIcons(team: HomeOrAway): void {
-        console.log(team)
+        const homeScore = parseInt(teamOneScore.score)
+        const awayScore = parseInt(teamTwoScore.score)
+        if (isNaN(homeScore) || isNaN(awayScore)) return
+        if (homeScore !== awayScore) return
+
         setTeamToProgress(team)
         if (team === HomeOrAway.HOME) {
             setHomeIcon(selectedIcon)
