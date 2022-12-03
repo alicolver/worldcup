@@ -139,22 +139,21 @@ export function calculateScoreKnockouts(
         return 0
     }
 
+    console.log(`predictedHomeGoalds: ${predictedHomeGoals}`)
+    console.log(`predictedAwayGoalds: ${predictedAwayGoals}`)
+    console.log(`actualdHomeGoalds: ${actualHomeGoals}`)
+    console.log(`actualAwayGoalds: ${actualAwayGoals}`)
+
     const bonus = predictedTeamToGoThrough === actualTeamToGoThrough ? 1 : 0
     let score = 0
 
     if (predictedHomeGoals === actualHomeGoals && predictedAwayGoals === actualAwayGoals) {
         score = 5
-    }
-
-    if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
+    } else if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
         score = 2
-    }
-
-    if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
+    } else if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
         score = 2
-    }
-
-    if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
+    } else if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
         score = 2
     }
 
