@@ -9,14 +9,11 @@ import {
 } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
-import {
-    fetchAuthEndpoint,
-    getUserid,
-    hasMatchKickedOff
-} from "../utils/Utils"
 import HistoricGameModal from "./HistoricGameModal"
 import Prediction from "./Prediction"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { fetchAuthEndpoint, getUserid } from "../utils/Auth"
+import { hasMatchKickedOff } from "../utils/Match"
 
 interface IPredictionHistoryProps {
   leagues: ILeague[];

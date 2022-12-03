@@ -1,11 +1,12 @@
 import { Box, Container, makeStyles, Typography } from "@material-ui/core"
 import { useEffect, useState } from "react"
 import { ILeague, IMatchData, IPredictionData } from "../types/types"
-import { fetchAuthEndpoint, hasMatchKickedOff } from "../utils/Utils"
 import { EMPTY_PREDICTION } from "./Constants"
 import Prediction from "./Prediction"
 import React from "react"
 import HistoricGameModal from "./HistoricGameModal"
+import { fetchAuthEndpoint } from "../utils/Auth"
+import { hasMatchKickedOff } from "../utils/Match"
 
 interface IPredictionsProps {
     heading: string;

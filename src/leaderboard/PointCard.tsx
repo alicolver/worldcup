@@ -8,7 +8,7 @@ import CountUp from "react-countup"
 import React, { useEffect, useState } from "react"
 import { IPointsData } from "../types/types"
 import { MAIN_COLOR } from "../utils/Constants"
-import { fetchAuthEndpoint } from "../utils/Utils"
+import { fetchAuthEndpoint } from "../utils/Auth"
 
 const useStyles = makeStyles({
     container: {

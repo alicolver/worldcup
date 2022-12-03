@@ -2,7 +2,7 @@ import { Box, Card, makeStyles, OutlinedInput, Typography } from "@material-ui/c
 import CircleIcon from "@mui/icons-material/Circle"
 import { useEffect, useState } from "react"
 import { IMatchData, IPredictionData, IScore, IWasSent } from "../types/types"
-import { calculateScore, calculateScoreKnockouts, getResponseGlow, hasMatchKickedOff, isKnockout, parseDate, sendScore, validateScores } from "../utils/Utils"
+import { getResponseGlow, parseDate } from "../utils/Utils"
 import Team from "./Team"
 import React from "react"
 import { getFlagEmoji, getImageUrl } from "../utils/s3"
@@ -10,6 +10,8 @@ import { MAIN_COLOR } from "../utils/Constants"
 import CheckCircle from "@mui/icons-material/CheckCircle"
 import HelpIcon from "@mui/icons-material/Help"
 import Cancel from "@mui/icons-material/Cancel"
+import { hasMatchKickedOff, isKnockout } from "../utils/Match"
+import { validateScores, sendScore, calculateScoreKnockouts, calculateScore } from "../utils/Score"
 
 interface IPredictionProps {
     matchData: IMatchData,

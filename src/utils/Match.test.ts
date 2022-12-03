@@ -1,5 +1,5 @@
-import {describe, expect, test} from "@jest/globals"
-import { hasMatchKickedOff, parseMatchKickOff } from "./Utils"
+import { describe, expect, test } from "@jest/globals"
+import { parseMatchKickOff, hasMatchKickedOff } from "./Match"
 
 test("Test Date Time Parsing", () => {
     const expected: Date = new Date(Date.parse("2022-11-21T11:11:00"))

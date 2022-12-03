@@ -14,10 +14,11 @@ import {
 import { ReactFragment, useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Header from "../misc/Header"
-import { capitalizeFirstLetter, fetchAuthEndpoint } from "../utils/Utils"
+import { capitalizeFirstLetter } from "../utils/Utils"
 import { LinearProgress } from "@mui/material"
 import React from "react"
 import { getMovement } from "../utils/LeaderboardMovement"
+import { fetchAuthEndpoint } from "../utils/Auth"
 
 export const fontTheme = createMuiTheme({
     typography: {

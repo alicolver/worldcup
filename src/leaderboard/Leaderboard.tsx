@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import { fetchAuthEndpoint } from "../utils/Utils"
 import { makeStyles, withStyles } from "@material-ui/core/styles"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -10,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow"
 import Paper from "@material-ui/core/Paper"
 import { Redirect, useHistory } from "react-router-dom"
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord"
+import { fetchAuthEndpoint } from "../utils/Auth"
 
 const useStyles = makeStyles({
     table: {

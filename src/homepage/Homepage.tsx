@@ -10,12 +10,13 @@ import League from "../league/League"
 import Header from "../misc/Header"
 import Predictions from "../predictions/Predictions"
 import { ILeague, IMatchData } from "../types/types"
-import { fetchAuthEndpoint, hasMatchKickedOff } from "../utils/Utils"
 import React from "react"
 import AboutModal from "../about/About"
 import Games from "../predictions/Games"
 import Analytics from "../analytics/Analytics"
 import { PredictionHistory } from "../predictions/PredictionHistory"
+import { fetchAuthEndpoint } from "../utils/Auth"
+import { hasMatchKickedOff } from "../utils/Match"
 
 const useStyles = makeStyles({
     logo: {

@@ -10,8 +10,8 @@ import {
 import { useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import Header from "../misc/Header"
-import { fetchAuthEndpoint } from "../utils/Utils"
 import React from "react"
+import { fetchAuthEndpoint } from "../utils/Auth"
 
 export const useStylesLeague = makeStyles({
     container: {

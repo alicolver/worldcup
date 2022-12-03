@@ -1,8 +1,8 @@
 import { Box, Card, makeStyles, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { Bar, CartesianGrid, ComposedChart, Legend, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { fetchAuthEndpoint } from "../utils/Auth"
 import { MAIN_COLOR } from "../utils/Constants"
-import { fetchAuthEndpoint,  } from "../utils/Utils"
 
 interface IPoints {
     userId: string

@@ -1,8 +1,11 @@
 import { Box, Button, Card, OutlinedInput, Typography } from "@material-ui/core"
 import React, { useEffect, useState } from "react"
 import { IMatchData } from "../types/types"
+import { fetchAuthEndpoint, getJWT } from "../utils/Auth"
+import { isKnockout } from "../utils/Match"
 import { getImageUrl } from "../utils/s3"
-import { parseDate, getResponseGlow, validateScores, sendScore, getJWT, fetchAuthEndpoint, isKnockout } from "../utils/Utils"
+import { validateScores, sendScore } from "../utils/Score"
+import { parseDate, getResponseGlow } from "../utils/Utils"
 import { defaultWasSent, HomeOrAway, matchCardUseStyles } from "./Prediction"
 import Team from "./Team"
 
