@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/worldcup/static/css/main.13500d92.css",
-    "main.js": "/worldcup/static/js/main.3ec3e62f.js",
+    "main.js": "/worldcup/static/js/main.bb9f10ac.js",
     "static/js/787.d3f70c04.chunk.js": "/worldcup/static/js/787.d3f70c04.chunk.js",
     "static/media/qatar.png": "/worldcup/static/media/qatar.a111b206ef9a59534f01.png",
     "service-worker.js": "/worldcup/service-worker.js",
     "static/media/logo.png": "/worldcup/static/media/logo.165cd143d5d97680e949.png",
     "index.html": "/worldcup/index.html",
     "main.13500d92.css.map": "/worldcup/static/css/main.13500d92.css.map",
-    "main.3ec3e62f.js.map": "/worldcup/static/js/main.3ec3e62f.js.map",
+    "main.bb9f10ac.js.map": "/worldcup/static/js/main.bb9f10ac.js.map",
     "787.d3f70c04.chunk.js.map": "/worldcup/static/js/787.d3f70c04.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.13500d92.css",
-    "static/js/main.3ec3e62f.js"
+    "static/js/main.bb9f10ac.js"
   ]
 }
