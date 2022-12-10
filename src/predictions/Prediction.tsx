@@ -252,14 +252,16 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
     }
 
     function getPointsKnockout(): number {
-        if (!props.matchData.result || !props.predictionData.toGoThrough) return calculateScoreKnockouts(
-            props.predictionData.homeScore,
-            props.predictionData.awayScore,
-            props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
-            0,
-            0,
-            null
-        )
+        if (!props.matchData.result || !props.predictionData.toGoThrough) {
+            return calculateScoreKnockouts(
+                props.predictionData.homeScore,
+                props.predictionData.awayScore,
+                props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
+                0,
+                0,
+                null
+            )
+        }
         
         return calculateScoreKnockouts(
             props.predictionData.homeScore,
@@ -267,7 +269,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
             props.matchData.result.home,
             props.matchData.result.away,
-            props.matchData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null
+            props.matchData.toGoThrough ? HomeOrAway[props.matchData.toGoThrough] : null
         )
     }
 

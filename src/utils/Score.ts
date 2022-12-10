@@ -44,20 +44,24 @@ export function calculateScoreKnockouts(
     }
 
     const bonus = predictedTeamToGoThrough === actualTeamToGoThrough ? 1 : 0
-    let score = 0
 
     if (predictedHomeGoals === actualHomeGoals && predictedAwayGoals === actualAwayGoals) {
-        score = 5
-    } else if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
-        score = 2
-    } else if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
-        score = 2
-    } else if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
-        score = 2
+        return (5 + bonus)
+    } 
+    
+    if (actualHomeGoals > actualAwayGoals && predictedHomeGoals > predictedAwayGoals) {
+        return (2 + bonus)
+    }
+    
+    if (actualHomeGoals < actualAwayGoals && predictedHomeGoals < predictedAwayGoals) {
+        return (2 + bonus)
+    }
+    
+    if (actualHomeGoals === actualAwayGoals && predictedHomeGoals === predictedAwayGoals) {
+        return (2 + bonus)
     }
 
-    const total = score + bonus
-    return total
+    return bonus
 }
 
 export function gotScoreCorrect(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): boolean {
