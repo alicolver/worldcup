@@ -1,18 +1,8 @@
 import { PROXY } from "./Constants"
 import { IWasSent } from "../types/types"
 
-export function dateToOrdinal(day: number): string {
-    if (day > 3 && day < 21) return "th"
-    switch (day % 10) {
-    case 1: return "st"
-    case 2: return "nd"
-    case 3: return "rd"
-    default: return "th"
-    }
-}
-
 export function resolveEndpoint(endpoint: string): string {
-    return PROXY + endpoint
+    return `${PROXY}${endpoint}`
 }
 
 export const capitalizeFirstLetter = (input: string): string => input.charAt(0).toUpperCase() + input.slice(1)

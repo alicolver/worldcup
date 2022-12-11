@@ -233,7 +233,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
         const awayFlag = getFlagEmoji(props.matchData.awayTeam)
         const homeScore = props.matchData.result.home
         const awayScore = props.matchData.result.away
-        return ": " + homeFlag + " " + homeScore + ":" + awayScore + " " + awayFlag
+        return `: ${homeFlag} ${homeScore}:${awayScore} ${awayFlag}`
     }
 
     function renderLiveTab(): JSX.Element {
@@ -373,7 +373,7 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             {renderLiveTabIfShould()}
             <Card className={classes.matchCard} onClick={() => props.callback(props.matchData)}>
                 <Box className={classes.date}>
-                    <Typography>{parseDate(props.matchData.matchDate) + " - " + props.matchData.matchTime}</Typography>
+                    <Typography>{`${parseDate(props.matchData.matchDate)} - ${props.matchData.matchTime}`}</Typography>
                 </Box>
                 <Box className={classes.match}>
                     <Box>

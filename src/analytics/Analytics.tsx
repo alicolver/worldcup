@@ -68,7 +68,7 @@ export default function Analytics(): JSX.Element {
         let totalPoints = 0
         const data: IGraphEntry[] = points.pointsHistory.map((val, index) => { 
             totalPoints += val
-            return { name: "Day " + (index + 1).toString(), dailyPoints: val, totalPoints: totalPoints }})
+            return { name: `Day ${(index + 1).toString()}`, dailyPoints: val, totalPoints: totalPoints }})
         return (
             <ResponsiveContainer width="100%" height="100%" className={classes.graph}>
                 <ComposedChart

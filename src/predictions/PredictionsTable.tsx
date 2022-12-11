@@ -37,7 +37,7 @@ export default function PredictionsTable(props: IPredictionsTableProps): JSX.Ele
                     {
                         (predData.homeScore === null) || (predData.awayScore === null)
                             ? "No Prediction"
-                            : predData.homeScore + ":" + predData.awayScore
+                            : `${predData.homeScore}:${predData.awayScore}`
                     }
                 </TableCell>
                 <TableCell>

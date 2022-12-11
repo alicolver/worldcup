@@ -64,28 +64,6 @@ export function calculateScoreKnockouts(
     return bonus
 }
 
-export function gotScoreCorrect(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): boolean {
-    if (pred_one_goals === undefined || pred_two_goals === undefined) {
-        return false
-    }
-
-    const pred_one = parseInt(pred_one_goals)
-    const pred_two = parseInt(pred_two_goals)
-
-    return pred_one === act_one_goals && pred_two === act_two_goals
-}
-
-export function gotResultCorrect(pred_one_goals: string | undefined, pred_two_goals: string | undefined, act_one_goals: number, act_two_goals: number): boolean {
-    if (pred_one_goals === undefined || pred_two_goals === undefined) {
-        return false
-    }
-
-    const pred_one = parseInt(pred_one_goals)
-    const pred_two = parseInt(pred_two_goals)
-
-    return ((act_one_goals > act_two_goals && pred_one > pred_two) || (act_one_goals < act_two_goals && pred_one < pred_two) || (act_one_goals === act_two_goals && pred_one === pred_two))
-}
-
 export function validateScores(
     scoreOne: number, 
     scoreTwo: number, 

@@ -86,8 +86,7 @@ export function PredictionHistory(props: IPredictionHistoryProps): JSX.Element {
         return matchData
             .sort(
                 (a, b) =>
-                    new Date(`${b.matchDate}T${b.matchTime}`).getTime() -
-          new Date(`${a.matchDate}T${a.matchTime}`).getTime()
+                    new Date(`${b.matchDate}T${b.matchTime}`).getTime() - new Date(`${a.matchDate}T${a.matchTime}`).getTime()
             )
             .map((previousPred) => {
                 const predData: IPredictionData = {

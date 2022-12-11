@@ -54,12 +54,13 @@ export default function LeaguePreview(props: {leagueData: ILeague[], leagueDataI
                             {data.users.filter((user) => user.rank === data.currentRanking)
                                 .length === 1
                                 ? data.currentRanking
-                                : "=" + data.currentRanking}
+                                : `=${data.currentRanking}`
+                            }
                         </div>
                     </Container>
                 </TableCell>
                 <TableCell
-                    onClick={() => history.push("/standings?leagueId=" + data.leagueId)}
+                    onClick={() => history.push(`/standings?leagueId=${data.leagueId}`)}
                     style={{ paddingTop: "0.7rem", paddingBottom: "0.7rem" }}
                 >
                     {data.leagueName}

@@ -74,8 +74,8 @@ function Homepage(): JSX.Element {
         }).then((res) => {
             if (res !== null) {
                 setLeagueData(res.data.leagues)
-                const globalRank = (res.data.leagues as any[])
-                    .filter((league) => league.leagueId === "global")[0].currentRanking || 0
+                const fetchedLeagueData: ILeague[] = res.data.leagues
+                const globalRank = fetchedLeagueData.filter((league) => league.leagueId === "global")[0].currentRanking || 0
                 setGlobalRank(globalRank)
             }
         })
@@ -108,7 +108,7 @@ function Homepage(): JSX.Element {
                 />
                 {matchData.imminentMatches.length > 0 ? (
                     <Predictions
-                        heading={"Next Game" + (matchData.imminentMatches.length > 0 ? "s" : "")}
+                        heading={`Next Game ${matchData.imminentMatches.length > 0 ? "s" : ""}`}
                         matchData={matchData.imminentMatches}
                         leagues={leagueData}
                     />
@@ -121,7 +121,7 @@ function Homepage(): JSX.Element {
                 />
                 {matchData.nextMatches.length > 0 ? (
                     <Predictions
-                        heading={"Upcoming Game" + (matchData.nextMatches.length > 0 ? "s" : "")}
+                        heading={`Upcoming Game${matchData.nextMatches.length > 0 ? "s" : ""}`}
                         matchData={matchData.nextMatches}
                         leagues={leagueData}
                     />

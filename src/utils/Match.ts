@@ -11,7 +11,7 @@ export function isDraw(match: IMatchData): boolean {
 export function parseMatchKickOff(matchDay: string, matchTime: string): Date {
     // matchDay fomrmat is YYYY-MM-DD
     // matchTime fromat is HH:MM
-    return new Date(Date.parse(matchDay + "T" + matchTime + ":00"))
+    return new Date(Date.parse(`${matchDay}T${matchTime}:00`))
 }
 
 export function hasMatchKickedOff(matchDay: string, matchTime: string, date: Date): boolean {

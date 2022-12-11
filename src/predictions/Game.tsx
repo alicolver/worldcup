@@ -79,8 +79,8 @@ export default function Game(props: IPredictionProps): JSX.Element {
     }
 
     function handleEndGame(): void {
-        const shouldContinue: boolean = confirm("Ending game: " + props.matchData.homeTeam + " " 
-            + teamOneScore.score + ":" + teamTwoScore.score + " " + props.matchData.awayTeam
+        const shouldContinue: boolean = confirm(
+            `Ending game: ${props.matchData.homeTeam} ${teamOneScore.score}:${teamTwoScore.score} ${props.matchData.awayTeam}`
         )
         if (!shouldContinue) return
         fetchAuthEndpoint("match/end", {
@@ -115,7 +115,7 @@ export default function Game(props: IPredictionProps): JSX.Element {
         <div>
             <Card className={classes.matchCard}>
                 <Box className={classes.date}>
-                    <Typography>{parseDate(props.matchData.matchDate) + " - " + props.matchData.matchTime}</Typography>
+                    <Typography>{`${parseDate(props.matchData.matchDate)} - ${props.matchData.matchTime}`}</Typography>
                 </Box>
                 <Box className={classes.match}>
                     <Box>

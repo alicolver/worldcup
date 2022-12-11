@@ -98,13 +98,10 @@ export function isAdminCheck(): boolean {
     const jwt = getJWT()
     try {
         const decoded = jwtDecode<IDecodedUser>(jwt)
-        if (decoded.isAdmin) {
-            return decoded.isAdmin
-        }
+        return decoded.isAdmin ? decoded.isAdmin : false
     } catch {
-        // intentionally blank
+        return false
     }
-    return false
 }
 
 export function getUserid(): string {
@@ -113,11 +110,9 @@ export function getUserid(): string {
         const decoded = jwtDecode<IDecodedUser>(jwt)
         return decoded.sub
     } catch {
-        // intentionally blank
+        return ""
     }
-    return ""
 }
-
 
 export function validateEmail(email: string): boolean {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
