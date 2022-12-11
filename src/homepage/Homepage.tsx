@@ -5,7 +5,7 @@ import {
     Toolbar,
 } from "@material-ui/core"
 import { useEffect, useState } from "react"
-import PointsCard from "../leaderboard/PointCard"
+import PointsCard from "./PointCard"
 import League from "../league/League"
 import Header from "../misc/Header"
 import Predictions from "../predictions/Predictions"
