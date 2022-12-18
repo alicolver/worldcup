@@ -259,7 +259,8 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
                 props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
                 0,
                 0,
-                null
+                null,
+                props.matchData.gameStage
             )
         }
         
@@ -269,7 +270,8 @@ export default function PredictionCard(props: IPredictionProps): JSX.Element {
             props.predictionData.toGoThrough ? HomeOrAway[props.predictionData.toGoThrough] : null,
             props.matchData.result.home,
             props.matchData.result.away,
-            props.matchData.toGoThrough ? HomeOrAway[props.matchData.toGoThrough] : null
+            props.matchData.toGoThrough ? HomeOrAway[props.matchData.toGoThrough] : null,
+            props.matchData.gameStage
         )
     }
 
