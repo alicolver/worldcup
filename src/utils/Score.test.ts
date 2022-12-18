@@ -12,6 +12,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 2
         const actualAway = 1
         const actualTeamToGoThrough = HomeOrAway.HOME
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -20,7 +21,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(6)
     }, 1000)
@@ -33,6 +35,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 0
         const actualAway = 1
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -41,7 +44,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(6)
     }, 1000)
@@ -54,6 +58,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 1
         const actualAway = 0
         const actualTeamToGoThrough = HomeOrAway.HOME
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -62,7 +67,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(3)
     }, 1000)
@@ -75,6 +81,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 0
         const actualAway = 2
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -83,7 +90,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(3)
     }, 1000)
@@ -96,6 +104,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 1
         const actualAway = 1
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "FINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -104,9 +113,10 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
-        ).toBe(6)
+        ).toBe(12)
     }, 1000)
 
 
@@ -118,6 +128,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 1
         const actualAway = 1
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -126,7 +137,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(5)
     }, 1000)
@@ -139,6 +151,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 0
         const actualAway = 2
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -147,7 +160,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(1)
     }, 1000)
@@ -160,6 +174,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 5
         const actualAway = 0
         const actualTeamToGoThrough = HomeOrAway.HOME
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -168,7 +183,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(1)
     }, 1000)
@@ -181,6 +197,7 @@ describe("test calculate knockout score", () => {
         const actualHome = 1
         const actualAway = 1
         const actualTeamToGoThrough = HomeOrAway.AWAY
+        const gameStage = "SEMIFINAL"
 
         expect(
             calculateScoreKnockouts(
@@ -189,7 +206,8 @@ describe("test calculate knockout score", () => {
                 predictedTeamToGoThrough, 
                 actualHome, 
                 actualAway, 
-                actualTeamToGoThrough
+                actualTeamToGoThrough,
+                gameStage
             )
         ).toBe(0)
     }, 1000)
